@@ -30,6 +30,10 @@ on:
         description: 'Action to run (predict/update/retrain)'
         required: true
         default: 'predict'
+      test_mode:
+        description: 'Run in test mode (true/false)'
+        required: false
+        default: 'false'
 
 permissions:
   contents: write  # Allow updating models and data in the repo
@@ -210,6 +214,7 @@ jobs:
           CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
         run: |
+          mkdir -p output/articles
           python -c "
           from article_generator_template import ArticleGenerator
           import pandas as pd
