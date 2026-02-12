@@ -160,7 +160,7 @@ jobs:
           echo "high_confidence=$HIGH_CONF" >> $GITHUB_OUTPUT
 
       - name: Upload predictions artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: daily-predictions
           path: output/daily_predictions.csv
@@ -199,7 +199,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Download predictions
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: daily-predictions
           path: output
@@ -255,7 +255,7 @@ jobs:
           " 2>&1 || echo "Article generation skipped (Claude API optional)"
 
       - name: Upload articles
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: generated-articles
@@ -287,7 +287,7 @@ jobs:
           pip install -r requirements.txt
 
       - name: Download predictions
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: daily-predictions
           path: output
@@ -399,7 +399,7 @@ jobs:
           cat execution_summary.txt
 
       - name: Upload execution summary
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: execution-summary
           path: execution_summary.txt
