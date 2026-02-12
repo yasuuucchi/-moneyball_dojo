@@ -1,21 +1,17 @@
-# 秘密鍵と環境変数
 credentials.json
 .env
 *.pem
-
-# 巨大なデータファイル
-# ※GitHubは1ファイル100MBまでですが、CSVが肥大化するとプッシュできなくなるため除外します。
-# ※データはGitHub Actions上で自動生成/更新されるようにします。
-data/*.csv
-!data/sample_*.csv
-
-# 学習済みモデル（これはアップロードします）
-# models/*.pkl
-
-# Pythonのキャッシュ
 __pycache__/
 *.pyc
-.ipynb_checkpoints/
-
-# OSのゴミ
 .DS_Store
+
+# データをGitHubに含める（MLOps用）
+data/*.csv
+!data/games_2022_2025.csv
+!data/nrfi_data_2022_2025.csv
+!data/pitcher_stats_*.csv
+!data/batter_stats_*.csv
+!data/team_stats_*.csv
+
+# モデルを含める
+models/*.pkl
