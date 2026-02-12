@@ -1,0 +1,510 @@
+name: Moneyball Dojo Daily Predictions
+
+# ============================================================================
+# WORKFLOW CONFIGURATION
+# ============================================================================
+# This GitHub Actions workflow automates the complete daily prediction pipeline:
+# 1. Fetches latest MLB data (2024 season stats)
+# 2. Generates game predictions using the trained XGBoost model
+# 3. Generates articles for high-confidence picks
+# 4. Logs results to Google Sheets
+# 5. Posts results to social media (optional)
+#
+# Runs daily at 8 AM UTC (3 AM EST / midnight PST) to prepare predictions
+# before the day's games
+
+on:
+  # Schedule: 
+  # 1. 毎日 08:00 UTC (予測生成)
+  # 2. 毎日 15:00 UTC (結果取得)
+  # 3. 毎週月曜 00:00 UTC (モデル再学習)
+  schedule:
+    - cron: '0 8 * * *'   # 予測生成
+    - cron: '0 15 * * *'  # 結果取得
+    - cron: '0 0 * * 1'   # 毎週月曜再学習
+
+  # Allow manual trigger for testing
+  workflow_dispatch:
+    inputs:
+      action:
+        description: 'Action to run (predict/update/retrain)'
+        required: true
+        default: 'predict'
+
+permissions:
+  contents: write  # Allow updating models and data in the repo
+  issues: write
+
+# ============================================================================
+# ENVIRONMENT VARIABLES
+# ============================================================================
+env:
+  PYTHON_VERSION: '3.10'
+  POETRY_VERSION: '1.7.0'
+  LOG_LEVEL: 'INFO'
+
+jobs:
+  # ========================================================================
+  # JOB 0: UPDATE RESULTS (Every day at 15:00 UTC)
+  # ========================================================================
+  update-results:
+    name: Update Historical Data
+    if: github.event.schedule == '0 15 * * *' || github.event.inputs.action == 'update'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Update daily results
+        env:
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
+          GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
+        run: |
+          python update_daily_results.py
+
+      - name: Commit and push updated data
+        run: |
+          git config --global user.name "Moneyball Dojo Bot"
+          git config --global user.email "bot@moneyball-dojo.ai"
+          git add data/*.csv
+          git commit -m "auto: Update historical data [skip ci]" || echo "No changes to commit"
+          git push
+
+  # ========================================================================
+  # JOB 0.5: RETRAIN MODELS (Every Monday)
+  # ========================================================================
+  retrain-models:
+    name: Retrain ML Models
+    if: github.event.schedule == '0 0 * * 1' || github.event.inputs.action == 'retrain'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Retrain all models
+        run: |
+          python train_all_models.py
+
+      - name: Commit and push updated models
+        run: |
+          git config --global user.name "Moneyball Dojo Bot"
+          git config --global user.email "bot@moneyball-dojo.ai"
+          git add models/*.pkl
+          git commit -m "auto: Retrain models with latest data [skip ci]" || echo "No changes to commit"
+          git push
+
+  # ========================================================================
+  # JOB 1: SETUP AND DATA FETCHING (Daily Prediction)
+  # ========================================================================
+  fetch-data:
+    name: Fetch MLB Data
+    if: github.event.schedule == '0 8 * * *' || github.event.inputs.action == 'predict' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    outputs:
+      prediction_count: ${{ steps.predictions.outputs.count }}
+      high_confidence_count: ${{ steps.predictions.outputs.high_confidence }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Fetch MLB data and generate predictions
+        id: predictions
+        env:
+          MLB_API_KEY: ${{ secrets.MLB_API_KEY }}
+          TEST_MODE: ${{ github.event.inputs.test_mode }}
+        run: |
+          python data_pipeline_demo.py \
+            --output-dir ./output \
+            --season 2024 \
+            --test-mode ${TEST_MODE:-false}
+
+          # Count predictions
+          PRED_COUNT=$(wc -l < output/daily_predictions.csv)
+          echo "count=$((PRED_COUNT - 1))" >> $GITHUB_OUTPUT
+
+          HIGH_CONF=$(grep "HIGH" output/daily_predictions.csv | wc -l)
+          echo "high_confidence=$HIGH_CONF" >> $GITHUB_OUTPUT
+
+      - name: Upload predictions artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: daily-predictions
+          path: output/daily_predictions.csv
+          retention-days: 30
+
+      - name: Log prediction summary
+        run: |
+          echo "Daily Prediction Summary"
+          echo "========================"
+          echo "Total Predictions: ${{ steps.predictions.outputs.prediction_count }}"
+          echo "High Confidence Picks: ${{ steps.predictions.outputs.high_confidence_count }}"
+          echo "Generated at: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+
+  # ========================================================================
+  # JOB 2: ARTICLE GENERATION
+  # ========================================================================
+  generate-articles:
+    name: Generate Articles
+    needs: fetch-data
+    runs-on: ubuntu-latest
+    if: success()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Download predictions
+        uses: actions/download-artifact@v3
+        with:
+          name: daily-predictions
+          path: output
+
+      - name: Generate English and Japanese articles
+        id: articles
+        env:
+          CLAUDE_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.CLAUDE_API_KEY }}
+        run: |
+          python -c "
+          from article_generator_template import ArticleGenerator
+          import pandas as pd
+          import json
+          from datetime import datetime
+
+          # Load predictions
+          predictions = pd.read_csv('output/daily_predictions.csv')
+
+          # Filter for high-confidence picks only
+          high_conf = predictions[predictions['confidence_tier'] == 'HIGH']
+
+          generator = ArticleGenerator(api_key='${{ secrets.CLAUDE_API_KEY }}')
+
+          articles_generated = 0
+
+          for idx, game in high_conf.iterrows():
+              # Convert row to dictionary
+              game_data = game.to_dict()
+
+              # Generate English article
+              english = generator.generate_english_article(game_data)
+
+              # Generate Japanese article
+              japanese = generator.generate_japanese_article(game_data)
+
+              # Save to files
+              date_str = game['date'].replace('-', '')
+              english_file = f\"output/articles/{date_str}_{game['away_team']}_{game['home_team']}_en.md\"
+              japanese_file = f\"output/articles/{date_str}_{game['away_team']}_{game['home_team']}_ja.md\"
+
+              with open(english_file, 'w', encoding='utf-8') as f:
+                  f.write(english)
+
+              with open(japanese_file, 'w', encoding='utf-8') as f:
+                  f.write(japanese)
+
+              articles_generated += 2
+
+          print(f'Articles generated: {articles_generated}')
+          with open('article_count.txt', 'w') as f:
+              f.write(str(articles_generated))
+          " 2>&1 || echo "Article generation skipped (Claude API optional)"
+
+      - name: Upload articles
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: generated-articles
+          path: output/articles/
+          retention-days: 30
+
+  # ========================================================================
+  # JOB 3: GOOGLE SHEETS UPDATE
+  # ========================================================================
+  update-sheets:
+    name: Update Google Sheets
+    needs: [fetch-data, generate-articles]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Download predictions
+        uses: actions/download-artifact@v3
+        with:
+          name: daily-predictions
+          path: output
+
+      - name: Update Google Sheets with predictions
+        env:
+          GOOGLE_SHEETS_CREDENTIALS: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS }}
+          GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
+          TEST_MODE: ${{ github.event.inputs.test_mode }}
+        run: |
+          python -c "
+          import json
+          import gspread
+          from google.oauth2.service_account import Credentials
+          import pandas as pd
+          from datetime import datetime
+          import os
+
+          # Load Google Sheets credentials
+          creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS')
+          if not creds_json:
+              print('Warning: GOOGLE_SHEETS_CREDENTIALS not set. Skipping sheet update.')
+              exit(0)
+
+          creds_dict = json.loads(creds_json)
+          credentials = Credentials.from_service_account_info(
+              creds_dict,
+              scopes=['https://www.googleapis.com/auth/spreadsheets']
+          )
+
+          # Initialize gspread
+          gc = gspread.authorize(credentials)
+
+          # Open spreadsheet
+          spreadsheet_id = os.environ.get('GOOGLE_SHEETS_ID')
+          if not spreadsheet_id:
+              print('Warning: GOOGLE_SHEETS_ID not set. Skipping sheet update.')
+              exit(0)
+
+          sheet = gc.open_by_key(spreadsheet_id)
+
+          # Load predictions
+          predictions = pd.read_csv('output/daily_predictions.csv')
+
+          # Get 'Daily Predictions' worksheet
+          ws = sheet.worksheet('Daily Predictions')
+
+          # Clear existing data (keep headers)
+          ws.clear()
+
+          # Write headers
+          headers = predictions.columns.tolist()
+          ws.append_row(headers)
+
+          # Write predictions
+          for _, row in predictions.iterrows():
+              ws.append_row(row.tolist())
+
+          print(f'Updated Google Sheets: {len(predictions)} predictions added')
+          print(f'Timestamp: {datetime.now().isoformat()}')
+          " 2>&1 || echo "Google Sheets update skipped (credentials not configured)"
+
+  # ========================================================================
+  # JOB 4: LOGGING AND NOTIFICATIONS
+  # ========================================================================
+  log-results:
+    name: Log Results and Notifications
+    needs: [fetch-data, update-sheets]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate execution summary
+        id: summary
+        run: |
+          cat > execution_summary.txt << 'EOF'
+          =============================================================================
+          MONEYBALL DOJO - DAILY EXECUTION SUMMARY
+          =============================================================================
+
+          Execution Date: $(date -u +'%Y-%m-%d %H:%M:%S UTC')
+          Workflow: ${{ github.workflow }}
+          Run ID: ${{ github.run_id }}
+
+          JOB RESULTS:
+          - Fetch Data: ${{ needs.fetch-data.result }}
+          - Generate Articles: ${{ needs.generate-articles.result }}
+          - Update Google Sheets: ${{ needs.update-sheets.result }}
+
+          PREDICTION SUMMARY:
+          - Total Predictions: ${{ needs.fetch-data.outputs.prediction_count }}
+          - High Confidence Picks: ${{ needs.fetch-data.outputs.high_confidence_count }}
+
+          NEXT STEPS:
+          1. Review predictions in Google Sheets
+          2. Check article drafts for quality
+          3. Publish articles to Substack and note.com
+          4. Monitor game results and track ROI
+
+          For more details, see:
+          - Artifacts: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          - Google Sheets: [Add your spreadsheet link]
+
+          =============================================================================
+          EOF
+          cat execution_summary.txt
+
+      - name: Upload execution summary
+        uses: actions/upload-artifact@v3
+        with:
+          name: execution-summary
+          path: execution_summary.txt
+          retention-days: 30
+
+      - name: Slack notification (optional)
+        if: always()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "Moneyball Dojo Daily Predictions",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Moneyball Dojo Daily Predictions Complete* ✅\n\nPredictions Generated: ${{ needs.fetch-data.outputs.prediction_count }}\nHigh Confidence Picks: ${{ needs.fetch-data.outputs.high_confidence_count }}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>"
+                  }
+                }
+              ]
+            }
+        continue-on-error: true
+
+      - name: Create GitHub Issue for manual review (high-confidence picks only)
+        if: needs.fetch-data.outputs.high_confidence_count > 0
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const summary = require('fs').readFileSync('execution_summary.txt', 'utf8');
+
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Daily Predictions - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Daily Predictions Report\n\n${summary}\n\n### Actions Required\n- [ ] Review predictions in Google Sheets\n- [ ] Check article quality\n- [ ] Publish articles to platforms\n- [ ] Monitor game results`,
+              labels: ['predictions', 'daily-report']
+            });
+
+  # ========================================================================
+  # FAILURE NOTIFICATION
+  # ========================================================================
+  notify-failure:
+    name: Notify on Failure
+    runs-on: ubuntu-latest
+    needs: [fetch-data, update-sheets]
+    if: failure()
+
+    steps:
+      - name: Create failure issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Daily Pipeline Failed - ${new Date().toISOString().split('T')[0]}`,
+              body: `## Pipeline Execution Failed\n\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\n\nPlease investigate the failed job(s) and fix the issue.`,
+              labels: ['bug', 'urgent']
+            });
+
+# ============================================================================
+# REQUIRED SECRETS
+# ============================================================================
+# Configure these secrets in your GitHub repository settings:
+#
+# 1. CLAUDE_API_KEY
+#    - Anthropic API key for Claude article generation
+#    - Get from: https://console.anthropic.com/
+#
+# 2. GOOGLE_SHEETS_CREDENTIALS
+#    - Service account JSON for Google Sheets API
+#    - Steps:
+#      a. Go to Google Cloud Console
+#      b. Create service account
+#      c. Enable Google Sheets API
+#      d. Create JSON key
+#      e. Base64 encode the JSON and store as secret
+#
+# 3. GOOGLE_SHEETS_ID
+#    - ID of your Google Sheet
+#    - Extract from: https://docs.google.com/spreadsheets/d/{SHEET_ID}/edit
+#
+# 4. SLACK_WEBHOOK (optional)
+#    - Slack incoming webhook for notifications
+#    - Get from: https://api.slack.com/apps
+#
+# 5. MLB_API_KEY (optional)
+#    - API key for MLB Stats API
+#    - Get from: https://statsapi.mlb.com/api
+#
+# ============================================================================
+# CUSTOMIZATION
+# ============================================================================
+# Schedule: Modify the cron expression to change execution time
+# - Current: 0 8 * * * (Daily at 8 AM UTC)
+# - Alternative: 0 3 * * * (3 AM UTC / midnight EST)
+#
+# Timeout: Jobs default to 360 minutes. Adjust with: timeout-minutes: 120
+#
+# Python Version: Change the PYTHON_VERSION env var to upgrade Python
+#
+# Article Generation: Disable by removing the generate-articles job
+#
+# Notifications: Add/remove notification steps as needed
+#
+# ============================================================================

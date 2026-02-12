@@ -1,0 +1,2429 @@
+date,home_team,away_team,home_win,pred_win,pred_prob,confidence,correct
+2024-03-20,San Diego Padres,Los Angeles Dodgers,0,1,0.6043751,0.104375124,0
+2024-03-21,Los Angeles Dodgers,San Diego Padres,0,0,0.17530344,0.32469654,1
+2024-03-28,Baltimore Orioles,Los Angeles Angels,1,1,0.6937787,0.1937787,1
+2024-03-28,Cincinnati Reds,Washington Nationals,1,1,0.5836961,0.08369613,1
+2024-03-28,San Diego Padres,San Francisco Giants,1,1,0.91103214,0.41103214,1
+2024-03-28,Los Angeles Dodgers,St. Louis Cardinals,1,1,0.6835983,0.18359828,1
+2024-03-28,Tampa Bay Rays,Toronto Blue Jays,0,1,0.53467625,0.034676254,0
+2024-03-28,Kansas City Royals,Minnesota Twins,0,0,0.40709174,0.09290826,1
+2024-03-28,Chicago White Sox,Detroit Tigers,0,0,0.22321244,0.27678758,1
+2024-03-28,Miami Marlins,Pittsburgh Pirates,0,0,0.49486408,0.0051359236,1
+2024-03-28,Houston Astros,New York Yankees,0,0,0.36481595,0.13518405,1
+2024-03-28,Texas Rangers,Chicago Cubs,1,1,0.76737577,0.26737577,1
+2024-03-28,Oakland Athletics,Cleveland Guardians,0,0,0.38621068,0.11378932,1
+2024-03-28,Arizona Diamondbacks,Colorado Rockies,1,1,0.8517284,0.35172838,1
+2024-03-28,Seattle Mariners,Boston Red Sox,0,1,0.68811595,0.18811595,0
+2024-03-29,New York Mets,Milwaukee Brewers,0,0,0.29373243,0.20626757,1
+2024-03-29,Philadelphia Phillies,Atlanta Braves,0,0,0.49041915,0.009580851,1
+2024-03-29,Tampa Bay Rays,Toronto Blue Jays,1,1,0.6238906,0.12389058,1
+2024-03-29,Miami Marlins,Pittsburgh Pirates,0,0,0.38426304,0.11573696,1
+2024-03-29,Houston Astros,New York Yankees,0,0,0.381994,0.11800599,1
+2024-03-29,Arizona Diamondbacks,Colorado Rockies,1,1,0.8339749,0.3339749,1
+2024-03-29,Oakland Athletics,Cleveland Guardians,0,0,0.41901448,0.08098552,1
+2024-03-29,Seattle Mariners,Boston Red Sox,1,1,0.74134725,0.24134725,1
+2024-03-29,San Diego Padres,San Francisco Giants,0,1,0.83102053,0.33102053,0
+2024-03-29,Los Angeles Dodgers,St. Louis Cardinals,1,1,0.76561266,0.26561266,1
+2024-03-30,New York Mets,Milwaukee Brewers,0,0,0.24371885,0.25628114,1
+2024-03-30,Chicago White Sox,Detroit Tigers,0,0,0.15378635,0.34621364,1
+2024-03-30,Baltimore Orioles,Los Angeles Angels,1,1,0.71682376,0.21682376,1
+2024-03-30,Philadelphia Phillies,Atlanta Braves,0,0,0.4535744,0.04642561,1
+2024-03-30,Oakland Athletics,Cleveland Guardians,0,0,0.3851199,0.114880115,1
+2024-03-30,Cincinnati Reds,Washington Nationals,0,0,0.4408927,0.059107304,1
+2024-03-30,Tampa Bay Rays,Toronto Blue Jays,1,1,0.73989666,0.23989666,1
+2024-03-30,Kansas City Royals,Minnesota Twins,0,0,0.33831516,0.16168484,1
+2024-03-30,Miami Marlins,Pittsburgh Pirates,0,0,0.33662888,0.16337112,1
+2024-03-30,Texas Rangers,Chicago Cubs,1,1,0.81667745,0.31667745,1
+2024-03-30,San Diego Padres,San Francisco Giants,0,1,0.68202907,0.18202907,0
+2024-03-30,Houston Astros,New York Yankees,0,0,0.24689485,0.25310516,1
+2024-03-30,Arizona Diamondbacks,Colorado Rockies,0,1,0.8110746,0.3110746,0
+2024-03-30,Los Angeles Dodgers,St. Louis Cardinals,0,1,0.75396967,0.25396967,0
+2024-03-30,Seattle Mariners,Boston Red Sox,1,1,0.7479043,0.2479043,1
+2024-03-31,Baltimore Orioles,Los Angeles Angels,0,1,0.59636325,0.09636325,0
+2024-03-31,Philadelphia Phillies,Atlanta Braves,1,0,0.46133432,0.038665682,0
+2024-03-31,Cincinnati Reds,Washington Nationals,1,1,0.50206465,0.0020646453,1
+2024-03-31,Tampa Bay Rays,Toronto Blue Jays,0,1,0.7415434,0.24154341,0
+2024-03-31,Miami Marlins,Pittsburgh Pirates,0,0,0.25748387,0.24251613,1
+2024-03-31,New York Mets,Milwaukee Brewers,0,0,0.15835823,0.34164178,1
+2024-03-31,Kansas City Royals,Minnesota Twins,1,0,0.372915,0.127085,0
+2024-03-31,Chicago White Sox,Detroit Tigers,0,0,0.090727955,0.40927204,1
+2024-03-31,Houston Astros,New York Yankees,0,0,0.20297001,0.29702997,1
+2024-03-31,Texas Rangers,Chicago Cubs,0,1,0.7472316,0.2472316,0
+2024-03-31,Oakland Athletics,Cleveland Guardians,1,0,0.49169686,0.008303136,0
+2024-03-31,Arizona Diamondbacks,Colorado Rockies,1,1,0.8102778,0.31027782,1
+2024-03-31,Seattle Mariners,Boston Red Sox,0,1,0.6216228,0.1216228,0
+2024-03-31,San Diego Padres,San Francisco Giants,1,1,0.73644227,0.23644227,1
+2024-03-31,Los Angeles Dodgers,St. Louis Cardinals,1,1,0.76969063,0.26969063,1
+2024-04-01,Chicago Cubs,Colorado Rockies,1,1,0.66579723,0.16579723,1
+2024-04-01,Washington Nationals,Pittsburgh Pirates,0,0,0.2630604,0.23693961,1
+2024-04-01,Baltimore Orioles,Kansas City Royals,1,1,0.6630223,0.16302228,1
+2024-04-01,Philadelphia Phillies,Cincinnati Reds,0,1,0.6332056,0.1332056,0
+2024-04-01,Miami Marlins,Los Angeles Angels,0,0,0.39495695,0.10504305,1
+2024-04-01,Tampa Bay Rays,Texas Rangers,0,0,0.39526716,0.10473284,1
+2024-04-01,New York Mets,Detroit Tigers,0,0,0.06827466,0.43172532,1
+2024-04-01,Houston Astros,Toronto Blue Jays,1,1,0.5901997,0.09019971,1
+2024-04-01,Oakland Athletics,Boston Red Sox,0,0,0.36421332,0.13578668,1
+2024-04-01,Seattle Mariners,Cleveland Guardians,1,1,0.686789,0.18678898,1
+2024-04-01,San Diego Padres,St. Louis Cardinals,0,1,0.6745331,0.17453313,0
+2024-04-01,Arizona Diamondbacks,New York Yankees,0,0,0.19607288,0.30392712,1
+2024-04-01,Los Angeles Dodgers,San Francisco Giants,1,1,0.7447698,0.24476981,1
+2024-04-02,Milwaukee Brewers,Minnesota Twins,1,1,0.6058295,0.10582948,1
+2024-04-02,Baltimore Orioles,Kansas City Royals,0,1,0.6585735,0.15857351,0
+2024-04-02,Philadelphia Phillies,Cincinnati Reds,1,1,0.6835726,0.18357259,1
+2024-04-02,Miami Marlins,Los Angeles Angels,0,0,0.28395605,0.21604395,1
+2024-04-02,Tampa Bay Rays,Texas Rangers,1,1,0.56113714,0.06113714,1
+2024-04-02,Chicago Cubs,Colorado Rockies,1,1,0.73859715,0.23859715,1
+2024-04-02,Chicago White Sox,Atlanta Braves,1,0,0.18161622,0.31838378,0
+2024-04-02,Houston Astros,Toronto Blue Jays,0,1,0.50071687,0.00071686506,0
+2024-04-02,Oakland Athletics,Boston Red Sox,0,0,0.32822374,0.17177626,1
+2024-04-02,Seattle Mariners,Cleveland Guardians,0,1,0.62291247,0.12291247,0
+2024-04-02,San Diego Padres,St. Louis Cardinals,0,1,0.6272904,0.12729043,0
+2024-04-02,Arizona Diamondbacks,New York Yankees,1,0,0.26345527,0.23654473,0
+2024-04-02,Los Angeles Dodgers,San Francisco Giants,1,1,0.7294083,0.22940832,1
+2024-04-03,Baltimore Orioles,Kansas City Royals,1,1,0.79586476,0.29586476,1
+2024-04-03,Tampa Bay Rays,Texas Rangers,0,1,0.5348179,0.034817874,0
+2024-04-03,Miami Marlins,Los Angeles Angels,0,0,0.3001524,0.19984761,1
+2024-04-03,Milwaukee Brewers,Minnesota Twins,0,1,0.530355,0.030354977,0
+2024-04-03,Oakland Athletics,Boston Red Sox,0,0,0.21243772,0.28756228,1
+2024-04-03,Arizona Diamondbacks,New York Yankees,0,0,0.3110188,0.1889812,1
+2024-04-03,Philadelphia Phillies,Cincinnati Reds,0,1,0.54101443,0.041014433,0
+2024-04-03,Seattle Mariners,Cleveland Guardians,0,1,0.6251673,0.12516731,0
+2024-04-03,San Diego Padres,St. Louis Cardinals,1,1,0.6523004,0.15230042,1
+2024-04-03,Washington Nationals,Pittsburgh Pirates,1,0,0.2969652,0.20303479,0
+2024-04-03,Chicago Cubs,Colorado Rockies,1,1,0.8124039,0.31240392,1
+2024-04-03,Houston Astros,Toronto Blue Jays,1,1,0.5750139,0.075013876,1
+2024-04-03,Los Angeles Dodgers,San Francisco Giants,1,1,0.7806037,0.2806037,1
+2024-04-04,New York Mets,Detroit Tigers,0,0,0.08338887,0.41661114,1
+2024-04-04,New York Mets,Detroit Tigers,1,0,0.16112295,0.33887705,0
+2024-04-04,Washington Nationals,Pittsburgh Pirates,0,0,0.25199857,0.24800143,1
+2024-04-04,Minnesota Twins,Cleveland Guardians,0,1,0.54094887,0.040948868,0
+2024-04-04,St. Louis Cardinals,Miami Marlins,1,1,0.61376154,0.113761544,1
+2024-04-04,Kansas City Royals,Chicago White Sox,1,1,0.7802256,0.28022557,1
+2024-04-05,New York Yankees,Toronto Blue Jays,0,1,0.650637,0.15063697,0
+2024-04-05,Detroit Tigers,Oakland Athletics,1,1,0.94706184,0.44706184,1
+2024-04-05,Chicago Cubs,Los Angeles Dodgers,1,0,0.360656,0.139344,0
+2024-04-05,Colorado Rockies,Tampa Bay Rays,1,0,0.38065514,0.11934486,0
+2024-04-05,Pittsburgh Pirates,Baltimore Orioles,0,0,0.25397986,0.24602014,1
+2024-04-05,San Francisco Giants,San Diego Padres,1,0,0.2980577,0.2019423,0
+2024-04-05,Cincinnati Reds,New York Mets,0,1,0.6388025,0.13880253,0
+2024-04-05,Washington Nationals,Philadelphia Phillies,0,0,0.39990032,0.10009968,1
+2024-04-05,Atlanta Braves,Arizona Diamondbacks,1,1,0.7937854,0.2937854,1
+2024-04-05,Kansas City Royals,Chicago White Sox,1,1,0.77865046,0.27865046,1
+2024-04-05,Texas Rangers,Houston Astros,1,1,0.59973335,0.09973335,1
+2024-04-05,Milwaukee Brewers,Seattle Mariners,1,1,0.6568136,0.15681362,1
+2024-04-05,Los Angeles Angels,Boston Red Sox,0,1,0.5084222,0.008422196,0
+2024-04-06,Detroit Tigers,Oakland Athletics,0,1,0.93702996,0.43702996,0
+2024-04-06,Minnesota Twins,Cleveland Guardians,0,0,0.46830013,0.031699866,1
+2024-04-06,St. Louis Cardinals,Miami Marlins,1,1,0.71425205,0.21425205,1
+2024-04-06,Chicago Cubs,Los Angeles Dodgers,0,0,0.3305074,0.1694926,1
+2024-04-06,Pittsburgh Pirates,Baltimore Orioles,1,0,0.42014462,0.07985538,0
+2024-04-06,Washington Nationals,Philadelphia Phillies,0,0,0.397278,0.10272199,1
+2024-04-06,Cincinnati Reds,New York Mets,1,1,0.7118031,0.21180308,1
+2024-04-06,Texas Rangers,Houston Astros,1,1,0.57955366,0.079553664,1
+2024-04-06,New York Yankees,Toronto Blue Jays,1,1,0.7318437,0.23184371,1
+2024-04-06,Kansas City Royals,Chicago White Sox,1,1,0.8665358,0.36653578,1
+2024-04-06,Milwaukee Brewers,Seattle Mariners,0,1,0.5993633,0.09936333,0
+2024-04-06,Atlanta Braves,Arizona Diamondbacks,1,1,0.7686196,0.2686196,1
+2024-04-06,Colorado Rockies,Tampa Bay Rays,0,0,0.38470092,0.115299076,1
+2024-04-06,San Francisco Giants,San Diego Padres,0,0,0.30200574,0.19799426,1
+2024-04-06,Los Angeles Angels,Boston Red Sox,1,1,0.50642544,0.0064254403,1
+2024-04-07,Pittsburgh Pirates,Baltimore Orioles,1,1,0.5499268,0.049926817,1
+2024-04-07,Washington Nationals,Philadelphia Phillies,1,1,0.5028292,0.002829194,1
+2024-04-07,Atlanta Braves,Arizona Diamondbacks,1,1,0.81526816,0.31526816,1
+2024-04-07,New York Yankees,Toronto Blue Jays,1,1,0.7546248,0.25462478,1
+2024-04-07,Cincinnati Reds,New York Mets,0,1,0.63383466,0.13383466,0
+2024-04-07,Detroit Tigers,Oakland Athletics,0,1,0.88402635,0.38402635,0
+2024-04-07,Kansas City Royals,Chicago White Sox,1,1,0.85351664,0.35351664,1
+2024-04-07,Milwaukee Brewers,Seattle Mariners,1,1,0.6738457,0.17384571,1
+2024-04-07,St. Louis Cardinals,Miami Marlins,0,1,0.66282773,0.16282773,0
+2024-04-07,Chicago Cubs,Los Angeles Dodgers,1,0,0.31873867,0.18126133,0
+2024-04-07,Colorado Rockies,Tampa Bay Rays,0,0,0.2755322,0.22446781,1
+2024-04-07,San Francisco Giants,San Diego Padres,1,0,0.31855175,0.18144825,0
+2024-04-07,Los Angeles Angels,Boston Red Sox,0,0,0.42420483,0.07579517,1
+2024-04-07,Texas Rangers,Houston Astros,0,1,0.55506414,0.05506414,0
+2024-04-08,Cleveland Guardians,Chicago White Sox,1,1,0.9255834,0.42558342,1
+2024-04-08,New York Yankees,Miami Marlins,1,1,0.8677677,0.3677677,1
+2024-04-08,Pittsburgh Pirates,Detroit Tigers,1,0,0.47785366,0.022146344,0
+2024-04-08,Cincinnati Reds,Milwaukee Brewers,1,0,0.34488112,0.15511888,0
+2024-04-08,Toronto Blue Jays,Seattle Mariners,1,0,0.47985294,0.020147055,0
+2024-04-08,Atlanta Braves,New York Mets,0,1,0.62646955,0.12646955,0
+2024-04-08,Minnesota Twins,Los Angeles Dodgers,0,0,0.35191247,0.14808753,1
+2024-04-08,St. Louis Cardinals,Philadelphia Phillies,0,1,0.628868,0.12886798,0
+2024-04-08,Texas Rangers,Houston Astros,0,1,0.55626535,0.056265354,0
+2024-04-08,Colorado Rockies,Arizona Diamondbacks,1,1,0.57418936,0.074189365,1
+2024-04-08,Los Angeles Angels,Tampa Bay Rays,1,1,0.5207749,0.0207749,1
+2024-04-08,San Diego Padres,Chicago Cubs,1,1,0.61655176,0.11655176,1
+2024-04-08,San Francisco Giants,Washington Nationals,0,0,0.36525592,0.13474408,1
+2024-04-09,Pittsburgh Pirates,Detroit Tigers,0,0,0.40932795,0.090672046,1
+2024-04-09,Boston Red Sox,Baltimore Orioles,0,0,0.4620577,0.03794229,1
+2024-04-09,Cleveland Guardians,Chicago White Sox,0,1,0.9320314,0.4320314,0
+2024-04-09,Cincinnati Reds,Milwaukee Brewers,0,0,0.2611123,0.2388877,1
+2024-04-09,New York Yankees,Miami Marlins,1,1,0.907993,0.40799302,1
+2024-04-09,Toronto Blue Jays,Seattle Mariners,1,1,0.5336332,0.033633173,1
+2024-04-09,Atlanta Braves,New York Mets,1,1,0.6810473,0.18104732,1
+2024-04-09,Kansas City Royals,Houston Astros,1,1,0.63497293,0.13497293,1
+2024-04-09,Minnesota Twins,Los Angeles Dodgers,0,0,0.29155576,0.20844424,1
+2024-04-09,St. Louis Cardinals,Philadelphia Phillies,1,1,0.70596975,0.20596975,1
+2024-04-09,Texas Rangers,Oakland Athletics,0,1,0.5046749,0.0046749115,0
+2024-04-09,Colorado Rockies,Arizona Diamondbacks,0,0,0.40410537,0.095894635,1
+2024-04-09,Los Angeles Angels,Tampa Bay Rays,0,0,0.49383017,0.006169826,1
+2024-04-09,San Francisco Giants,Washington Nationals,0,0,0.32462063,0.17537937,1
+2024-04-09,San Diego Padres,Chicago Cubs,0,0,0.46501195,0.034988046,1
+2024-04-10,Minnesota Twins,Los Angeles Dodgers,1,0,0.32225966,0.17774034,0
+2024-04-10,St. Louis Cardinals,Philadelphia Phillies,0,1,0.60694003,0.10694003,0
+2024-04-10,Toronto Blue Jays,Seattle Mariners,0,0,0.48371986,0.016280144,1
+2024-04-10,Colorado Rockies,Arizona Diamondbacks,0,0,0.38701767,0.11298233,1
+2024-04-10,San Francisco Giants,Washington Nationals,1,0,0.4915575,0.008442491,0
+2024-04-10,Los Angeles Angels,Tampa Bay Rays,0,0,0.39417273,0.10582727,1
+2024-04-10,Cleveland Guardians,Chicago White Sox,1,1,0.93492633,0.43492633,1
+2024-04-10,San Diego Padres,Chicago Cubs,1,0,0.4826147,0.017385304,0
+2024-04-10,Cincinnati Reds,Milwaukee Brewers,0,0,0.2642449,0.23575509,1
+2024-04-10,New York Yankees,Miami Marlins,0,1,0.910451,0.410451,0
+2024-04-10,Boston Red Sox,Baltimore Orioles,0,0,0.44816342,0.05183658,1
+2024-04-10,Kansas City Royals,Houston Astros,1,1,0.80672354,0.30672354,1
+2024-04-10,Texas Rangers,Oakland Athletics,1,1,0.6228754,0.12287539,1
+2024-04-11,Atlanta Braves,New York Mets,0,1,0.6751586,0.17515862,0
+2024-04-11,Kansas City Royals,Houston Astros,1,1,0.84860635,0.34860635,1
+2024-04-11,Texas Rangers,Oakland Athletics,0,1,0.58251446,0.082514465,0
+2024-04-11,Philadelphia Phillies,Pittsburgh Pirates,1,0,0.3822609,0.11773911,0
+2024-04-11,Boston Red Sox,Baltimore Orioles,0,0,0.40418944,0.09581056,1
+2024-04-12,Detroit Tigers,Minnesota Twins,1,1,0.79391634,0.29391634,1
+2024-04-12,Philadelphia Phillies,Pittsburgh Pirates,0,0,0.34857917,0.15142083,1
+2024-04-12,Tampa Bay Rays,San Francisco Giants,1,1,0.71814543,0.21814543,1
+2024-04-12,Baltimore Orioles,Milwaukee Brewers,0,0,0.30558094,0.19441906,1
+2024-04-12,Toronto Blue Jays,Colorado Rockies,0,1,0.58907074,0.08907074,0
+2024-04-12,Boston Red Sox,Los Angeles Angels,0,1,0.5158948,0.01589477,0
+2024-04-12,New York Mets,Kansas City Royals,1,0,0.3399724,0.1600276,0
+2024-04-12,Miami Marlins,Atlanta Braves,0,0,0.15195051,0.3480495,1
+2024-04-12,Chicago White Sox,Cincinnati Reds,0,0,0.2444663,0.2555337,1
+2024-04-12,Houston Astros,Texas Rangers,0,0,0.29849994,0.20150006,1
+2024-04-12,Oakland Athletics,Washington Nationals,1,0,0.45467862,0.045321375,0
+2024-04-12,Seattle Mariners,Chicago Cubs,1,1,0.53203785,0.032037854,1
+2024-04-12,Arizona Diamondbacks,St. Louis Cardinals,0,0,0.40773183,0.09226817,1
+2024-04-12,Los Angeles Dodgers,San Diego Padres,0,1,0.6127503,0.11275029,0
+2024-04-13,Cleveland Guardians,New York Yankees,0,0,0.22266513,0.27733487,1
+2024-04-13,Cleveland Guardians,New York Yankees,0,0,0.36999813,0.13000187,1
+2024-04-13,Detroit Tigers,Minnesota Twins,0,1,0.69342065,0.19342065,0
+2024-04-13,Detroit Tigers,Minnesota Twins,0,1,0.7069342,0.20693421,0
+2024-04-13,New York Mets,Kansas City Royals,0,0,0.3180331,0.1819669,1
+2024-04-13,Chicago White Sox,Cincinnati Reds,0,0,0.15097615,0.34902385,1
+2024-04-13,Toronto Blue Jays,Colorado Rockies,1,1,0.7434628,0.2434628,1
+2024-04-13,Houston Astros,Texas Rangers,1,0,0.3255242,0.17447579,0
+2024-04-13,Philadelphia Phillies,Pittsburgh Pirates,1,0,0.39687902,0.10312098,0
+2024-04-13,Baltimore Orioles,Milwaukee Brewers,0,0,0.24264199,0.257358,1
+2024-04-13,Oakland Athletics,Washington Nationals,0,0,0.41694805,0.08305195,1
+2024-04-13,Boston Red Sox,Los Angeles Angels,1,1,0.5158948,0.01589477,1
+2024-04-13,Tampa Bay Rays,San Francisco Giants,0,1,0.65674144,0.15674144,0
+2024-04-13,Miami Marlins,Atlanta Braves,1,0,0.2891248,0.21087521,0
+2024-04-13,Arizona Diamondbacks,St. Louis Cardinals,1,1,0.5496238,0.049623787,1
+2024-04-13,Los Angeles Dodgers,San Diego Padres,1,1,0.63399756,0.13399756,1
+2024-04-13,Seattle Mariners,Chicago Cubs,0,0,0.46527588,0.034724116,1
+2024-04-14,Boston Red Sox,Los Angeles Angels,1,1,0.60131884,0.101318836,1
+2024-04-14,Philadelphia Phillies,Pittsburgh Pirates,0,0,0.36680287,0.13319713,1
+2024-04-14,Baltimore Orioles,Milwaukee Brewers,1,0,0.29015392,0.20984608,0
+2024-04-14,Toronto Blue Jays,Colorado Rockies,1,1,0.6991869,0.19918692,1
+2024-04-14,New York Mets,Kansas City Royals,1,0,0.34638897,0.15361103,0
+2024-04-14,Tampa Bay Rays,San Francisco Giants,1,1,0.68269765,0.18269765,1
+2024-04-14,Detroit Tigers,Minnesota Twins,1,1,0.7063711,0.20637113,1
+2024-04-14,Miami Marlins,Atlanta Braves,0,0,0.2324391,0.2675609,1
+2024-04-14,Cleveland Guardians,New York Yankees,1,0,0.45028782,0.04971218,0
+2024-04-14,Houston Astros,Texas Rangers,1,0,0.4287259,0.0712741,0
+2024-04-14,Chicago White Sox,Cincinnati Reds,0,0,0.1034185,0.3965815,1
+2024-04-14,Oakland Athletics,Washington Nationals,1,1,0.66255283,0.16255283,1
+2024-04-14,Seattle Mariners,Chicago Cubs,0,0,0.39243507,0.107564926,1
+2024-04-14,Arizona Diamondbacks,St. Louis Cardinals,1,1,0.5729155,0.072915494,1
+2024-04-14,Los Angeles Dodgers,San Diego Padres,0,1,0.6519881,0.15198809,0
+2024-04-15,Boston Red Sox,Cleveland Guardians,0,0,0.30447298,0.19552702,1
+2024-04-15,Baltimore Orioles,Minnesota Twins,1,1,0.7355797,0.23557973,1
+2024-04-15,Detroit Tigers,Texas Rangers,0,1,0.66473967,0.16473967,0
+2024-04-15,Philadelphia Phillies,Colorado Rockies,1,1,0.83207446,0.33207446,1
+2024-04-15,Miami Marlins,San Francisco Giants,0,0,0.31024006,0.18975994,1
+2024-04-15,Tampa Bay Rays,Los Angeles Angels,0,1,0.59098244,0.09098244,0
+2024-04-15,Toronto Blue Jays,New York Yankees,1,0,0.44348663,0.05651337,0
+2024-04-15,New York Mets,Pittsburgh Pirates,1,0,0.46980327,0.030196726,0
+2024-04-15,Chicago White Sox,Kansas City Royals,0,0,0.051945202,0.4480548,1
+2024-04-15,Milwaukee Brewers,San Diego Padres,0,1,0.5781687,0.07816869,0
+2024-04-15,Houston Astros,Atlanta Braves,0,0,0.29820535,0.20179465,1
+2024-04-15,Arizona Diamondbacks,Chicago Cubs,0,0,0.33251697,0.16748303,1
+2024-04-15,Oakland Athletics,St. Louis Cardinals,0,0,0.4928013,0.0071986914,1
+2024-04-15,Seattle Mariners,Cincinnati Reds,1,0,0.4184468,0.08155319,0
+2024-04-15,Los Angeles Dodgers,Washington Nationals,0,1,0.5897742,0.08977419,0
+2024-04-16,Detroit Tigers,Texas Rangers,1,1,0.6333873,0.13338733,1
+2024-04-16,Baltimore Orioles,Minnesota Twins,1,1,0.806116,0.30611598,1
+2024-04-16,Philadelphia Phillies,Colorado Rockies,1,1,0.88760036,0.38760036,1
+2024-04-16,Miami Marlins,San Francisco Giants,1,0,0.42544967,0.07455033,0
+2024-04-16,Tampa Bay Rays,Los Angeles Angels,1,1,0.59835494,0.098354936,1
+2024-04-16,Toronto Blue Jays,New York Yankees,1,1,0.5614296,0.06142962,1
+2024-04-16,Boston Red Sox,Cleveland Guardians,0,0,0.30268916,0.19731084,1
+2024-04-16,New York Mets,Pittsburgh Pirates,1,1,0.5867366,0.08673662,1
+2024-04-16,Milwaukee Brewers,San Diego Padres,0,0,0.48469368,0.015306324,1
+2024-04-16,Houston Astros,Atlanta Braves,0,0,0.25996745,0.24003255,1
+2024-04-16,Arizona Diamondbacks,Chicago Cubs,1,0,0.38192186,0.11807814,0
+2024-04-16,Seattle Mariners,Cincinnati Reds,1,0,0.41027534,0.08972466,0
+2024-04-16,Oakland Athletics,St. Louis Cardinals,0,1,0.5024737,0.002473712,0
+2024-04-16,Los Angeles Dodgers,Washington Nationals,1,1,0.70337635,0.20337635,1
+2024-04-17,Miami Marlins,San Francisco Giants,0,0,0.41572264,0.08427736,1
+2024-04-17,Baltimore Orioles,Minnesota Twins,1,1,0.87195694,0.37195694,1
+2024-04-17,New York Mets,Pittsburgh Pirates,1,1,0.66165745,0.16165745,1
+2024-04-17,Detroit Tigers,Texas Rangers,0,1,0.5986534,0.098653376,0
+2024-04-17,Milwaukee Brewers,San Diego Padres,1,1,0.51215374,0.012153745,1
+2024-04-17,Houston Astros,Atlanta Braves,0,0,0.23976299,0.260237,1
+2024-04-17,Chicago White Sox,Kansas City Royals,0,0,0.055269707,0.44473028,1
+2024-04-17,Chicago White Sox,Kansas City Royals,1,0,0.05387172,0.44612828,0
+2024-04-17,Toronto Blue Jays,New York Yankees,0,0,0.4919615,0.008038491,1
+2024-04-17,Los Angeles Dodgers,Washington Nationals,0,1,0.58616817,0.08616817,0
+2024-04-17,Oakland Athletics,St. Louis Cardinals,1,1,0.50789756,0.007897556,1
+2024-04-17,Arizona Diamondbacks,Chicago Cubs,0,0,0.33052912,0.16947088,1
+2024-04-17,Seattle Mariners,Cincinnati Reds,1,1,0.65373534,0.15373534,1
+2024-04-17,Philadelphia Phillies,Colorado Rockies,1,1,0.9283911,0.4283911,1
+2024-04-17,Tampa Bay Rays,Los Angeles Angels,0,1,0.567273,0.06727302,0
+2024-04-17,Boston Red Sox,Cleveland Guardians,1,0,0.4646271,0.035372913,0
+2024-04-18,Tampa Bay Rays,Los Angeles Angels,1,1,0.69857204,0.19857204,1
+2024-04-18,Detroit Tigers,Texas Rangers,0,0,0.45595136,0.044048637,1
+2024-04-18,Boston Red Sox,Cleveland Guardians,0,0,0.29804352,0.20195648,1
+2024-04-18,San Francisco Giants,Arizona Diamondbacks,1,1,0.57361543,0.07361543,1
+2024-04-19,Chicago Cubs,Miami Marlins,1,1,0.814824,0.314824,1
+2024-04-19,Cincinnati Reds,Los Angeles Angels,1,1,0.5977061,0.09770608,1
+2024-04-19,Pittsburgh Pirates,Boston Red Sox,0,1,0.503823,0.0038229823,0
+2024-04-19,Philadelphia Phillies,Chicago White Sox,1,1,0.90159804,0.40159804,1
+2024-04-19,Washington Nationals,Houston Astros,0,1,0.60483134,0.10483134,0
+2024-04-19,New York Yankees,Tampa Bay Rays,1,1,0.52929187,0.029291868,1
+2024-04-19,Cleveland Guardians,Oakland Athletics,1,1,0.78445745,0.28445745,1
+2024-04-19,Atlanta Braves,Texas Rangers,1,1,0.6897302,0.18973023,1
+2024-04-19,Kansas City Royals,Baltimore Orioles,1,1,0.7314221,0.23142213,1
+2024-04-19,Minnesota Twins,Detroit Tigers,0,0,0.33227602,0.16772398,1
+2024-04-19,St. Louis Cardinals,Milwaukee Brewers,0,0,0.45646372,0.043536276,1
+2024-04-19,San Diego Padres,Toronto Blue Jays,0,1,0.5143481,0.01434809,0
+2024-04-19,Los Angeles Dodgers,New York Mets,0,0,0.27588966,0.22411034,1
+2024-04-19,San Francisco Giants,Arizona Diamondbacks,0,1,0.57154274,0.07154274,0
+2024-04-20,New York Yankees,Tampa Bay Rays,0,0,0.48192337,0.018076628,1
+2024-04-20,Minnesota Twins,Detroit Tigers,1,1,0.528898,0.028898,1
+2024-04-20,St. Louis Cardinals,Milwaukee Brewers,0,0,0.35271016,0.14728984,1
+2024-04-20,Chicago Cubs,Miami Marlins,0,1,0.73450065,0.23450065,0
+2024-04-20,Chicago Cubs,Miami Marlins,1,1,0.8268436,0.32684362,1
+2024-04-20,Washington Nationals,Houston Astros,1,1,0.75569427,0.25569427,1
+2024-04-20,Los Angeles Dodgers,New York Mets,0,0,0.1972345,0.3027655,1
+2024-04-20,Pittsburgh Pirates,Boston Red Sox,0,0,0.49975848,0.00024151802,1
+2024-04-20,San Francisco Giants,Arizona Diamondbacks,1,1,0.6566446,0.15664458,1
+2024-04-20,Philadelphia Phillies,Chicago White Sox,1,1,0.9041586,0.4041586,1
+2024-04-20,Cleveland Guardians,Oakland Athletics,1,1,0.7824693,0.28246927,1
+2024-04-20,Cincinnati Reds,Los Angeles Angels,1,1,0.6598075,0.1598075,1
+2024-04-20,Kansas City Royals,Baltimore Orioles,0,1,0.60864085,0.10864085,0
+2024-04-20,Atlanta Braves,Texas Rangers,1,1,0.8099226,0.30992258,1
+2024-04-20,Colorado Rockies,Seattle Mariners,0,1,0.51400703,0.014007032,0
+2024-04-20,San Diego Padres,Toronto Blue Jays,0,1,0.5284723,0.028472304,0
+2024-04-21,Washington Nationals,Houston Astros,1,1,0.78538465,0.28538465,1
+2024-04-21,Pittsburgh Pirates,Boston Red Sox,0,0,0.3957968,0.104203194,1
+2024-04-21,Philadelphia Phillies,Chicago White Sox,1,1,0.8974644,0.3974644,1
+2024-04-21,New York Yankees,Tampa Bay Rays,1,0,0.49043855,0.009561449,0
+2024-04-21,Cincinnati Reds,Los Angeles Angels,1,1,0.629674,0.12967402,1
+2024-04-21,Cleveland Guardians,Oakland Athletics,1,1,0.7900337,0.2900337,1
+2024-04-21,Kansas City Royals,Baltimore Orioles,0,0,0.46799028,0.03200972,1
+2024-04-21,Minnesota Twins,Detroit Tigers,0,0,0.46300828,0.036991715,1
+2024-04-21,St. Louis Cardinals,Milwaukee Brewers,0,0,0.30869788,0.19130212,1
+2024-04-21,Chicago Cubs,Miami Marlins,0,1,0.5674074,0.06740743,0
+2024-04-21,Colorado Rockies,Seattle Mariners,1,1,0.5424898,0.042489827,1
+2024-04-21,Colorado Rockies,Seattle Mariners,0,0,0.3159559,0.1840441,1
+2024-04-21,San Francisco Giants,Arizona Diamondbacks,0,1,0.55900896,0.059008956,0
+2024-04-21,Los Angeles Dodgers,New York Mets,1,0,0.20004392,0.29995608,0
+2024-04-21,San Diego Padres,Toronto Blue Jays,1,1,0.5162642,0.0162642,1
+2024-04-21,Atlanta Braves,Texas Rangers,0,1,0.80543846,0.30543846,0
+2024-04-22,New York Yankees,Oakland Athletics,0,1,0.5191615,0.019161522,0
+2024-04-22,Cincinnati Reds,Philadelphia Phillies,0,0,0.28767982,0.21232018,1
+2024-04-22,Pittsburgh Pirates,Milwaukee Brewers,1,0,0.38696843,0.113031566,0
+2024-04-22,Tampa Bay Rays,Detroit Tigers,0,1,0.58642864,0.08642864,0
+2024-04-22,Atlanta Braves,Miami Marlins,1,1,0.7553582,0.25535822,1
+2024-04-22,Kansas City Royals,Toronto Blue Jays,0,1,0.54480624,0.044806242,0
+2024-04-22,Minnesota Twins,Chicago White Sox,1,1,0.7785609,0.27856088,1
+2024-04-22,St. Louis Cardinals,Arizona Diamondbacks,1,0,0.48718926,0.012810737,0
+2024-04-22,Colorado Rockies,San Diego Padres,0,0,0.13731754,0.36268246,1
+2024-04-22,Los Angeles Angels,Baltimore Orioles,0,0,0.24202327,0.2579767,1
+2024-04-22,San Francisco Giants,New York Mets,1,0,0.39189887,0.10810113,0
+2024-04-23,Cleveland Guardians,Boston Red Sox,1,1,0.8015526,0.3015526,1
+2024-04-23,Cincinnati Reds,Philadelphia Phillies,1,0,0.2785279,0.22147211,0
+2024-04-23,Pittsburgh Pirates,Milwaukee Brewers,1,0,0.40237525,0.09762475,0
+2024-04-23,Washington Nationals,Los Angeles Dodgers,0,1,0.5975809,0.09758091,0
+2024-04-23,Tampa Bay Rays,Detroit Tigers,0,1,0.5273857,0.027385712,0
+2024-04-23,New York Yankees,Oakland Athletics,1,1,0.5490651,0.049065113,1
+2024-04-23,Atlanta Braves,Miami Marlins,1,1,0.84332436,0.34332436,1
+2024-04-23,Chicago Cubs,Houston Astros,1,1,0.83176297,0.33176297,1
+2024-04-23,Kansas City Royals,Toronto Blue Jays,1,1,0.5696925,0.06969249,1
+2024-04-23,Minnesota Twins,Chicago White Sox,1,1,0.8439865,0.3439865,1
+2024-04-23,St. Louis Cardinals,Arizona Diamondbacks,0,0,0.3125397,0.1874603,1
+2024-04-23,Texas Rangers,Seattle Mariners,0,0,0.42497465,0.07502535,1
+2024-04-23,Colorado Rockies,San Diego Padres,1,0,0.3200432,0.1799568,0
+2024-04-23,Los Angeles Angels,Baltimore Orioles,1,0,0.22512873,0.2748713,0
+2024-04-23,San Francisco Giants,New York Mets,1,0,0.35065097,0.14934903,0
+2024-04-24,St. Louis Cardinals,Arizona Diamondbacks,1,0,0.47101697,0.028983027,0
+2024-04-24,San Francisco Giants,New York Mets,0,0,0.35503638,0.14496362,1
+2024-04-24,Los Angeles Angels,Baltimore Orioles,0,0,0.19584504,0.30415496,1
+2024-04-24,Cleveland Guardians,Boston Red Sox,0,1,0.7014537,0.20145369,0
+2024-04-24,Cincinnati Reds,Philadelphia Phillies,1,0,0.41828752,0.081712484,0
+2024-04-24,Pittsburgh Pirates,Milwaukee Brewers,0,0,0.36972684,0.13027316,1
+2024-04-24,Washington Nationals,Los Angeles Dodgers,0,1,0.67145723,0.17145723,0
+2024-04-24,Tampa Bay Rays,Detroit Tigers,1,1,0.62739754,0.12739754,1
+2024-04-24,New York Yankees,Oakland Athletics,1,1,0.5954629,0.09546292,1
+2024-04-24,Atlanta Braves,Miami Marlins,1,1,0.8501012,0.35010117,1
+2024-04-24,Chicago Cubs,Houston Astros,1,1,0.8604369,0.36043692,1
+2024-04-24,Kansas City Royals,Toronto Blue Jays,1,1,0.5111945,0.011194527,1
+2024-04-24,Minnesota Twins,Chicago White Sox,1,1,0.8560866,0.3560866,1
+2024-04-24,Texas Rangers,Seattle Mariners,1,1,0.53905505,0.03905505,1
+2024-04-24,Colorado Rockies,San Diego Padres,0,0,0.23370814,0.26629186,1
+2024-04-25,Pittsburgh Pirates,Milwaukee Brewers,0,0,0.23863092,0.26136908,1
+2024-04-25,Cleveland Guardians,Boston Red Sox,1,1,0.7221416,0.22214162,1
+2024-04-25,Cincinnati Reds,Philadelphia Phillies,0,0,0.30720624,0.19279376,1
+2024-04-25,Minnesota Twins,Chicago White Sox,1,1,0.90343887,0.40343887,1
+2024-04-25,Chicago Cubs,Houston Astros,1,1,0.9405314,0.44053137,1
+2024-04-25,Texas Rangers,Seattle Mariners,0,0,0.44449145,0.055508554,1
+2024-04-25,Colorado Rockies,San Diego Padres,1,0,0.32510045,0.17489955,0
+2024-04-25,Washington Nationals,Los Angeles Dodgers,0,1,0.5569083,0.05690831,0
+2024-04-25,New York Yankees,Oakland Athletics,0,1,0.5517791,0.05177909,0
+2024-04-26,Detroit Tigers,Kansas City Royals,0,0,0.38343078,0.11656922,1
+2024-04-26,Baltimore Orioles,Oakland Athletics,0,1,0.59299743,0.09299743,0
+2024-04-26,Toronto Blue Jays,Los Angeles Dodgers,0,1,0.6151131,0.11511308,0
+2024-04-26,Boston Red Sox,Chicago Cubs,0,0,0.30209,0.19791001,1
+2024-04-26,New York Mets,St. Louis Cardinals,0,1,0.6237289,0.12372887,0
+2024-04-26,Miami Marlins,Washington Nationals,0,0,0.33100948,0.16899052,1
+2024-04-26,Atlanta Braves,Cleveland Guardians,1,1,0.5894789,0.08947891,1
+2024-04-26,Chicago White Sox,Tampa Bay Rays,1,0,0.20424482,0.29575518,0
+2024-04-26,Texas Rangers,Cincinnati Reds,1,1,0.5865497,0.0865497,1
+2024-04-26,Milwaukee Brewers,New York Yankees,1,1,0.6685042,0.16850418,1
+2024-04-26,Los Angeles Angels,Minnesota Twins,0,0,0.3741223,0.12587771,1
+2024-04-26,Seattle Mariners,Arizona Diamondbacks,1,1,0.7715194,0.27151942,1
+2024-04-26,San Diego Padres,Philadelphia Phillies,0,0,0.22147644,0.27852356,1
+2024-04-26,San Francisco Giants,Pittsburgh Pirates,1,1,0.7166794,0.2166794,1
+2024-04-27,Toronto Blue Jays,Los Angeles Dodgers,0,1,0.55315727,0.05315727,0
+2024-04-27,Baltimore Orioles,Oakland Athletics,1,1,0.66034865,0.16034865,1
+2024-04-27,New York Mets,St. Louis Cardinals,0,1,0.6173535,0.1173535,0
+2024-04-27,Texas Rangers,Cincinnati Reds,0,0,0.45891294,0.04108706,1
+2024-04-27,Boston Red Sox,Chicago Cubs,1,0,0.31736636,0.18263364,0
+2024-04-27,Miami Marlins,Washington Nationals,0,0,0.29568815,0.20431185,1
+2024-04-27,Colorado Rockies,Houston Astros,0,1,0.51183933,0.01183933,0
+2024-04-27,Detroit Tigers,Kansas City Royals,1,1,0.5157572,0.015757203,1
+2024-04-27,Chicago White Sox,Tampa Bay Rays,1,0,0.2746745,0.2253255,0
+2024-04-27,Milwaukee Brewers,New York Yankees,0,1,0.6007899,0.100789905,0
+2024-04-27,Atlanta Braves,Cleveland Guardians,0,1,0.5061891,0.006189108,0
+2024-04-27,San Diego Padres,Philadelphia Phillies,0,0,0.2471336,0.2528664,1
+2024-04-27,San Francisco Giants,Pittsburgh Pirates,0,1,0.68353003,0.18353003,0
+2024-04-27,Los Angeles Angels,Minnesota Twins,0,0,0.27538362,0.22461638,1
+2024-04-27,Seattle Mariners,Arizona Diamondbacks,1,1,0.8756129,0.3756129,1
+2024-04-28,Baltimore Orioles,Oakland Athletics,0,1,0.60551625,0.105516255,0
+2024-04-28,Atlanta Braves,Cleveland Guardians,1,1,0.586953,0.086952984,1
+2024-04-28,Toronto Blue Jays,Los Angeles Dodgers,1,1,0.6059978,0.1059978,1
+2024-04-28,Detroit Tigers,Kansas City Royals,1,1,0.5939599,0.09395993,1
+2024-04-28,New York Mets,St. Louis Cardinals,1,1,0.65498996,0.15498996,1
+2024-04-28,Miami Marlins,Washington Nationals,0,0,0.28809392,0.21190608,1
+2024-04-28,Chicago White Sox,Tampa Bay Rays,1,0,0.32609633,0.17390367,0
+2024-04-28,Milwaukee Brewers,New York Yankees,0,1,0.54652834,0.04652834,0
+2024-04-28,Texas Rangers,Cincinnati Reds,1,1,0.58505404,0.08505404,1
+2024-04-28,Colorado Rockies,Houston Astros,0,0,0.44156012,0.05843988,1
+2024-04-28,San Francisco Giants,Pittsburgh Pirates,1,1,0.70984674,0.20984674,1
+2024-04-28,Los Angeles Angels,Minnesota Twins,0,0,0.19730099,0.30269903,1
+2024-04-28,Seattle Mariners,Arizona Diamondbacks,0,1,0.7740116,0.2740116,0
+2024-04-28,San Diego Padres,Philadelphia Phillies,0,0,0.11718067,0.38281932,1
+2024-04-28,Boston Red Sox,Chicago Cubs,1,0,0.4401743,0.05982569,0
+2024-04-29,Baltimore Orioles,New York Yankees,1,1,0.66023886,0.16023886,1
+2024-04-29,Miami Marlins,Washington Nationals,0,0,0.15240078,0.3475992,1
+2024-04-29,Toronto Blue Jays,Kansas City Royals,1,1,0.60708886,0.107088864,1
+2024-04-29,New York Mets,Chicago Cubs,0,0,0.38677555,0.11322445,1
+2024-04-29,Chicago White Sox,Minnesota Twins,0,0,0.19103736,0.30896264,1
+2024-04-29,Milwaukee Brewers,Tampa Bay Rays,0,1,0.5944322,0.094432175,0
+2024-04-29,Los Angeles Angels,Philadelphia Phillies,1,0,0.12029678,0.37970322,0
+2024-04-29,Arizona Diamondbacks,Los Angeles Dodgers,0,0,0.25299847,0.24700153,1
+2024-04-29,Oakland Athletics,Pittsburgh Pirates,1,1,0.6142097,0.11420971,1
+2024-04-29,San Diego Padres,Cincinnati Reds,0,0,0.41434994,0.08565006,1
+2024-04-29,Seattle Mariners,Atlanta Braves,1,1,0.5374614,0.0374614,1
+2024-04-30,Detroit Tigers,St. Louis Cardinals,0,1,0.5485252,0.048525214,0
+2024-04-30,Detroit Tigers,St. Louis Cardinals,1,1,0.530013,0.030013025,1
+2024-04-30,Baltimore Orioles,New York Yankees,1,1,0.7058729,0.2058729,1
+2024-04-30,Miami Marlins,Colorado Rockies,1,1,0.6054921,0.105492115,1
+2024-04-30,Toronto Blue Jays,Kansas City Royals,0,1,0.52627873,0.026278734,0
+2024-04-30,New York Mets,Chicago Cubs,1,1,0.64901304,0.14901304,1
+2024-04-30,Boston Red Sox,San Francisco Giants,1,1,0.5363807,0.03638071,1
+2024-04-30,Chicago White Sox,Minnesota Twins,0,0,0.17011738,0.32988262,1
+2024-04-30,Milwaukee Brewers,Tampa Bay Rays,1,1,0.62849355,0.12849355,1
+2024-04-30,Texas Rangers,Washington Nationals,1,1,0.56239545,0.062395453,1
+2024-04-30,Houston Astros,Cleveland Guardians,1,0,0.25956362,0.24043638,0
+2024-04-30,Los Angeles Angels,Philadelphia Phillies,0,0,0.10753265,0.39246735,1
+2024-04-30,Arizona Diamondbacks,Los Angeles Dodgers,1,0,0.33925927,0.16074073,0
+2024-04-30,Oakland Athletics,Pittsburgh Pirates,1,1,0.78108567,0.28108567,1
+2024-04-30,San Diego Padres,Cincinnati Reds,1,0,0.45707047,0.04292953,0
+2024-04-30,Seattle Mariners,Atlanta Braves,1,1,0.591329,0.09132898,1
+2024-05-01,Detroit Tigers,St. Louis Cardinals,1,1,0.6070622,0.10706222,1
+2024-05-01,Milwaukee Brewers,Tampa Bay Rays,1,1,0.70786464,0.20786464,1
+2024-05-01,Chicago White Sox,Minnesota Twins,0,0,0.13272499,0.367275,1
+2024-05-01,Toronto Blue Jays,Kansas City Royals,0,0,0.4967221,0.0032778978,1
+2024-05-01,Oakland Athletics,Pittsburgh Pirates,1,1,0.8036604,0.3036604,1
+2024-05-01,Seattle Mariners,Atlanta Braves,0,1,0.5383159,0.038315892,0
+2024-05-01,Los Angeles Angels,Philadelphia Phillies,0,0,0.087650456,0.41234955,1
+2024-05-01,San Diego Padres,Cincinnati Reds,1,0,0.45501667,0.044983327,0
+2024-05-01,Baltimore Orioles,New York Yankees,0,1,0.5741622,0.074162185,0
+2024-05-01,Miami Marlins,Colorado Rockies,1,1,0.68965125,0.18965125,1
+2024-05-01,New York Mets,Chicago Cubs,0,1,0.5870001,0.08700007,0
+2024-05-01,Boston Red Sox,San Francisco Giants,1,1,0.5150768,0.015076816,1
+2024-05-01,Texas Rangers,Washington Nationals,0,0,0.4428979,0.057102114,1
+2024-05-01,Houston Astros,Cleveland Guardians,0,0,0.27491337,0.22508663,1
+2024-05-01,Arizona Diamondbacks,Los Angeles Dodgers,0,0,0.27370235,0.22629765,1
+2024-05-02,Miami Marlins,Colorado Rockies,1,1,0.6669775,0.16697752,1
+2024-05-02,Baltimore Orioles,New York Yankees,1,1,0.5798458,0.079845786,1
+2024-05-02,New York Mets,Chicago Cubs,1,1,0.5557283,0.055728316,1
+2024-05-02,Boston Red Sox,San Francisco Giants,0,0,0.4940582,0.005941808,1
+2024-05-02,Texas Rangers,Washington Nationals,1,0,0.4958557,0.004144311,0
+2024-05-02,Houston Astros,Cleveland Guardians,1,0,0.31631646,0.18368354,0
+2024-05-03,Chicago Cubs,Milwaukee Brewers,0,0,0.35003945,0.14996055,1
+2024-05-03,Cincinnati Reds,Baltimore Orioles,0,0,0.3165676,0.1834324,1
+2024-05-03,Pittsburgh Pirates,Colorado Rockies,0,0,0.30565134,0.19434866,1
+2024-05-03,Philadelphia Phillies,San Francisco Giants,1,1,0.83471787,0.33471787,1
+2024-05-03,Washington Nationals,Toronto Blue Jays,1,1,0.65159976,0.15159976,1
+2024-05-03,Tampa Bay Rays,New York Mets,1,0,0.37533838,0.124661624,0
+2024-05-03,New York Yankees,Detroit Tigers,1,0,0.46261254,0.03738746,0
+2024-05-03,Cleveland Guardians,Los Angeles Angels,0,1,0.78978395,0.28978395,0
+2024-05-03,Kansas City Royals,Texas Rangers,1,1,0.5197306,0.019730628,1
+2024-05-03,Houston Astros,Seattle Mariners,1,0,0.36703238,0.13296762,0
+2024-05-03,Minnesota Twins,Boston Red Sox,1,1,0.65206546,0.15206546,1
+2024-05-03,St. Louis Cardinals,Chicago White Sox,1,1,0.7094159,0.20941591,1
+2024-05-03,Arizona Diamondbacks,San Diego Padres,0,0,0.4728023,0.027197689,1
+2024-05-03,Oakland Athletics,Miami Marlins,1,1,0.736859,0.23685902,1
+2024-05-03,Los Angeles Dodgers,Atlanta Braves,1,0,0.4795766,0.020423412,0
+2024-05-04,New York Yankees,Detroit Tigers,1,0,0.46261254,0.03738746,0
+2024-05-04,Minnesota Twins,Boston Red Sox,1,1,0.7562478,0.25624782,1
+2024-05-04,St. Louis Cardinals,Chicago White Sox,0,1,0.6671426,0.16714263,0
+2024-05-04,Chicago Cubs,Milwaukee Brewers,1,1,0.5170221,0.017022073,1
+2024-05-04,Pittsburgh Pirates,Colorado Rockies,1,0,0.29699254,0.20300746,0
+2024-05-04,Washington Nationals,Toronto Blue Jays,0,1,0.5666623,0.06666231,0
+2024-05-04,Oakland Athletics,Miami Marlins,1,1,0.7743234,0.2743234,1
+2024-05-04,Philadelphia Phillies,San Francisco Giants,1,1,0.8556551,0.35565507,1
+2024-05-04,Cleveland Guardians,Los Angeles Angels,1,1,0.87523776,0.37523776,1
+2024-05-04,Cincinnati Reds,Baltimore Orioles,0,0,0.32227325,0.17772675,1
+2024-05-04,Kansas City Royals,Texas Rangers,0,1,0.55230385,0.05230385,0
+2024-05-04,Houston Astros,Seattle Mariners,0,0,0.35410276,0.14589724,1
+2024-05-04,Tampa Bay Rays,New York Mets,1,1,0.53635436,0.036354363,1
+2024-05-04,Arizona Diamondbacks,San Diego Padres,0,0,0.3977887,0.1022113,1
+2024-05-04,Los Angeles Dodgers,Atlanta Braves,1,1,0.58671516,0.08671516,1
+2024-05-05,Pittsburgh Pirates,Colorado Rockies,1,0,0.3958476,0.10415241,0
+2024-05-05,Washington Nationals,Toronto Blue Jays,1,1,0.6973608,0.19736081,1
+2024-05-05,Cleveland Guardians,Los Angeles Angels,1,1,0.86860377,0.36860377,1
+2024-05-05,Tampa Bay Rays,New York Mets,1,1,0.5742975,0.07429749,1
+2024-05-05,Houston Astros,Seattle Mariners,0,0,0.36875266,0.13124734,1
+2024-05-05,Kansas City Royals,Texas Rangers,0,1,0.5254725,0.025472522,0
+2024-05-05,Minnesota Twins,Boston Red Sox,0,1,0.7064043,0.20640433,0
+2024-05-05,St. Louis Cardinals,Chicago White Sox,0,1,0.6492068,0.14920682,0
+2024-05-05,Chicago Cubs,Milwaukee Brewers,1,1,0.5934864,0.09348643,1
+2024-05-05,Oakland Athletics,Miami Marlins,0,1,0.7194533,0.21945328,0
+2024-05-05,Cincinnati Reds,Baltimore Orioles,0,0,0.24420534,0.25579464,1
+2024-05-05,Arizona Diamondbacks,San Diego Padres,1,0,0.4233749,0.07662511,0
+2024-05-05,Los Angeles Dodgers,Atlanta Braves,1,1,0.86740655,0.36740655,1
+2024-05-05,Philadelphia Phillies,San Francisco Giants,1,1,0.9092212,0.40922117,1
+2024-05-06,Philadelphia Phillies,San Francisco Giants,1,1,0.9065063,0.4065063,1
+2024-05-06,Cleveland Guardians,Detroit Tigers,1,1,0.66907954,0.16907954,1
+2024-05-06,Pittsburgh Pirates,Los Angeles Angels,1,1,0.67291546,0.17291546,1
+2024-05-06,Tampa Bay Rays,Chicago White Sox,1,1,0.7455261,0.24552608,1
+2024-05-06,Kansas City Royals,Milwaukee Brewers,1,1,0.52623117,0.02623117,1
+2024-05-06,Chicago Cubs,San Diego Padres,0,1,0.58553666,0.08553666,0
+2024-05-06,Minnesota Twins,Seattle Mariners,1,1,0.74275416,0.24275416,1
+2024-05-06,St. Louis Cardinals,New York Mets,0,1,0.5489777,0.048977673,0
+2024-05-06,Oakland Athletics,Texas Rangers,0,1,0.52424383,0.024243832,0
+2024-05-06,Los Angeles Dodgers,Miami Marlins,1,1,0.9488269,0.4488269,1
+2024-05-07,Oakland Athletics,Texas Rangers,0,0,0.42747214,0.072527856,1
+2024-05-07,Cleveland Guardians,Detroit Tigers,0,1,0.6464182,0.14641821,0
+2024-05-07,Cincinnati Reds,Arizona Diamondbacks,0,0,0.33087227,0.16912773,1
+2024-05-07,Pittsburgh Pirates,Los Angeles Angels,0,0,0.48377326,0.016226739,1
+2024-05-07,Philadelphia Phillies,Toronto Blue Jays,1,1,0.92424035,0.42424035,1
+2024-05-07,Washington Nationals,Baltimore Orioles,1,0,0.44051027,0.059489727,0
+2024-05-07,Tampa Bay Rays,Chicago White Sox,1,1,0.72796696,0.22796696,1
+2024-05-07,New York Yankees,Houston Astros,1,1,0.75820315,0.25820315,1
+2024-05-07,Atlanta Braves,Boston Red Sox,1,1,0.5828116,0.082811594,1
+2024-05-07,Chicago Cubs,San Diego Padres,1,1,0.7084488,0.20844883,1
+2024-05-07,Minnesota Twins,Seattle Mariners,0,1,0.77332854,0.27332854,0
+2024-05-07,Kansas City Royals,Milwaukee Brewers,0,1,0.52951705,0.029517055,0
+2024-05-07,St. Louis Cardinals,New York Mets,0,1,0.5543202,0.054320216,0
+2024-05-07,Colorado Rockies,San Francisco Giants,0,0,0.34658504,0.15341496,1
+2024-05-07,Los Angeles Dodgers,Miami Marlins,1,1,0.95282894,0.45282894,1
+2024-05-08,Pittsburgh Pirates,Los Angeles Angels,0,0,0.33412516,0.16587484,1
+2024-05-08,Philadelphia Phillies,Toronto Blue Jays,0,1,0.86473864,0.36473864,0
+2024-05-08,Cleveland Guardians,Detroit Tigers,1,1,0.66491944,0.16491944,1
+2024-05-08,Kansas City Royals,Milwaukee Brewers,1,1,0.605925,0.10592502,1
+2024-05-08,Chicago Cubs,San Diego Padres,0,1,0.6671747,0.1671747,0
+2024-05-08,Los Angeles Dodgers,Miami Marlins,1,1,0.94644177,0.44644177,1
+2024-05-08,Oakland Athletics,Texas Rangers,1,0,0.42434028,0.07565972,0
+2024-05-08,Oakland Athletics,Texas Rangers,0,0,0.30895036,0.19104964,1
+2024-05-08,Cincinnati Reds,Arizona Diamondbacks,0,0,0.22520766,0.27479234,1
+2024-05-08,Washington Nationals,Baltimore Orioles,0,0,0.40105814,0.09894186,1
+2024-05-08,Tampa Bay Rays,Chicago White Sox,0,1,0.7014773,0.20147729,0
+2024-05-08,New York Yankees,Houston Astros,1,1,0.80875415,0.30875415,1
+2024-05-08,Atlanta Braves,Boston Red Sox,1,1,0.61573684,0.11573684,1
+2024-05-08,Minnesota Twins,Seattle Mariners,1,1,0.7540289,0.25402892,1
+2024-05-08,Colorado Rockies,San Francisco Giants,0,0,0.28836492,0.21163508,1
+2024-05-09,Cincinnati Reds,Arizona Diamondbacks,0,0,0.24171227,0.25828773,1
+2024-05-09,Minnesota Twins,Seattle Mariners,1,1,0.83978844,0.33978844,1
+2024-05-09,Colorado Rockies,San Francisco Giants,1,0,0.37613493,0.12386507,0
+2024-05-09,New York Yankees,Houston Astros,0,1,0.7006514,0.2006514,0
+2024-05-09,Chicago White Sox,Cleveland Guardians,1,1,0.60549,0.10549003,1
+2024-05-09,Milwaukee Brewers,St. Louis Cardinals,1,1,0.529673,0.02967298,1
+2024-05-09,Los Angeles Angels,Kansas City Royals,0,0,0.32092154,0.17907846,1
+2024-05-10,Detroit Tigers,Houston Astros,0,1,0.5330114,0.033011377,0
+2024-05-10,Pittsburgh Pirates,Chicago Cubs,0,0,0.34788358,0.15211642,1
+2024-05-10,Tampa Bay Rays,New York Yankees,0,0,0.35853076,0.14146924,1
+2024-05-10,Baltimore Orioles,Arizona Diamondbacks,1,1,0.6937149,0.19371492,1
+2024-05-10,Toronto Blue Jays,Minnesota Twins,0,0,0.084846064,0.41515392,1
+2024-05-10,Boston Red Sox,Washington Nationals,0,0,0.29231066,0.20768934,1
+2024-05-10,New York Mets,Atlanta Braves,0,0,0.28329554,0.21670446,1
+2024-05-10,Miami Marlins,Philadelphia Phillies,0,0,0.113822855,0.38617715,1
+2024-05-10,Chicago White Sox,Cleveland Guardians,1,1,0.5547239,0.05472392,1
+2024-05-10,Milwaukee Brewers,St. Louis Cardinals,1,1,0.6229594,0.122959375,1
+2024-05-10,Colorado Rockies,Texas Rangers,1,0,0.29832882,0.20167118,0
+2024-05-10,Los Angeles Angels,Kansas City Royals,0,0,0.2818963,0.2181037,1
+2024-05-10,San Diego Padres,Los Angeles Dodgers,1,0,0.33906686,0.16093314,0
+2024-05-10,Seattle Mariners,Oakland Athletics,1,1,0.5945847,0.0945847,1
+2024-05-10,San Francisco Giants,Cincinnati Reds,0,0,0.33158267,0.16841733,1
+2024-05-11,Toronto Blue Jays,Minnesota Twins,1,0,0.15651302,0.34348696,0
+2024-05-11,Baltimore Orioles,Arizona Diamondbacks,1,1,0.8121279,0.3121279,1
+2024-05-11,Pittsburgh Pirates,Chicago Cubs,1,0,0.36507097,0.13492903,0
+2024-05-11,Boston Red Sox,Washington Nationals,1,0,0.30045483,0.19954517,0
+2024-05-11,New York Mets,Atlanta Braves,0,0,0.28329554,0.21670446,1
+2024-05-11,Miami Marlins,Philadelphia Phillies,0,0,0.12104902,0.37895098,1
+2024-05-11,Tampa Bay Rays,New York Yankees,1,0,0.49287418,0.0071258247,0
+2024-05-11,Detroit Tigers,Houston Astros,1,1,0.5330114,0.033011377,1
+2024-05-11,Chicago White Sox,Cleveland Guardians,1,1,0.69283473,0.19283473,1
+2024-05-11,San Francisco Giants,Cincinnati Reds,1,1,0.5674763,0.06747627,1
+2024-05-11,Milwaukee Brewers,St. Louis Cardinals,1,1,0.62891287,0.12891287,1
+2024-05-11,Colorado Rockies,Texas Rangers,1,0,0.30529544,0.19470456,0
+2024-05-11,San Diego Padres,Los Angeles Dodgers,0,0,0.2654585,0.2345415,1
+2024-05-11,Los Angeles Angels,Kansas City Royals,1,0,0.34259427,0.15740573,0
+2024-05-11,Seattle Mariners,Oakland Athletics,0,1,0.5412889,0.041288912,0
+2024-05-12,Baltimore Orioles,Arizona Diamondbacks,0,1,0.66387427,0.16387427,0
+2024-05-12,Boston Red Sox,Washington Nationals,1,0,0.36407882,0.13592118,0
+2024-05-12,Pittsburgh Pirates,Chicago Cubs,0,0,0.35770938,0.14229062,1
+2024-05-12,Toronto Blue Jays,Minnesota Twins,0,0,0.13945165,0.36054835,1
+2024-05-12,Detroit Tigers,Houston Astros,0,0,0.3730093,0.1269907,1
+2024-05-12,Miami Marlins,Philadelphia Phillies,1,0,0.10328685,0.39671314,0
+2024-05-12,Tampa Bay Rays,New York Yankees,0,0,0.3229887,0.17701131,1
+2024-05-12,Chicago White Sox,Cleveland Guardians,0,1,0.5880303,0.08803028,0
+2024-05-12,Milwaukee Brewers,St. Louis Cardinals,0,1,0.5782186,0.07821858,0
+2024-05-12,Colorado Rockies,Texas Rangers,1,0,0.40849364,0.09150636,0
+2024-05-12,San Francisco Giants,Cincinnati Reds,1,1,0.55785054,0.05785054,1
+2024-05-12,Los Angeles Angels,Kansas City Royals,0,0,0.32736915,0.17263085,1
+2024-05-12,San Diego Padres,Los Angeles Dodgers,1,0,0.44045448,0.059545517,0
+2024-05-12,Seattle Mariners,Oakland Athletics,1,1,0.63503844,0.13503844,1
+2024-05-12,New York Mets,Atlanta Braves,1,0,0.41593555,0.084064454,0
+2024-05-13,Baltimore Orioles,Toronto Blue Jays,0,1,0.74703825,0.24703825,0
+2024-05-13,Detroit Tigers,Miami Marlins,1,1,0.68716425,0.18716425,1
+2024-05-13,Boston Red Sox,Tampa Bay Rays,0,0,0.4172353,0.082764685,1
+2024-05-13,New York Mets,Philadelphia Phillies,0,0,0.157469,0.342531,1
+2024-05-13,Atlanta Braves,Chicago Cubs,1,1,0.6389571,0.13895708,1
+2024-05-13,Milwaukee Brewers,Pittsburgh Pirates,0,1,0.54043776,0.040437758,0
+2024-05-13,Texas Rangers,Cleveland Guardians,0,1,0.5617231,0.061723113,0
+2024-05-13,Houston Astros,Oakland Athletics,1,0,0.45101914,0.048980862,0
+2024-05-13,Los Angeles Angels,St. Louis Cardinals,0,1,0.5035923,0.0035923123,0
+2024-05-13,Arizona Diamondbacks,Cincinnati Reds,1,1,0.74884194,0.24884194,1
+2024-05-13,San Diego Padres,Colorado Rockies,0,1,0.72985995,0.22985995,0
+2024-05-13,Seattle Mariners,Kansas City Royals,1,1,0.6141616,0.11416161,1
+2024-05-13,San Francisco Giants,Los Angeles Dodgers,0,0,0.22874238,0.27125764,1
+2024-05-14,New York Mets,Philadelphia Phillies,0,0,0.1652816,0.3347184,1
+2024-05-14,Chicago White Sox,Washington Nationals,0,1,0.5224701,0.022470117,0
+2024-05-14,Chicago White Sox,Washington Nationals,1,1,0.60484505,0.10484505,1
+2024-05-14,Detroit Tigers,Miami Marlins,0,1,0.59075385,0.09075385,0
+2024-05-14,Boston Red Sox,Tampa Bay Rays,1,0,0.42897654,0.071023464,0
+2024-05-14,Atlanta Braves,Chicago Cubs,1,1,0.63294536,0.13294536,1
+2024-05-14,Minnesota Twins,New York Yankees,0,1,0.52244645,0.022446454,0
+2024-05-14,Milwaukee Brewers,Pittsburgh Pirates,1,1,0.56456476,0.064564764,1
+2024-05-14,Texas Rangers,Cleveland Guardians,0,1,0.5468933,0.0468933,0
+2024-05-14,Houston Astros,Oakland Athletics,1,1,0.61917955,0.11917955,1
+2024-05-14,Los Angeles Angels,St. Louis Cardinals,0,0,0.4776592,0.022340804,1
+2024-05-14,Arizona Diamondbacks,Cincinnati Reds,0,1,0.7326204,0.23262042,0
+2024-05-14,San Diego Padres,Colorado Rockies,0,1,0.6463894,0.14638942,0
+2024-05-14,Seattle Mariners,Kansas City Royals,0,1,0.5658073,0.06580728,0
+2024-05-14,San Francisco Giants,Los Angeles Dodgers,0,0,0.16948093,0.33051908,1
+2024-05-15,Baltimore Orioles,Toronto Blue Jays,1,1,0.7332463,0.23324633,1
+2024-05-15,Detroit Tigers,Miami Marlins,0,0,0.49455976,0.005440235,1
+2024-05-15,Milwaukee Brewers,Pittsburgh Pirates,1,1,0.7414858,0.24148577,1
+2024-05-15,Chicago White Sox,Washington Nationals,1,1,0.5707228,0.07072282,1
+2024-05-15,Arizona Diamondbacks,Cincinnati Reds,1,1,0.72604805,0.22604805,1
+2024-05-15,San Diego Padres,Colorado Rockies,0,1,0.6545536,0.15455359,0
+2024-05-15,Seattle Mariners,Kansas City Royals,1,1,0.53861684,0.038616836,1
+2024-05-15,Philadelphia Phillies,New York Mets,1,1,0.9446568,0.4446568,1
+2024-05-15,Boston Red Sox,Tampa Bay Rays,0,0,0.39818832,0.10181168,1
+2024-05-15,Atlanta Braves,Chicago Cubs,0,1,0.6283355,0.12833548,0
+2024-05-15,Minnesota Twins,New York Yankees,0,0,0.44806832,0.05193168,1
+2024-05-15,Texas Rangers,Cleveland Guardians,1,1,0.52099705,0.020997047,1
+2024-05-15,Houston Astros,Oakland Athletics,1,1,0.6351203,0.13512027,1
+2024-05-15,Los Angeles Angels,St. Louis Cardinals,1,1,0.557673,0.057672977,1
+2024-05-15,San Francisco Giants,Los Angeles Dodgers,1,0,0.24686168,0.2531383,0
+2024-05-16,Minnesota Twins,New York Yankees,0,0,0.34797037,0.15202963,1
+2024-05-16,Philadelphia Phillies,New York Mets,0,1,0.9200179,0.4200179,0
+2024-05-16,Boston Red Sox,Tampa Bay Rays,0,0,0.36444932,0.13555068,1
+2024-05-16,Chicago Cubs,Pittsburgh Pirates,0,1,0.5861364,0.0861364,0
+2024-05-16,Houston Astros,Oakland Athletics,1,1,0.72750837,0.22750837,1
+2024-05-16,Los Angeles Dodgers,Cincinnati Reds,0,1,0.8359485,0.33594853,0
+2024-05-17,Chicago Cubs,Pittsburgh Pirates,0,0,0.44047242,0.059527576,1
+2024-05-17,Philadelphia Phillies,Washington Nationals,1,1,0.91785777,0.41785777,1
+2024-05-17,Baltimore Orioles,Seattle Mariners,1,1,0.8261348,0.3261348,1
+2024-05-17,New York Yankees,Chicago White Sox,1,1,0.8284172,0.32841718,1
+2024-05-17,Toronto Blue Jays,Tampa Bay Rays,0,0,0.32428873,0.17571127,1
+2024-05-17,Cleveland Guardians,Minnesota Twins,1,1,0.6007648,0.10076481,1
+2024-05-17,Miami Marlins,New York Mets,1,1,0.65904915,0.15904915,1
+2024-05-17,Atlanta Braves,San Diego Padres,0,0,0.38500524,0.114994764,1
+2024-05-17,Kansas City Royals,Oakland Athletics,1,1,0.7412216,0.2412216,1
+2024-05-17,Texas Rangers,Los Angeles Angels,0,1,0.54337394,0.043373942,0
+2024-05-17,Houston Astros,Milwaukee Brewers,1,1,0.64601576,0.14601576,1
+2024-05-17,St. Louis Cardinals,Boston Red Sox,1,0,0.43467286,0.06532714,0
+2024-05-17,Arizona Diamondbacks,Detroit Tigers,0,1,0.68787795,0.18787795,0
+2024-05-17,Los Angeles Dodgers,Cincinnati Reds,1,1,0.88160276,0.38160276,1
+2024-05-17,San Francisco Giants,Colorado Rockies,1,1,0.57328004,0.07328004,1
+2024-05-18,New York Yankees,Chicago White Sox,1,1,0.8313752,0.33137518,1
+2024-05-18,Chicago Cubs,Pittsburgh Pirates,1,1,0.5329162,0.03291619,1
+2024-05-18,Toronto Blue Jays,Tampa Bay Rays,0,0,0.22560126,0.27439874,1
+2024-05-18,Baltimore Orioles,Seattle Mariners,0,1,0.7005789,0.20057893,0
+2024-05-18,San Francisco Giants,Colorado Rockies,1,1,0.61363536,0.11363536,1
+2024-05-18,Miami Marlins,New York Mets,1,1,0.6681661,0.1681661,1
+2024-05-18,Philadelphia Phillies,Washington Nationals,1,1,0.9169917,0.4169917,1
+2024-05-18,Cleveland Guardians,Minnesota Twins,1,1,0.61925846,0.11925846,1
+2024-05-18,Kansas City Royals,Oakland Athletics,1,1,0.855647,0.35564703,1
+2024-05-18,Houston Astros,Milwaukee Brewers,0,1,0.606317,0.10631698,0
+2024-05-18,St. Louis Cardinals,Boston Red Sox,1,1,0.5520183,0.052018285,1
+2024-05-18,Texas Rangers,Los Angeles Angels,1,1,0.55647796,0.056477964,1
+2024-05-18,Arizona Diamondbacks,Detroit Tigers,0,1,0.5602308,0.06023079,0
+2024-05-18,Los Angeles Dodgers,Cincinnati Reds,1,1,0.878117,0.37811702,1
+2024-05-19,St. Louis Cardinals,Boston Red Sox,0,1,0.5359508,0.03595078,0
+2024-05-19,Baltimore Orioles,Seattle Mariners,1,1,0.7042181,0.20421809,1
+2024-05-19,Philadelphia Phillies,Washington Nationals,1,1,0.9630797,0.4630797,1
+2024-05-19,New York Yankees,Chicago White Sox,1,1,0.8504936,0.3504936,1
+2024-05-19,Toronto Blue Jays,Tampa Bay Rays,1,0,0.21145067,0.28854933,0
+2024-05-19,Cleveland Guardians,Minnesota Twins,1,1,0.7622784,0.26227838,1
+2024-05-19,Miami Marlins,New York Mets,0,1,0.5663353,0.06633532,0
+2024-05-19,Kansas City Royals,Oakland Athletics,1,1,0.89091283,0.39091283,1
+2024-05-19,Houston Astros,Milwaukee Brewers,1,1,0.65772617,0.15772617,1
+2024-05-19,Chicago Cubs,Pittsburgh Pirates,0,1,0.5068484,0.006848395,0
+2024-05-19,Texas Rangers,Los Angeles Angels,0,1,0.5425416,0.042541623,0
+2024-05-19,San Francisco Giants,Colorado Rockies,1,1,0.6505748,0.1505748,1
+2024-05-19,Arizona Diamondbacks,Detroit Tigers,1,1,0.6682113,0.16821128,1
+2024-05-19,Los Angeles Dodgers,Cincinnati Reds,1,1,0.88241637,0.38241637,1
+2024-05-19,Atlanta Braves,San Diego Padres,0,0,0.44980183,0.050198168,1
+2024-05-20,Atlanta Braves,San Diego Padres,0,0,0.49346513,0.0065348744,1
+2024-05-20,Atlanta Braves,San Diego Padres,1,1,0.55829245,0.05829245,1
+2024-05-20,Toronto Blue Jays,Chicago White Sox,1,1,0.50443304,0.004433036,1
+2024-05-20,Cleveland Guardians,New York Mets,1,1,0.8048511,0.3048511,1
+2024-05-20,Miami Marlins,Milwaukee Brewers,1,1,0.5305612,0.030561209,1
+2024-05-20,Washington Nationals,Minnesota Twins,1,1,0.5968061,0.09680611,1
+2024-05-20,Tampa Bay Rays,Boston Red Sox,0,1,0.6806683,0.1806683,0
+2024-05-20,New York Yankees,Seattle Mariners,0,1,0.8100183,0.3100183,0
+2024-05-20,Kansas City Royals,Detroit Tigers,1,1,0.797056,0.29705602,1
+2024-05-20,St. Louis Cardinals,Baltimore Orioles,1,0,0.2383169,0.2616831,0
+2024-05-20,Houston Astros,Los Angeles Angels,0,1,0.6428237,0.1428237,0
+2024-05-20,Los Angeles Dodgers,Arizona Diamondbacks,1,1,0.7811321,0.2811321,1
+2024-05-21,Cleveland Guardians,New York Mets,1,1,0.79582477,0.29582477,1
+2024-05-21,Cincinnati Reds,San Diego Padres,1,0,0.27994394,0.22005606,0
+2024-05-21,Pittsburgh Pirates,San Francisco Giants,1,1,0.5813701,0.081370115,1
+2024-05-21,Philadelphia Phillies,Texas Rangers,1,1,0.9211251,0.4211251,1
+2024-05-21,Miami Marlins,Milwaukee Brewers,0,0,0.44713116,0.052868843,1
+2024-05-21,Washington Nationals,Minnesota Twins,0,0,0.4527895,0.047210515,1
+2024-05-21,Tampa Bay Rays,Boston Red Sox,0,1,0.52771413,0.027714133,0
+2024-05-21,New York Yankees,Seattle Mariners,0,1,0.7016957,0.20169568,0
+2024-05-21,Toronto Blue Jays,Chicago White Sox,0,1,0.5095511,0.009551108,0
+2024-05-21,Kansas City Royals,Detroit Tigers,1,1,0.90440357,0.40440357,1
+2024-05-21,Chicago Cubs,Atlanta Braves,1,0,0.49792403,0.0020759702,0
+2024-05-21,St. Louis Cardinals,Baltimore Orioles,1,1,0.6272303,0.12723029,1
+2024-05-21,Houston Astros,Los Angeles Angels,1,1,0.64040345,0.14040345,1
+2024-05-21,Oakland Athletics,Colorado Rockies,1,0,0.2867709,0.21322909,0
+2024-05-21,Los Angeles Dodgers,Arizona Diamondbacks,0,1,0.63943905,0.13943905,0
+2024-05-22,St. Louis Cardinals,Baltimore Orioles,1,1,0.6272303,0.12723029,1
+2024-05-22,Washington Nationals,Minnesota Twins,0,0,0.44250098,0.05749902,1
+2024-05-22,Cleveland Guardians,New York Mets,1,1,0.81280434,0.31280434,1
+2024-05-22,St. Louis Cardinals,Baltimore Orioles,1,1,0.5048974,0.0048974156,1
+2024-05-22,Houston Astros,Los Angeles Angels,0,1,0.5863305,0.08633047,0
+2024-05-22,Kansas City Royals,Detroit Tigers,1,1,0.91298914,0.41298914,1
+2024-05-22,Cincinnati Reds,San Diego Padres,0,0,0.26993325,0.23006675,1
+2024-05-22,Pittsburgh Pirates,San Francisco Giants,0,0,0.37911418,0.12088582,1
+2024-05-22,Philadelphia Phillies,Texas Rangers,1,1,0.95589745,0.45589745,1
+2024-05-22,Miami Marlins,Milwaukee Brewers,1,0,0.47901973,0.020980269,0
+2024-05-22,Tampa Bay Rays,Boston Red Sox,0,1,0.5084799,0.008479893,0
+2024-05-22,New York Yankees,Seattle Mariners,1,1,0.72985286,0.22985286,1
+2024-05-22,Toronto Blue Jays,Chicago White Sox,1,1,0.5362804,0.036280394,1
+2024-05-22,Chicago Cubs,Atlanta Braves,0,0,0.41700965,0.08299035,1
+2024-05-22,Oakland Athletics,Colorado Rockies,0,0,0.26474,0.23526001,1
+2024-05-22,Los Angeles Dodgers,Arizona Diamondbacks,0,1,0.6292203,0.1292203,0
+2024-05-23,Pittsburgh Pirates,San Francisco Giants,0,0,0.2720436,0.22795641,1
+2024-05-23,New York Yankees,Seattle Mariners,1,1,0.7681398,0.26813978,1
+2024-05-23,Philadelphia Phillies,Texas Rangers,1,1,0.94947064,0.44947064,1
+2024-05-23,Cincinnati Reds,San Diego Padres,0,0,0.259635,0.240365,1
+2024-05-23,Chicago Cubs,Atlanta Braves,0,0,0.3379479,0.1620521,1
+2024-05-23,Oakland Athletics,Colorado Rockies,1,0,0.31542453,0.18457547,0
+2024-05-23,Detroit Tigers,Toronto Blue Jays,0,0,0.37193906,0.12806094,1
+2024-05-23,Chicago White Sox,Baltimore Orioles,0,1,0.55075,0.050750017,0
+2024-05-24,Detroit Tigers,Toronto Blue Jays,1,0,0.33525145,0.16474855,0
+2024-05-24,Pittsburgh Pirates,Atlanta Braves,1,1,0.53116256,0.03116256,1
+2024-05-24,Washington Nationals,Seattle Mariners,1,0,0.35885882,0.14114118,0
+2024-05-24,Tampa Bay Rays,Kansas City Royals,0,0,0.17697047,0.32302952,1
+2024-05-24,Cincinnati Reds,Los Angeles Dodgers,1,0,0.28936878,0.21063122,0
+2024-05-24,New York Mets,San Francisco Giants,0,0,0.1887049,0.3112951,1
+2024-05-24,Minnesota Twins,Texas Rangers,1,1,0.8257208,0.3257208,1
+2024-05-24,Boston Red Sox,Milwaukee Brewers,0,0,0.44800708,0.051992923,1
+2024-05-24,Chicago White Sox,Baltimore Orioles,0,0,0.4201971,0.0798029,1
+2024-05-24,Colorado Rockies,Philadelphia Phillies,1,0,0.4466941,0.053305894,0
+2024-05-24,Los Angeles Angels,Cleveland Guardians,0,0,0.268823,0.231177,1
+2024-05-24,Oakland Athletics,Houston Astros,0,0,0.16605453,0.33394545,1
+2024-05-24,Arizona Diamondbacks,Miami Marlins,0,1,0.5314659,0.031465888,0
+2024-05-24,San Diego Padres,New York Yankees,0,0,0.23657572,0.26342428,1
+2024-05-25,Detroit Tigers,Toronto Blue Jays,1,0,0.49369624,0.0063037574,0
+2024-05-25,New York Mets,San Francisco Giants,0,0,0.12331554,0.37668446,1
+2024-05-25,Minnesota Twins,Texas Rangers,1,1,0.8203713,0.32037133,1
+2024-05-25,Chicago White Sox,Baltimore Orioles,0,0,0.27670163,0.22329837,1
+2024-05-25,Washington Nationals,Seattle Mariners,1,0,0.39587367,0.104126334,0
+2024-05-25,Pittsburgh Pirates,Atlanta Braves,1,1,0.519404,0.019403994,1
+2024-05-25,Oakland Athletics,Houston Astros,1,0,0.21881072,0.28118926,0
+2024-05-25,Tampa Bay Rays,Kansas City Royals,0,0,0.18464506,0.31535494,1
+2024-05-25,Boston Red Sox,Milwaukee Brewers,0,0,0.3230071,0.1769929,1
+2024-05-25,Cincinnati Reds,Los Angeles Dodgers,1,0,0.44518423,0.05481577,0
+2024-05-25,St. Louis Cardinals,Chicago Cubs,1,1,0.7545154,0.2545154,1
+2024-05-25,Colorado Rockies,Philadelphia Phillies,0,0,0.25131246,0.24868754,1
+2024-05-25,Los Angeles Angels,Cleveland Guardians,0,0,0.22765696,0.27234304,1
+2024-05-25,San Diego Padres,New York Yankees,0,0,0.10356326,0.39643675,1
+2024-05-25,Arizona Diamondbacks,Miami Marlins,1,1,0.54940873,0.049408734,1
+2024-05-26,Detroit Tigers,Toronto Blue Jays,1,1,0.61471146,0.11471146,1
+2024-05-26,Cincinnati Reds,Los Angeles Dodgers,1,0,0.45785305,0.04214695,0
+2024-05-26,Washington Nationals,Seattle Mariners,0,0,0.43379065,0.066209346,1
+2024-05-26,Pittsburgh Pirates,Atlanta Braves,0,1,0.57521397,0.07521397,0
+2024-05-26,Boston Red Sox,Milwaukee Brewers,1,1,0.5083354,0.008335412,1
+2024-05-26,New York Mets,San Francisco Giants,1,0,0.18147293,0.31852707,0
+2024-05-26,Tampa Bay Rays,Kansas City Royals,1,0,0.2929,0.2071,0
+2024-05-26,Minnesota Twins,Texas Rangers,0,1,0.68277764,0.18277764,0
+2024-05-26,Chicago White Sox,Baltimore Orioles,0,0,0.25038832,0.24961168,1
+2024-05-26,Colorado Rockies,Philadelphia Phillies,1,0,0.42467096,0.075329036,0
+2024-05-26,Los Angeles Angels,Cleveland Guardians,0,0,0.16702563,0.33297437,1
+2024-05-26,Oakland Athletics,Houston Astros,0,0,0.21733026,0.28266972,1
+2024-05-26,Arizona Diamondbacks,Miami Marlins,0,0,0.43700516,0.06299484,1
+2024-05-26,San Diego Padres,New York Yankees,1,0,0.21678354,0.28321648,0
+2024-05-26,St. Louis Cardinals,Chicago Cubs,1,1,0.8581143,0.3581143,1
+2024-05-27,Baltimore Orioles,Boston Red Sox,1,1,0.5197562,0.019756198,1
+2024-05-27,Minnesota Twins,Kansas City Royals,1,0,0.2887676,0.2112324,0
+2024-05-27,Chicago White Sox,Toronto Blue Jays,0,0,0.30605277,0.19394723,1
+2024-05-27,Colorado Rockies,Cleveland Guardians,1,0,0.18904419,0.31095582,0
+2024-05-27,Cincinnati Reds,St. Louis Cardinals,1,0,0.2838571,0.2161429,0
+2024-05-27,Atlanta Braves,Washington Nationals,0,1,0.5793205,0.07932049,0
+2024-05-27,Milwaukee Brewers,Chicago Cubs,1,1,0.7119277,0.21192771,1
+2024-05-27,San Francisco Giants,Philadelphia Phillies,1,1,0.512164,0.012163997,1
+2024-05-27,San Diego Padres,Miami Marlins,1,1,0.53675383,0.036753833,1
+2024-05-27,Seattle Mariners,Houston Astros,1,0,0.48339802,0.01660198,0
+2024-05-28,New York Mets,Los Angeles Dodgers,0,0,0.23476088,0.26523912,1
+2024-05-28,New York Mets,Los Angeles Dodgers,0,0,0.32178822,0.17821178,1
+2024-05-28,Baltimore Orioles,Boston Red Sox,0,0,0.49782628,0.0021737218,1
+2024-05-28,Cincinnati Reds,St. Louis Cardinals,0,0,0.17957097,0.32042903,1
+2024-05-28,Tampa Bay Rays,Oakland Athletics,0,1,0.58805823,0.08805823,0
+2024-05-28,Atlanta Braves,Washington Nationals,1,1,0.6026537,0.10265368,1
+2024-05-28,Minnesota Twins,Kansas City Royals,1,0,0.28691745,0.21308255,0
+2024-05-28,Chicago White Sox,Toronto Blue Jays,0,0,0.37424666,0.12575334,1
+2024-05-28,Milwaukee Brewers,Chicago Cubs,0,1,0.5981563,0.09815627,0
+2024-05-28,Texas Rangers,Arizona Diamondbacks,1,0,0.2223417,0.27765828,0
+2024-05-28,Colorado Rockies,Cleveland Guardians,0,0,0.13996772,0.36003226,1
+2024-05-28,Los Angeles Angels,New York Yankees,1,0,0.26215553,0.23784447,0
+2024-05-28,Seattle Mariners,Houston Astros,1,1,0.66218245,0.16218245,1
+2024-05-28,San Diego Padres,Miami Marlins,1,0,0.49753535,0.002464652,0
+2024-05-28,San Francisco Giants,Philadelphia Phillies,1,1,0.53033185,0.03033185,1
+2024-05-29,Detroit Tigers,Pittsburgh Pirates,1,1,0.52742314,0.027423143,1
+2024-05-29,Detroit Tigers,Pittsburgh Pirates,0,0,0.3976321,0.10236791,1
+2024-05-29,Cincinnati Reds,St. Louis Cardinals,0,0,0.15276417,0.34723583,1
+2024-05-29,Texas Rangers,Arizona Diamondbacks,1,0,0.30205566,0.19794434,0
+2024-05-29,San Francisco Giants,Philadelphia Phillies,0,1,0.5093553,0.009355307,0
+2024-05-29,New York Mets,Los Angeles Dodgers,0,0,0.2487343,0.2512657,1
+2024-05-29,San Diego Padres,Miami Marlins,0,1,0.5174455,0.017445505,0
+2024-05-29,Baltimore Orioles,Boston Red Sox,1,1,0.60232717,0.10232717,1
+2024-05-29,Tampa Bay Rays,Oakland Athletics,1,1,0.62518203,0.12518203,1
+2024-05-29,Atlanta Braves,Washington Nationals,0,1,0.5079545,0.007954478,0
+2024-05-29,Minnesota Twins,Kansas City Royals,0,0,0.25507122,0.24492878,1
+2024-05-29,Chicago White Sox,Toronto Blue Jays,0,0,0.15575036,0.34424964,1
+2024-05-29,Milwaukee Brewers,Chicago Cubs,1,1,0.7035538,0.2035538,1
+2024-05-29,Colorado Rockies,Cleveland Guardians,1,0,0.22098418,0.27901584,0
+2024-05-29,Los Angeles Angels,New York Yankees,0,0,0.22001484,0.27998516,1
+2024-05-29,Seattle Mariners,Houston Astros,1,1,0.6773347,0.17733473,1
+2024-05-30,Tampa Bay Rays,Oakland Athletics,1,1,0.6338729,0.13387293,1
+2024-05-30,Minnesota Twins,Kansas City Royals,1,0,0.28390363,0.21609637,0
+2024-05-30,Milwaukee Brewers,Chicago Cubs,1,1,0.7556207,0.25562072,1
+2024-05-30,Seattle Mariners,Houston Astros,0,1,0.7002306,0.2002306,0
+2024-05-30,Boston Red Sox,Detroit Tigers,0,0,0.47041407,0.029585928,1
+2024-05-30,New York Mets,Arizona Diamondbacks,1,0,0.32507116,0.17492884,0
+2024-05-30,Atlanta Braves,Washington Nationals,0,0,0.42406496,0.075935036,1
+2024-05-30,Los Angeles Angels,New York Yankees,0,0,0.2507483,0.2492517,1
+2024-05-31,Chicago Cubs,Cincinnati Reds,0,0,0.26852342,0.23147658,1
+2024-05-31,Philadelphia Phillies,St. Louis Cardinals,1,0,0.42794165,0.07205835,0
+2024-05-31,Baltimore Orioles,Tampa Bay Rays,1,1,0.616151,0.116150975,1
+2024-05-31,Toronto Blue Jays,Pittsburgh Pirates,1,1,0.5841574,0.08415741,1
+2024-05-31,Boston Red Sox,Detroit Tigers,1,1,0.53717446,0.037174463,1
+2024-05-31,Cleveland Guardians,Washington Nationals,1,1,0.8799995,0.37999952,1
+2024-05-31,New York Mets,Arizona Diamondbacks,1,0,0.49236178,0.007638216,0
+2024-05-31,Miami Marlins,Texas Rangers,1,1,0.75855803,0.25855803,1
+2024-05-31,Atlanta Braves,Oakland Athletics,1,1,0.5077293,0.007729292,1
+2024-05-31,Kansas City Royals,San Diego Padres,0,1,0.57554,0.075540006,0
+2024-05-31,Houston Astros,Minnesota Twins,0,1,0.53173935,0.031739354,0
+2024-05-31,Milwaukee Brewers,Chicago White Sox,1,1,0.9062264,0.4062264,1
+2024-05-31,Los Angeles Dodgers,Colorado Rockies,0,0,0.4926227,0.0073772967,1
+2024-05-31,Seattle Mariners,Los Angeles Angels,1,1,0.71582717,0.21582717,1
+2024-05-31,San Francisco Giants,New York Yankees,0,0,0.43103835,0.06896165,1
+2024-06-01,Toronto Blue Jays,Pittsburgh Pirates,0,0,0.46348512,0.03651488,1
+2024-06-01,Baltimore Orioles,Tampa Bay Rays,1,1,0.73790634,0.23790634,1
+2024-06-01,Boston Red Sox,Detroit Tigers,1,1,0.5637295,0.063729525,1
+2024-06-01,Cleveland Guardians,Washington Nationals,1,1,0.897493,0.397493,1
+2024-06-01,New York Mets,Arizona Diamondbacks,0,0,0.33322084,0.16677916,1
+2024-06-01,Kansas City Royals,San Diego Padres,0,0,0.40945622,0.09054378,1
+2024-06-01,Houston Astros,Minnesota Twins,1,1,0.5173531,0.017353117,1
+2024-06-01,Atlanta Braves,Oakland Athletics,0,1,0.5486703,0.048670292,0
+2024-06-01,Miami Marlins,Texas Rangers,0,1,0.69008887,0.19008887,0
+2024-06-01,Milwaukee Brewers,Chicago White Sox,1,1,0.90098834,0.40098834,1
+2024-06-01,Chicago Cubs,Cincinnati Reds,1,0,0.28625947,0.21374053,0
+2024-06-01,Seattle Mariners,Los Angeles Angels,1,1,0.73726225,0.23726225,1
+2024-06-01,Philadelphia Phillies,St. Louis Cardinals,1,0,0.4907953,0.009204686,0
+2024-06-01,San Francisco Giants,New York Yankees,0,0,0.42145583,0.07854417,1
+2024-06-01,Los Angeles Dodgers,Colorado Rockies,1,1,0.7143892,0.2143892,1
+2024-06-02,Houston Astros,Minnesota Twins,0,0,0.3308956,0.1691044,1
+2024-06-02,Boston Red Sox,Detroit Tigers,0,1,0.558311,0.058310986,0
+2024-06-02,Baltimore Orioles,Tampa Bay Rays,0,1,0.7340474,0.23404741,0
+2024-06-02,Atlanta Braves,Oakland Athletics,1,1,0.5845978,0.084597826,1
+2024-06-02,Toronto Blue Jays,Pittsburgh Pirates,1,1,0.510678,0.010677993,1
+2024-06-02,Cleveland Guardians,Washington Nationals,0,1,0.8217654,0.32176542,0
+2024-06-02,New York Mets,Arizona Diamondbacks,0,0,0.36601993,0.13398007,1
+2024-06-02,Miami Marlins,Texas Rangers,0,1,0.5288229,0.028822899,0
+2024-06-02,Kansas City Royals,San Diego Padres,1,1,0.5739536,0.07395363,1
+2024-06-02,Milwaukee Brewers,Chicago White Sox,1,1,0.90099406,0.40099406,1
+2024-06-02,Chicago Cubs,Cincinnati Reds,0,0,0.26852342,0.23147658,1
+2024-06-02,San Francisco Giants,New York Yankees,0,0,0.31944975,0.18055025,1
+2024-06-02,Los Angeles Dodgers,Colorado Rockies,1,1,0.8483634,0.3483634,1
+2024-06-02,Seattle Mariners,Los Angeles Angels,1,1,0.7808273,0.28082728,1
+2024-06-02,Philadelphia Phillies,St. Louis Cardinals,0,0,0.42175752,0.07824248,1
+2024-06-03,Philadelphia Phillies,Milwaukee Brewers,1,1,0.59202504,0.09202504,1
+2024-06-03,Washington Nationals,New York Mets,0,1,0.6965589,0.1965589,0
+2024-06-03,Toronto Blue Jays,Baltimore Orioles,0,1,0.57390296,0.073902965,0
+2024-06-03,Texas Rangers,Detroit Tigers,0,0,0.4915426,0.008457392,1
+2024-06-03,Houston Astros,St. Louis Cardinals,1,0,0.30198193,0.19801807,0
+2024-06-03,Colorado Rockies,Cincinnati Reds,0,0,0.4329766,0.0670234,1
+2024-06-03,Los Angeles Angels,San Diego Padres,1,0,0.22942384,0.27057618,0
+2024-06-03,Arizona Diamondbacks,San Francisco Giants,1,1,0.5087886,0.008788586,1
+2024-06-04,Cleveland Guardians,Kansas City Royals,1,1,0.73438436,0.23438436,1
+2024-06-04,Pittsburgh Pirates,Los Angeles Dodgers,1,0,0.49801114,0.001988858,0
+2024-06-04,Miami Marlins,Tampa Bay Rays,0,0,0.46899867,0.03100133,1
+2024-06-04,Philadelphia Phillies,Milwaukee Brewers,1,1,0.6046174,0.10461742,1
+2024-06-04,Washington Nationals,New York Mets,0,1,0.71130025,0.21130025,0
+2024-06-04,New York Yankees,Minnesota Twins,1,1,0.6482839,0.1482839,1
+2024-06-04,Toronto Blue Jays,Baltimore Orioles,0,0,0.3495403,0.1504597,1
+2024-06-04,Boston Red Sox,Atlanta Braves,0,1,0.52591175,0.025911748,0
+2024-06-04,Texas Rangers,Detroit Tigers,0,0,0.42385253,0.07614747,1
+2024-06-04,Chicago Cubs,Chicago White Sox,1,1,0.7594522,0.25945222,1
+2024-06-04,Houston Astros,St. Louis Cardinals,1,0,0.39949498,0.100505024,0
+2024-06-04,Colorado Rockies,Cincinnati Reds,0,0,0.3730613,0.1269387,1
+2024-06-04,Los Angeles Angels,San Diego Padres,1,0,0.33555636,0.16444364,0
+2024-06-04,Oakland Athletics,Seattle Mariners,0,0,0.21121687,0.28878313,1
+2024-06-04,Arizona Diamondbacks,San Francisco Giants,1,1,0.58237725,0.082377255,1
+2024-06-05,Boston Red Sox,Atlanta Braves,1,0,0.49595767,0.0040423274,0
+2024-06-05,Houston Astros,St. Louis Cardinals,0,0,0.30329132,0.19670868,1
+2024-06-05,Colorado Rockies,Cincinnati Reds,0,0,0.3190176,0.18098241,1
+2024-06-05,Arizona Diamondbacks,San Francisco Giants,0,1,0.54676616,0.046766162,0
+2024-06-05,Washington Nationals,New York Mets,0,1,0.6043789,0.10437888,0
+2024-06-05,Philadelphia Phillies,Milwaukee Brewers,1,1,0.61286074,0.11286074,1
+2024-06-05,Pittsburgh Pirates,Los Angeles Dodgers,1,1,0.5547675,0.05476749,1
+2024-06-05,Miami Marlins,Tampa Bay Rays,0,0,0.43124807,0.06875193,1
+2024-06-05,New York Yankees,Minnesota Twins,1,1,0.65543234,0.15543234,1
+2024-06-05,Toronto Blue Jays,Baltimore Orioles,1,0,0.3780054,0.121994615,0
+2024-06-05,Texas Rangers,Detroit Tigers,1,0,0.37386042,0.12613958,0
+2024-06-05,Chicago Cubs,Chicago White Sox,1,1,0.7485377,0.24853772,1
+2024-06-05,Los Angeles Angels,San Diego Padres,1,0,0.34348205,0.15651795,0
+2024-06-05,Oakland Athletics,Seattle Mariners,1,0,0.3640823,0.1359177,0
+2024-06-06,Toronto Blue Jays,Baltimore Orioles,1,0,0.43409544,0.06590456,0
+2024-06-06,Cleveland Guardians,Kansas City Royals,0,1,0.7292065,0.2292065,0
+2024-06-06,Oakland Athletics,Seattle Mariners,0,0,0.37522212,0.12477788,1
+2024-06-06,Pittsburgh Pirates,Los Angeles Dodgers,0,1,0.5527069,0.052706897,0
+2024-06-06,Washington Nationals,Atlanta Braves,0,0,0.4576831,0.042316914,1
+2024-06-06,New York Yankees,Minnesota Twins,1,1,0.8093884,0.3093884,1
+2024-06-06,Cincinnati Reds,Chicago Cubs,1,1,0.79329646,0.29329646,1
+2024-06-06,St. Louis Cardinals,Colorado Rockies,0,1,0.8184376,0.31843758,0
+2024-06-06,Chicago White Sox,Boston Red Sox,0,0,0.16316691,0.3368331,1
+2024-06-06,San Diego Padres,Arizona Diamondbacks,0,1,0.5220165,0.022016525,0
+2024-06-07,St. Louis Cardinals,Colorado Rockies,1,1,0.85774976,0.35774976,1
+2024-06-07,Pittsburgh Pirates,Minnesota Twins,1,1,0.5643984,0.06439841,1
+2024-06-07,Detroit Tigers,Milwaukee Brewers,0,0,0.44586682,0.054133177,1
+2024-06-07,Washington Nationals,Atlanta Braves,1,1,0.5335735,0.03357351,1
+2024-06-07,Tampa Bay Rays,Baltimore Orioles,0,0,0.2438089,0.2561911,1
+2024-06-07,New York Yankees,Los Angeles Dodgers,0,1,0.7971447,0.2971447,0
+2024-06-07,Cincinnati Reds,Chicago Cubs,1,1,0.9247802,0.4247802,1
+2024-06-07,Miami Marlins,Cleveland Guardians,1,0,0.30483514,0.19516486,0
+2024-06-07,Texas Rangers,San Francisco Giants,0,0,0.4399093,0.06009069,1
+2024-06-07,Kansas City Royals,Seattle Mariners,1,1,0.53869265,0.038692653,1
+2024-06-07,Chicago White Sox,Boston Red Sox,1,0,0.22025743,0.27974257,0
+2024-06-07,Los Angeles Angels,Houston Astros,0,0,0.34513012,0.15486988,1
+2024-06-07,San Diego Padres,Arizona Diamondbacks,1,1,0.53464454,0.034644544,1
+2024-06-07,Oakland Athletics,Toronto Blue Jays,1,0,0.39248985,0.10751015,0
+2024-06-08,New York Mets,Philadelphia Phillies,0,0,0.27481863,0.22518137,1
+2024-06-08,Texas Rangers,San Francisco Giants,0,0,0.46097398,0.039026022,1
+2024-06-08,Pittsburgh Pirates,Minnesota Twins,1,1,0.5911823,0.09118229,1
+2024-06-08,Washington Nationals,Atlanta Braves,1,1,0.5624093,0.06240928,1
+2024-06-08,Oakland Athletics,Toronto Blue Jays,0,0,0.40664968,0.09335032,1
+2024-06-08,Cincinnati Reds,Chicago Cubs,1,1,0.9330223,0.43302232,1
+2024-06-08,Kansas City Royals,Seattle Mariners,1,1,0.52676773,0.02676773,1
+2024-06-08,Tampa Bay Rays,Baltimore Orioles,0,0,0.22035375,0.27964625,1
+2024-06-08,Chicago White Sox,Boston Red Sox,1,0,0.272288,0.227712,0
+2024-06-08,Detroit Tigers,Milwaukee Brewers,0,0,0.35759214,0.14240786,1
+2024-06-08,St. Louis Cardinals,Colorado Rockies,0,1,0.7434909,0.24349087,0
+2024-06-08,Miami Marlins,Cleveland Guardians,0,0,0.29883596,0.20116404,1
+2024-06-08,New York Yankees,Los Angeles Dodgers,0,1,0.669917,0.16991699,0
+2024-06-08,San Diego Padres,Arizona Diamondbacks,1,1,0.6082203,0.10822028,1
+2024-06-08,Los Angeles Angels,Houston Astros,0,0,0.25480926,0.24519074,1
+2024-06-09,Philadelphia Phillies,New York Mets,0,1,0.6629728,0.16297281,0
+2024-06-09,Texas Rangers,San Francisco Giants,1,1,0.55156237,0.05156237,1
+2024-06-09,Pittsburgh Pirates,Minnesota Twins,0,1,0.62260014,0.12260014,0
+2024-06-09,Washington Nationals,Atlanta Braves,1,1,0.5404884,0.040488422,1
+2024-06-09,Cincinnati Reds,Chicago Cubs,0,1,0.8833321,0.38333207,0
+2024-06-09,Tampa Bay Rays,Baltimore Orioles,0,0,0.22677797,0.27322203,1
+2024-06-09,Miami Marlins,Cleveland Guardians,0,0,0.28841537,0.21158463,1
+2024-06-09,Detroit Tigers,Milwaukee Brewers,1,1,0.56505686,0.06505686,1
+2024-06-09,Kansas City Royals,Seattle Mariners,0,0,0.32286704,0.17713296,1
+2024-06-09,Chicago White Sox,Boston Red Sox,0,0,0.24084474,0.25915527,1
+2024-06-09,St. Louis Cardinals,Colorado Rockies,1,1,0.7929468,0.29294682,1
+2024-06-09,Los Angeles Angels,Houston Astros,1,0,0.3444956,0.1555044,0
+2024-06-09,Oakland Athletics,Toronto Blue Jays,0,0,0.25463238,0.24536762,1
+2024-06-09,San Diego Padres,Arizona Diamondbacks,0,1,0.5738716,0.07387161,0
+2024-06-09,New York Yankees,Los Angeles Dodgers,1,1,0.64519453,0.14519453,1
+2024-06-10,Tampa Bay Rays,Baltimore Orioles,0,0,0.26458552,0.23541448,1
+2024-06-10,Minnesota Twins,Colorado Rockies,1,1,0.70117795,0.20117795,1
+2024-06-10,Kansas City Royals,New York Yankees,0,0,0.20796274,0.29203725,1
+2024-06-10,Milwaukee Brewers,Toronto Blue Jays,1,1,0.528623,0.028622985,1
+2024-06-10,San Diego Padres,Oakland Athletics,1,1,0.5377934,0.037793398,1
+2024-06-10,Seattle Mariners,Chicago White Sox,1,1,0.9177466,0.4177466,1
+2024-06-10,San Francisco Giants,Houston Astros,1,1,0.5283761,0.028376102,1
+2024-06-11,Baltimore Orioles,Atlanta Braves,1,1,0.8819601,0.3819601,1
+2024-06-11,Detroit Tigers,Washington Nationals,0,1,0.54781103,0.04781103,0
+2024-06-11,Tampa Bay Rays,Chicago Cubs,1,1,0.6978326,0.19783258,1
+2024-06-11,Cincinnati Reds,Cleveland Guardians,0,0,0.45446846,0.04553154,1
+2024-06-11,Boston Red Sox,Philadelphia Phillies,0,0,0.39228517,0.10771483,1
+2024-06-11,New York Mets,Miami Marlins,0,1,0.5334341,0.033434093,0
+2024-06-11,Minnesota Twins,Colorado Rockies,0,1,0.6581547,0.15815473,0
+2024-06-11,St. Louis Cardinals,Pittsburgh Pirates,0,0,0.35901204,0.14098796,1
+2024-06-11,Kansas City Royals,New York Yankees,0,0,0.14908217,0.35091782,1
+2024-06-11,Milwaukee Brewers,Toronto Blue Jays,0,0,0.45349658,0.046503425,1
+2024-06-11,Arizona Diamondbacks,Los Angeles Angels,1,1,0.68519783,0.18519783,1
+2024-06-11,San Diego Padres,Oakland Athletics,1,1,0.61276174,0.112761736,1
+2024-06-11,Seattle Mariners,Chicago White Sox,1,1,0.92092687,0.42092687,1
+2024-06-11,San Francisco Giants,Houston Astros,0,0,0.47269437,0.027305633,1
+2024-06-11,Los Angeles Dodgers,Texas Rangers,1,1,0.59087145,0.09087145,1
+2024-06-12,Minnesota Twins,Colorado Rockies,1,1,0.6848691,0.18486911,1
+2024-06-12,Milwaukee Brewers,Toronto Blue Jays,1,1,0.52664465,0.026644647,1
+2024-06-12,San Francisco Giants,Houston Astros,1,1,0.58423597,0.084235966,1
+2024-06-12,San Diego Padres,Oakland Athletics,1,1,0.61276174,0.112761736,1
+2024-06-12,Baltimore Orioles,Atlanta Braves,1,1,0.9192425,0.4192425,1
+2024-06-12,Detroit Tigers,Washington Nationals,0,1,0.5291086,0.029108584,0
+2024-06-12,Tampa Bay Rays,Chicago Cubs,0,1,0.6546726,0.15467262,0
+2024-06-12,Cincinnati Reds,Cleveland Guardians,1,1,0.5487224,0.048722386,1
+2024-06-12,Boston Red Sox,Philadelphia Phillies,1,0,0.37685457,0.12314543,0
+2024-06-12,New York Mets,Miami Marlins,1,1,0.5923555,0.09235549,1
+2024-06-12,St. Louis Cardinals,Pittsburgh Pirates,1,0,0.47592136,0.024078637,0
+2024-06-12,Kansas City Royals,New York Yankees,0,0,0.074936405,0.4250636,1
+2024-06-12,Arizona Diamondbacks,Los Angeles Angels,0,1,0.6325053,0.1325053,0
+2024-06-12,Seattle Mariners,Chicago White Sox,1,1,0.9270233,0.4270233,1
+2024-06-12,Los Angeles Dodgers,Texas Rangers,0,1,0.50689906,0.006899059,0
+2024-06-13,Baltimore Orioles,Atlanta Braves,0,1,0.86314523,0.36314523,0
+2024-06-13,Detroit Tigers,Washington Nationals,1,1,0.5065697,0.0065696836,1
+2024-06-13,Kansas City Royals,New York Yankees,1,0,0.104930684,0.3950693,0
+2024-06-13,St. Louis Cardinals,Pittsburgh Pirates,1,1,0.61296487,0.11296487,1
+2024-06-13,Tampa Bay Rays,Chicago Cubs,1,1,0.6565592,0.15655923,1
+2024-06-13,Boston Red Sox,Philadelphia Phillies,1,1,0.51896757,0.018967569,1
+2024-06-13,New York Mets,Miami Marlins,1,1,0.5923555,0.09235549,1
+2024-06-13,Minnesota Twins,Oakland Athletics,1,1,0.7480536,0.24805361,1
+2024-06-13,Arizona Diamondbacks,Los Angeles Angels,1,1,0.6800705,0.18007052,1
+2024-06-13,Seattle Mariners,Chicago White Sox,0,1,0.8973181,0.39731812,0
+2024-06-13,Los Angeles Dodgers,Texas Rangers,0,1,0.50937456,0.009374559,0
+2024-06-14,Chicago Cubs,St. Louis Cardinals,0,0,0.27868283,0.22131717,1
+2024-06-14,Boston Red Sox,New York Yankees,0,0,0.121361755,0.37863824,1
+2024-06-14,Washington Nationals,Miami Marlins,1,1,0.6701149,0.17011487,1
+2024-06-14,Baltimore Orioles,Philadelphia Phillies,0,1,0.5781966,0.078196585,0
+2024-06-14,Toronto Blue Jays,Cleveland Guardians,0,1,0.5342403,0.034240305,0
+2024-06-14,New York Mets,San Diego Padres,1,1,0.65930784,0.15930784,1
+2024-06-14,Atlanta Braves,Tampa Bay Rays,1,0,0.47793773,0.022062272,0
+2024-06-14,Houston Astros,Detroit Tigers,1,1,0.50532764,0.005327642,1
+2024-06-14,Minnesota Twins,Oakland Athletics,1,1,0.7628144,0.2628144,1
+2024-06-14,Milwaukee Brewers,Cincinnati Reds,0,0,0.43344256,0.06655744,1
+2024-06-14,Colorado Rockies,Pittsburgh Pirates,0,0,0.33791122,0.16208878,1
+2024-06-14,Arizona Diamondbacks,Chicago White Sox,1,1,0.872291,0.37229103,1
+2024-06-14,Los Angeles Dodgers,Kansas City Royals,1,1,0.71619064,0.21619064,1
+2024-06-14,Seattle Mariners,Texas Rangers,1,1,0.66799945,0.16799945,1
+2024-06-14,San Francisco Giants,Los Angeles Angels,0,1,0.50938517,0.009385169,0
+2024-06-15,Chicago Cubs,St. Louis Cardinals,1,0,0.42990375,0.070096254,0
+2024-06-15,Toronto Blue Jays,Cleveland Guardians,1,1,0.60440904,0.10440904,1
+2024-06-15,San Francisco Giants,Los Angeles Angels,0,0,0.38106534,0.11893466,1
+2024-06-15,Baltimore Orioles,Philadelphia Phillies,1,1,0.5825434,0.08254337,1
+2024-06-15,Washington Nationals,Miami Marlins,1,1,0.6729868,0.1729868,1
+2024-06-15,Houston Astros,Detroit Tigers,0,1,0.56085074,0.06085074,0
+2024-06-15,New York Mets,San Diego Padres,1,1,0.7177941,0.21779412,1
+2024-06-15,Atlanta Braves,Tampa Bay Rays,1,1,0.5589995,0.05899948,1
+2024-06-15,Milwaukee Brewers,Cincinnati Reds,1,0,0.4438913,0.056108713,0
+2024-06-15,Seattle Mariners,Texas Rangers,1,1,0.78597564,0.28597564,1
+2024-06-15,Boston Red Sox,New York Yankees,1,0,0.2084719,0.2915281,0
+2024-06-15,Los Angeles Dodgers,Kansas City Royals,0,1,0.6750486,0.17504859,0
+2024-06-15,Colorado Rockies,Pittsburgh Pirates,1,0,0.3795882,0.12041181,0
+2024-06-15,Arizona Diamondbacks,Chicago White Sox,0,1,0.8193495,0.31934953,0
+2024-06-16,Chicago Cubs,St. Louis Cardinals,0,0,0.36079732,0.13920268,1
+2024-06-16,Baltimore Orioles,Philadelphia Phillies,1,1,0.594073,0.094073,1
+2024-06-16,Atlanta Braves,Tampa Bay Rays,0,1,0.5352872,0.0352872,0
+2024-06-16,Washington Nationals,Miami Marlins,1,1,0.7098191,0.20981908,1
+2024-06-16,Toronto Blue Jays,Cleveland Guardians,1,1,0.5982238,0.098223805,1
+2024-06-16,New York Mets,San Diego Padres,1,1,0.76121986,0.26121986,1
+2024-06-16,Houston Astros,Detroit Tigers,1,1,0.6272458,0.12724578,1
+2024-06-16,Minnesota Twins,Oakland Athletics,1,1,0.76221234,0.26221234,1
+2024-06-16,Minnesota Twins,Oakland Athletics,1,1,0.76221234,0.26221234,1
+2024-06-16,Milwaukee Brewers,Cincinnati Reds,1,0,0.44157606,0.058423936,0
+2024-06-16,Colorado Rockies,Pittsburgh Pirates,0,0,0.36440825,0.13559175,1
+2024-06-16,San Francisco Giants,Los Angeles Angels,1,0,0.49434584,0.005654156,0
+2024-06-16,Los Angeles Dodgers,Kansas City Royals,1,1,0.66546464,0.16546464,1
+2024-06-16,Seattle Mariners,Texas Rangers,1,1,0.7927875,0.2927875,1
+2024-06-16,Arizona Diamondbacks,Chicago White Sox,1,1,0.82591873,0.32591873,1
+2024-06-16,Boston Red Sox,New York Yankees,1,0,0.3391369,0.1608631,0
+2024-06-17,Pittsburgh Pirates,Cincinnati Reds,1,1,0.51942545,0.019425452,1
+2024-06-17,Philadelphia Phillies,San Diego Padres,1,1,0.81400245,0.31400245,1
+2024-06-17,Miami Marlins,St. Louis Cardinals,0,0,0.15134016,0.34865984,1
+2024-06-17,Toronto Blue Jays,Boston Red Sox,0,1,0.50820786,0.008207858,0
+2024-06-17,Atlanta Braves,Detroit Tigers,1,1,0.6048675,0.10486752,1
+2024-06-17,Chicago Cubs,San Francisco Giants,0,1,0.5172336,0.01723361,0
+2024-06-17,Texas Rangers,New York Mets,0,0,0.27874482,0.22125518,1
+2024-06-17,Colorado Rockies,Los Angeles Dodgers,0,0,0.18160549,0.3183945,1
+2024-06-17,Los Angeles Angels,Milwaukee Brewers,1,0,0.4767734,0.023226589,0
+2024-06-18,Miami Marlins,St. Louis Cardinals,1,0,0.20492092,0.29507908,0
+2024-06-18,Pittsburgh Pirates,Cincinnati Reds,0,0,0.31030536,0.18969464,1
+2024-06-18,Cleveland Guardians,Seattle Mariners,0,0,0.32551166,0.17448834,1
+2024-06-18,Philadelphia Phillies,San Diego Padres,1,1,0.81400245,0.31400245,1
+2024-06-18,Washington Nationals,Arizona Diamondbacks,0,0,0.31407973,0.18592027,1
+2024-06-18,New York Yankees,Baltimore Orioles,1,0,0.42170724,0.07829276,0
+2024-06-18,Toronto Blue Jays,Boston Red Sox,0,0,0.44018263,0.059817374,1
+2024-06-18,Atlanta Braves,Detroit Tigers,1,1,0.66437894,0.16437894,1
+2024-06-18,Minnesota Twins,Tampa Bay Rays,1,1,0.77115434,0.27115434,1
+2024-06-18,Chicago Cubs,San Francisco Giants,1,1,0.507059,0.007058978,1
+2024-06-18,Texas Rangers,New York Mets,0,0,0.21712811,0.2828719,1
+2024-06-18,Chicago White Sox,Houston Astros,1,0,0.37692204,0.12307796,0
+2024-06-18,Colorado Rockies,Los Angeles Dodgers,0,0,0.17866965,0.32133037,1
+2024-06-18,Los Angeles Angels,Milwaukee Brewers,0,1,0.5132987,0.01329869,0
+2024-06-18,Oakland Athletics,Kansas City Royals,1,0,0.30071554,0.19928446,0
+2024-06-19,Atlanta Braves,Detroit Tigers,1,1,0.67925966,0.17925966,1
+2024-06-19,Pittsburgh Pirates,Cincinnati Reds,1,1,0.53506374,0.035063744,1
+2024-06-19,Miami Marlins,St. Louis Cardinals,1,0,0.2807516,0.21924841,0
+2024-06-19,Philadelphia Phillies,San Diego Padres,0,1,0.75105,0.25105,0
+2024-06-19,Chicago Cubs,San Francisco Giants,1,1,0.6267632,0.12676322,1
+2024-06-19,Washington Nationals,Arizona Diamondbacks,1,0,0.48472646,0.015273541,0
+2024-06-19,Cleveland Guardians,Seattle Mariners,1,0,0.36279368,0.13720632,0
+2024-06-19,New York Yankees,Baltimore Orioles,0,0,0.3111132,0.18888679,1
+2024-06-19,Toronto Blue Jays,Boston Red Sox,0,0,0.34152254,0.15847746,1
+2024-06-19,Minnesota Twins,Tampa Bay Rays,0,1,0.62099814,0.120998144,0
+2024-06-19,Texas Rangers,New York Mets,1,0,0.20499286,0.29500714,0
+2024-06-19,Chicago White Sox,Houston Astros,0,0,0.33276236,0.16723764,1
+2024-06-19,Colorado Rockies,Los Angeles Dodgers,1,0,0.33750403,0.16249597,0
+2024-06-19,Los Angeles Angels,Milwaukee Brewers,0,0,0.4785773,0.021422714,1
+2024-06-19,Oakland Athletics,Kansas City Royals,1,0,0.45467982,0.045320183,0
+2024-06-20,Washington Nationals,Arizona Diamondbacks,0,0,0.49929646,0.0007035434,1
+2024-06-20,Cleveland Guardians,Seattle Mariners,1,1,0.50647044,0.006470442,1
+2024-06-20,Minnesota Twins,Tampa Bay Rays,0,1,0.6091628,0.10916281,0
+2024-06-20,Chicago White Sox,Houston Astros,0,0,0.33468798,0.16531202,1
+2024-06-20,Colorado Rockies,Los Angeles Dodgers,0,0,0.27937356,0.22062644,1
+2024-06-20,Oakland Athletics,Kansas City Royals,0,0,0.45467982,0.045320183,1
+2024-06-20,New York Yankees,Baltimore Orioles,0,0,0.26269752,0.23730248,1
+2024-06-20,St. Louis Cardinals,San Francisco Giants,1,1,0.710046,0.210046,1
+2024-06-20,San Diego Padres,Milwaukee Brewers,1,0,0.46394593,0.036054075,0
+2024-06-21,Chicago Cubs,New York Mets,0,0,0.13455723,0.36544275,1
+2024-06-21,Pittsburgh Pirates,Tampa Bay Rays,0,1,0.5557235,0.05572349,0
+2024-06-21,Philadelphia Phillies,Arizona Diamondbacks,0,1,0.5125466,0.012546599,0
+2024-06-21,Detroit Tigers,Chicago White Sox,1,1,0.53760034,0.03760034,1
+2024-06-21,New York Yankees,Atlanta Braves,0,1,0.5053688,0.005368829,0
+2024-06-21,Cincinnati Reds,Boston Red Sox,1,0,0.38803858,0.111961424,0
+2024-06-21,Cleveland Guardians,Toronto Blue Jays,1,1,0.52428627,0.02428627,1
+2024-06-21,Miami Marlins,Seattle Mariners,1,0,0.29850915,0.20149085,0
+2024-06-21,Texas Rangers,Kansas City Royals,1,1,0.5724687,0.0724687,1
+2024-06-21,Houston Astros,Baltimore Orioles,1,0,0.30634692,0.19365308,0
+2024-06-21,Colorado Rockies,Washington Nationals,0,0,0.18578455,0.31421545,1
+2024-06-21,Oakland Athletics,Minnesota Twins,1,0,0.387689,0.112311006,0
+2024-06-21,San Diego Padres,Milwaukee Brewers,1,1,0.5015889,0.001588881,1
+2024-06-21,Los Angeles Dodgers,Los Angeles Angels,0,1,0.61696243,0.11696243,0
+2024-06-22,Detroit Tigers,Chicago White Sox,0,0,0.31869107,0.18130893,1
+2024-06-22,St. Louis Cardinals,San Francisco Giants,1,1,0.6747626,0.1747626,1
+2024-06-22,Chicago Cubs,New York Mets,1,0,0.2428257,0.2571743,0
+2024-06-22,Pittsburgh Pirates,Tampa Bay Rays,1,1,0.6595583,0.1595583,1
+2024-06-22,Texas Rangers,Kansas City Royals,1,1,0.6447667,0.14476669,1
+2024-06-22,Philadelphia Phillies,Arizona Diamondbacks,1,1,0.54510224,0.04510224,1
+2024-06-22,Oakland Athletics,Minnesota Twins,0,0,0.2626519,0.23734811,1
+2024-06-22,Cincinnati Reds,Boston Red Sox,0,0,0.31229463,0.18770537,1
+2024-06-22,Houston Astros,Baltimore Orioles,1,0,0.30665,0.19334999,0
+2024-06-22,Cleveland Guardians,Toronto Blue Jays,1,1,0.6593126,0.1593126,1
+2024-06-22,Miami Marlins,Seattle Mariners,0,0,0.3439556,0.1560444,1
+2024-06-22,New York Yankees,Atlanta Braves,1,1,0.52435434,0.024354339,1
+2024-06-22,San Diego Padres,Milwaukee Brewers,1,1,0.5326439,0.032643914,1
+2024-06-22,Colorado Rockies,Washington Nationals,1,0,0.20653416,0.29346585,0
+2024-06-22,Los Angeles Dodgers,Los Angeles Angels,1,1,0.7241363,0.2241363,1
+2024-06-23,Philadelphia Phillies,Arizona Diamondbacks,1,1,0.57274854,0.07274854,1
+2024-06-23,Pittsburgh Pirates,Tampa Bay Rays,0,1,0.58868843,0.08868843,0
+2024-06-23,New York Yankees,Atlanta Braves,0,1,0.5084394,0.008439422,0
+2024-06-23,Cincinnati Reds,Boston Red Sox,0,0,0.287408,0.212592,1
+2024-06-23,Cleveland Guardians,Toronto Blue Jays,1,1,0.71139497,0.21139497,1
+2024-06-23,Detroit Tigers,Chicago White Sox,1,1,0.56272095,0.062720954,1
+2024-06-23,Miami Marlins,Seattle Mariners,1,0,0.37003177,0.12996823,0
+2024-06-23,Houston Astros,Baltimore Orioles,1,0,0.472602,0.02739799,0
+2024-06-23,St. Louis Cardinals,San Francisco Giants,1,1,0.7567125,0.2567125,1
+2024-06-23,Texas Rangers,Kansas City Royals,1,1,0.66704434,0.16704434,1
+2024-06-23,Colorado Rockies,Washington Nationals,0,0,0.18731768,0.31268233,1
+2024-06-23,Oakland Athletics,Minnesota Twins,0,0,0.13332078,0.36667922,1
+2024-06-23,San Diego Padres,Milwaukee Brewers,0,1,0.50770944,0.0077094436,0
+2024-06-23,Chicago Cubs,New York Mets,0,0,0.23693581,0.2630642,1
+2024-06-24,Baltimore Orioles,Cleveland Guardians,0,0,0.26971585,0.23028415,1
+2024-06-24,Detroit Tigers,Philadelphia Phillies,0,0,0.3286435,0.1713565,1
+2024-06-24,Tampa Bay Rays,Seattle Mariners,1,1,0.519867,0.019867003,1
+2024-06-24,Cincinnati Reds,Pittsburgh Pirates,1,0,0.4690017,0.03099829,0
+2024-06-24,Boston Red Sox,Toronto Blue Jays,1,1,0.83532864,0.33532864,1
+2024-06-24,St. Louis Cardinals,Atlanta Braves,1,1,0.5742978,0.074297786,1
+2024-06-24,Chicago White Sox,Los Angeles Dodgers,0,0,0.21539457,0.28460544,1
+2024-06-24,Kansas City Royals,Miami Marlins,1,0,0.38400757,0.11599243,0
+2024-06-24,Milwaukee Brewers,Texas Rangers,1,1,0.5821222,0.08212221,1
+2024-06-24,Los Angeles Angels,Oakland Athletics,1,1,0.6163431,0.11634308,1
+2024-06-24,San Diego Padres,Washington Nationals,1,0,0.4288753,0.0711247,0
+2024-06-24,San Francisco Giants,Chicago Cubs,1,1,0.5452768,0.04527682,1
+2024-06-25,Baltimore Orioles,Cleveland Guardians,0,0,0.186868,0.313132,1
+2024-06-25,Detroit Tigers,Philadelphia Phillies,1,0,0.4873027,0.012697309,0
+2024-06-25,Tampa Bay Rays,Seattle Mariners,1,1,0.64905715,0.14905715,1
+2024-06-25,Cincinnati Reds,Pittsburgh Pirates,0,0,0.3685353,0.13146469,1
+2024-06-25,Boston Red Sox,Toronto Blue Jays,0,1,0.84077775,0.34077775,0
+2024-06-25,New York Mets,New York Yankees,1,1,0.74929744,0.24929744,1
+2024-06-25,Houston Astros,Colorado Rockies,1,1,0.9056963,0.40569627,1
+2024-06-25,Chicago White Sox,Los Angeles Dodgers,0,0,0.28509465,0.21490535,1
+2024-06-25,Kansas City Royals,Miami Marlins,0,0,0.2741375,0.2258625,1
+2024-06-25,Milwaukee Brewers,Texas Rangers,1,1,0.63919693,0.13919693,1
+2024-06-25,Los Angeles Angels,Oakland Athletics,1,1,0.6830656,0.1830656,1
+2024-06-25,San Diego Padres,Washington Nationals,1,1,0.5248507,0.024850726,1
+2024-06-25,Arizona Diamondbacks,Minnesota Twins,1,0,0.49925765,0.00074234605,0
+2024-06-25,San Francisco Giants,Chicago Cubs,1,1,0.50064564,0.0006456375,1
+2024-06-26,Tampa Bay Rays,Seattle Mariners,0,1,0.6513552,0.1513552,0
+2024-06-26,Cincinnati Reds,Pittsburgh Pirates,0,0,0.2906953,0.20930469,1
+2024-06-26,Detroit Tigers,Philadelphia Phillies,0,0,0.39623556,0.103764445,1
+2024-06-26,St. Louis Cardinals,Atlanta Braves,0,1,0.5910731,0.091073096,0
+2024-06-26,St. Louis Cardinals,Atlanta Braves,1,1,0.6400357,0.14003569,1
+2024-06-26,Houston Astros,Colorado Rockies,1,1,0.90368056,0.40368056,1
+2024-06-26,Kansas City Royals,Miami Marlins,1,0,0.3675388,0.13246119,0
+2024-06-26,Milwaukee Brewers,Texas Rangers,1,1,0.6817946,0.18179458,1
+2024-06-26,Los Angeles Angels,Oakland Athletics,1,1,0.7939251,0.2939251,1
+2024-06-26,San Diego Padres,Washington Nationals,1,1,0.6032239,0.10322392,1
+2024-06-26,Baltimore Orioles,Cleveland Guardians,1,0,0.23131514,0.26868486,0
+2024-06-26,Boston Red Sox,Toronto Blue Jays,0,0,0.17634013,0.32365987,1
+2024-06-26,New York Mets,New York Yankees,1,1,0.9120367,0.41203672,1
+2024-06-26,Chicago White Sox,Los Angeles Dodgers,0,0,0.16188614,0.33811384,1
+2024-06-26,Arizona Diamondbacks,Minnesota Twins,0,0,0.46571636,0.034283638,1
+2024-06-26,San Francisco Giants,Chicago Cubs,1,1,0.5656838,0.06568378,1
+2024-06-27,Arizona Diamondbacks,Minnesota Twins,0,0,0.4109937,0.089006305,1
+2024-06-27,San Francisco Giants,Chicago Cubs,0,1,0.533225,0.033225,0
+2024-06-27,Chicago White Sox,Atlanta Braves,1,0,0.24063441,0.2593656,0
+2024-06-27,Philadelphia Phillies,Miami Marlins,0,1,0.6174507,0.117450714,0
+2024-06-27,Baltimore Orioles,Texas Rangers,1,1,0.57208794,0.07208794,1
+2024-06-27,Toronto Blue Jays,New York Yankees,1,1,0.603187,0.103187025,1
+2024-06-27,St. Louis Cardinals,Cincinnati Reds,0,1,0.7476234,0.24762338,0
+2024-06-27,Kansas City Royals,Cleveland Guardians,1,0,0.4008659,0.09913409,0
+2024-06-27,Los Angeles Angels,Detroit Tigers,1,1,0.60420305,0.104203045,1
+2024-06-28,Philadelphia Phillies,Miami Marlins,1,1,0.64814013,0.14814013,1
+2024-06-28,Tampa Bay Rays,Washington Nationals,1,1,0.6839356,0.18393558,1
+2024-06-28,Baltimore Orioles,Texas Rangers,1,1,0.64495796,0.14495796,1
+2024-06-28,Toronto Blue Jays,New York Yankees,0,1,0.56895465,0.06895465,0
+2024-06-28,New York Mets,Houston Astros,1,1,0.7385401,0.23854011,1
+2024-06-28,Boston Red Sox,San Diego Padres,0,1,0.5251773,0.0251773,0
+2024-06-28,Chicago White Sox,Colorado Rockies,1,1,0.61870664,0.11870664,1
+2024-06-28,Atlanta Braves,Pittsburgh Pirates,1,1,0.63912046,0.13912046,1
+2024-06-28,Kansas City Royals,Cleveland Guardians,1,1,0.5799009,0.07990092,1
+2024-06-28,Milwaukee Brewers,Chicago Cubs,1,1,0.75386536,0.25386536,1
+2024-06-28,St. Louis Cardinals,Cincinnati Reds,1,1,0.7355261,0.23552608,1
+2024-06-28,Los Angeles Angels,Detroit Tigers,1,1,0.62040013,0.12040013,1
+2024-06-28,Arizona Diamondbacks,Oakland Athletics,0,1,0.651297,0.15129697,0
+2024-06-28,Seattle Mariners,Minnesota Twins,1,0,0.37789223,0.122107774,0
+2024-06-28,San Francisco Giants,Los Angeles Dodgers,1,0,0.41274777,0.08725223,0
+2024-06-29,Chicago White Sox,Colorado Rockies,1,1,0.8502351,0.3502351,1
+2024-06-29,St. Louis Cardinals,Cincinnati Reds,0,1,0.7464351,0.2464351,0
+2024-06-29,Toronto Blue Jays,New York Yankees,1,1,0.745162,0.24516201,1
+2024-06-29,Philadelphia Phillies,Miami Marlins,0,1,0.5636544,0.06365442,0
+2024-06-29,Kansas City Royals,Cleveland Guardians,0,0,0.39395842,0.10604158,1
+2024-06-29,New York Mets,Houston Astros,0,1,0.6594799,0.15947992,0
+2024-06-29,Arizona Diamondbacks,Oakland Athletics,1,1,0.7029443,0.20294428,1
+2024-06-29,Boston Red Sox,San Diego Padres,0,0,0.48522395,0.014776051,1
+2024-06-29,Tampa Bay Rays,Washington Nationals,0,1,0.6860354,0.1860354,0
+2024-06-29,Atlanta Braves,Pittsburgh Pirates,1,1,0.6483912,0.14839119,1
+2024-06-29,Milwaukee Brewers,Chicago Cubs,0,1,0.6261498,0.12614977,0
+2024-06-29,San Francisco Giants,Los Angeles Dodgers,0,0,0.31439593,0.18560407,1
+2024-06-29,Baltimore Orioles,Texas Rangers,1,1,0.7221107,0.22211069,1
+2024-06-29,Los Angeles Angels,Detroit Tigers,1,1,0.69937086,0.19937086,1
+2024-06-29,Seattle Mariners,Minnesota Twins,0,0,0.40736035,0.092639655,1
+2024-06-30,Atlanta Braves,Pittsburgh Pirates,0,1,0.5869494,0.08694941,0
+2024-06-30,Boston Red Sox,San Diego Padres,1,0,0.47039074,0.029609263,0
+2024-06-30,Philadelphia Phillies,Miami Marlins,1,1,0.55294126,0.052941263,1
+2024-06-30,Toronto Blue Jays,New York Yankees,0,1,0.5843863,0.08438629,0
+2024-06-30,New York Mets,Houston Astros,0,0,0.43772084,0.062279165,1
+2024-06-30,Tampa Bay Rays,Washington Nationals,1,1,0.6798835,0.17988348,1
+2024-06-30,Kansas City Royals,Cleveland Guardians,1,1,0.58179706,0.08179706,1
+2024-06-30,Chicago White Sox,Colorado Rockies,0,1,0.72313267,0.22313267,0
+2024-06-30,Milwaukee Brewers,Chicago Cubs,1,1,0.7447379,0.24473792,1
+2024-06-30,St. Louis Cardinals,Cincinnati Reds,1,1,0.7422182,0.2422182,1
+2024-06-30,San Francisco Giants,Los Angeles Dodgers,1,0,0.30478966,0.19521034,0
+2024-06-30,Los Angeles Angels,Detroit Tigers,0,1,0.65610814,0.15610814,0
+2024-06-30,Arizona Diamondbacks,Oakland Athletics,1,1,0.672918,0.17291802,1
+2024-06-30,Seattle Mariners,Minnesota Twins,0,0,0.39061296,0.10938704,1
+2024-06-30,Baltimore Orioles,Texas Rangers,0,1,0.71551865,0.21551865,0
+2024-07-01,Toronto Blue Jays,Houston Astros,0,0,0.091415726,0.40858427,1
+2024-07-01,Washington Nationals,New York Mets,0,0,0.2730401,0.22695991,1
+2024-07-01,Colorado Rockies,Milwaukee Brewers,1,0,0.29385248,0.20614752,0
+2024-07-02,Pittsburgh Pirates,St. Louis Cardinals,0,0,0.37217787,0.12782213,1
+2024-07-02,Cleveland Guardians,Chicago White Sox,1,1,0.8310264,0.33102638,1
+2024-07-02,Miami Marlins,Boston Red Sox,0,0,0.33356348,0.16643652,1
+2024-07-02,Washington Nationals,New York Mets,0,0,0.23888989,0.26111013,1
+2024-07-02,New York Yankees,Cincinnati Reds,0,0,0.36842588,0.13157412,1
+2024-07-02,Toronto Blue Jays,Houston Astros,1,0,0.2134806,0.2865194,0
+2024-07-02,Atlanta Braves,San Francisco Giants,0,1,0.5984608,0.09846079,0
+2024-07-02,Minnesota Twins,Detroit Tigers,1,1,0.87075806,0.37075806,1
+2024-07-02,Texas Rangers,San Diego Padres,1,0,0.31491747,0.18508253,0
+2024-07-02,Chicago Cubs,Philadelphia Phillies,0,0,0.39472252,0.10527748,1
+2024-07-02,Kansas City Royals,Tampa Bay Rays,0,0,0.42321563,0.07678437,1
+2024-07-02,Colorado Rockies,Milwaukee Brewers,0,0,0.22054079,0.2794592,1
+2024-07-02,Oakland Athletics,Los Angeles Angels,1,0,0.33383477,0.16616523,0
+2024-07-02,Seattle Mariners,Baltimore Orioles,0,1,0.53842235,0.038422346,0
+2024-07-02,Los Angeles Dodgers,Arizona Diamondbacks,1,1,0.6985733,0.19857329,1
+2024-07-03,Pittsburgh Pirates,St. Louis Cardinals,1,1,0.54867285,0.048672855,1
+2024-07-03,Cleveland Guardians,Chicago White Sox,0,1,0.73798716,0.23798716,0
+2024-07-03,Miami Marlins,Boston Red Sox,0,0,0.34483412,0.15516588,1
+2024-07-03,Washington Nationals,New York Mets,1,0,0.29364583,0.20635417,0
+2024-07-03,New York Yankees,Cincinnati Reds,0,0,0.32613263,0.17386737,1
+2024-07-03,Toronto Blue Jays,Houston Astros,0,0,0.09983577,0.40016425,1
+2024-07-03,Atlanta Braves,San Francisco Giants,1,1,0.68274766,0.18274766,1
+2024-07-03,Texas Rangers,San Diego Padres,0,0,0.26565978,0.23434022,1
+2024-07-03,Chicago Cubs,Philadelphia Phillies,0,0,0.28346148,0.21653852,1
+2024-07-03,Kansas City Royals,Tampa Bay Rays,1,0,0.38258174,0.11741826,0
+2024-07-03,Minnesota Twins,Detroit Tigers,0,1,0.79369736,0.29369736,0
+2024-07-03,Colorado Rockies,Milwaukee Brewers,0,0,0.20167491,0.2983251,1
+2024-07-03,Oakland Athletics,Los Angeles Angels,1,0,0.37234408,0.12765592,0
+2024-07-03,Los Angeles Dodgers,Arizona Diamondbacks,0,1,0.66241074,0.16241074,0
+2024-07-03,Seattle Mariners,Baltimore Orioles,0,0,0.3933898,0.10661021,1
+2024-07-04,Washington Nationals,New York Mets,1,0,0.3530046,0.1469954,0
+2024-07-04,Pittsburgh Pirates,St. Louis Cardinals,0,1,0.5048063,0.00480628,0
+2024-07-04,New York Yankees,Cincinnati Reds,0,0,0.33023527,0.16976473,1
+2024-07-04,Toronto Blue Jays,Houston Astros,0,0,0.10080996,0.39919004,1
+2024-07-04,Cleveland Guardians,Chicago White Sox,1,1,0.79303914,0.29303914,1
+2024-07-04,Miami Marlins,Boston Red Sox,0,0,0.32067934,0.17932066,1
+2024-07-04,Chicago Cubs,Philadelphia Phillies,1,0,0.37979707,0.12020293,0
+2024-07-04,Texas Rangers,San Diego Padres,0,0,0.23277403,0.26722598,1
+2024-07-04,Oakland Athletics,Los Angeles Angels,1,0,0.45823076,0.041769236,0
+2024-07-04,Seattle Mariners,Baltimore Orioles,1,0,0.39745006,0.10254994,0
+2024-07-04,Atlanta Braves,San Francisco Giants,0,1,0.6417003,0.14170033,0
+2024-07-04,Kansas City Royals,Tampa Bay Rays,0,0,0.3826755,0.1173245,1
+2024-07-04,Colorado Rockies,Milwaukee Brewers,1,0,0.2928,0.20719999,0
+2024-07-04,Los Angeles Dodgers,Arizona Diamondbacks,0,1,0.6295465,0.12954652,0
+2024-07-05,Chicago Cubs,Los Angeles Angels,1,0,0.46563107,0.034368932,0
+2024-07-05,Pittsburgh Pirates,New York Mets,1,1,0.52641463,0.026414633,1
+2024-07-05,Washington Nationals,St. Louis Cardinals,0,0,0.19966878,0.30033123,1
+2024-07-05,New York Yankees,Boston Red Sox,0,0,0.09074483,0.40925518,1
+2024-07-05,Cincinnati Reds,Detroit Tigers,0,1,0.52207214,0.022072136,0
+2024-07-05,Cleveland Guardians,San Francisco Giants,0,1,0.6385726,0.13857257,0
+2024-07-05,Miami Marlins,Chicago White Sox,0,0,0.4211287,0.07887131,1
+2024-07-05,Atlanta Braves,Philadelphia Phillies,0,0,0.49914816,0.0008518398,1
+2024-07-05,Texas Rangers,Tampa Bay Rays,1,0,0.28451982,0.21548018,0
+2024-07-05,Colorado Rockies,Kansas City Royals,1,0,0.44781822,0.05218178,0
+2024-07-05,Minnesota Twins,Houston Astros,0,0,0.117826454,0.38217354,1
+2024-07-05,Oakland Athletics,Baltimore Orioles,0,0,0.47952518,0.020474821,1
+2024-07-05,San Diego Padres,Arizona Diamondbacks,1,1,0.80052555,0.30052555,1
+2024-07-05,Seattle Mariners,Toronto Blue Jays,1,1,0.51974756,0.019747555,1
+2024-07-05,Los Angeles Dodgers,Milwaukee Brewers,1,1,0.6456405,0.14564049,1
+2024-07-06,New York Yankees,Boston Red Sox,1,0,0.14627692,0.35372308,0
+2024-07-06,Minnesota Twins,Houston Astros,1,0,0.12207626,0.37792373,0
+2024-07-06,Chicago Cubs,Los Angeles Angels,0,0,0.41114983,0.08885017,1
+2024-07-06,Pittsburgh Pirates,New York Mets,0,1,0.51042926,0.010429263,0
+2024-07-06,Washington Nationals,St. Louis Cardinals,1,0,0.23820315,0.26179683,0
+2024-07-06,Texas Rangers,Tampa Bay Rays,1,0,0.41726354,0.08273646,0
+2024-07-06,Oakland Athletics,Baltimore Orioles,1,0,0.45772365,0.042276353,0
+2024-07-06,Cincinnati Reds,Detroit Tigers,0,0,0.470582,0.029417992,1
+2024-07-06,Cleveland Guardians,San Francisco Giants,1,1,0.6192051,0.11920512,1
+2024-07-06,Seattle Mariners,Toronto Blue Jays,0,0,0.4690907,0.0309093,1
+2024-07-06,Miami Marlins,Chicago White Sox,1,0,0.4314268,0.06857321,0
+2024-07-06,Atlanta Braves,Philadelphia Phillies,1,0,0.48059186,0.019408137,0
+2024-07-06,Los Angeles Dodgers,Milwaukee Brewers,1,1,0.63150024,0.13150024,1
+2024-07-06,Colorado Rockies,Kansas City Royals,1,1,0.5565475,0.056547523,1
+2024-07-06,San Diego Padres,Arizona Diamondbacks,0,1,0.7373112,0.23731118,0
+2024-07-07,Pittsburgh Pirates,New York Mets,0,0,0.3889014,0.11109859,1
+2024-07-07,Washington Nationals,St. Louis Cardinals,0,0,0.22869147,0.27130854,1
+2024-07-07,Atlanta Braves,Philadelphia Phillies,1,0,0.4785216,0.021478415,0
+2024-07-07,Cincinnati Reds,Detroit Tigers,0,0,0.3041787,0.19582129,1
+2024-07-07,Cleveland Guardians,San Francisco Giants,1,1,0.62268037,0.122680366,1
+2024-07-07,Miami Marlins,Chicago White Sox,1,0,0.43212992,0.06787008,0
+2024-07-07,Minnesota Twins,Houston Astros,1,0,0.25654802,0.24345198,0
+2024-07-07,Chicago Cubs,Los Angeles Angels,1,0,0.38901237,0.11098763,0
+2024-07-07,Texas Rangers,Tampa Bay Rays,1,0,0.45391408,0.046085924,0
+2024-07-07,Colorado Rockies,Kansas City Royals,0,0,0.48291665,0.017083347,1
+2024-07-07,Oakland Athletics,Baltimore Orioles,0,0,0.39107394,0.10892606,1
+2024-07-07,San Diego Padres,Arizona Diamondbacks,0,1,0.5936276,0.09362757,0
+2024-07-07,Seattle Mariners,Toronto Blue Jays,0,0,0.36340895,0.13659105,1
+2024-07-07,Los Angeles Dodgers,Milwaukee Brewers,0,1,0.5415464,0.041546404,0
+2024-07-07,New York Yankees,Boston Red Sox,0,0,0.15217958,0.3478204,1
+2024-07-08,Pittsburgh Pirates,New York Mets,1,0,0.49514645,0.0048535466,0
+2024-07-08,Washington Nationals,St. Louis Cardinals,0,0,0.21495762,0.28504238,1
+2024-07-08,Detroit Tigers,Cleveland Guardians,1,1,0.5923008,0.09230077,1
+2024-07-08,Cincinnati Reds,Colorado Rockies,1,1,0.55675083,0.056750834,1
+2024-07-08,Chicago White Sox,Minnesota Twins,0,0,0.22559099,0.274409,1
+2024-07-08,Los Angeles Angels,Texas Rangers,0,1,0.5759469,0.07594693,0
+2024-07-08,Arizona Diamondbacks,Atlanta Braves,0,0,0.4522816,0.047718406,1
+2024-07-09,Baltimore Orioles,Chicago Cubs,0,1,0.66863555,0.16863555,0
+2024-07-09,Detroit Tigers,Cleveland Guardians,0,1,0.60218775,0.10218775,0
+2024-07-09,Philadelphia Phillies,Los Angeles Dodgers,1,1,0.7107365,0.21073651,1
+2024-07-09,Tampa Bay Rays,New York Yankees,1,1,0.706073,0.20607299,1
+2024-07-09,Cincinnati Reds,Colorado Rockies,1,1,0.6644868,0.16448683,1
+2024-07-09,New York Mets,Washington Nationals,1,1,0.74394226,0.24394226,1
+2024-07-09,Boston Red Sox,Oakland Athletics,1,1,0.7559748,0.25597483,1
+2024-07-09,Houston Astros,Miami Marlins,1,1,0.76149863,0.26149863,1
+2024-07-09,Milwaukee Brewers,Pittsburgh Pirates,0,1,0.64636284,0.14636284,0
+2024-07-09,Los Angeles Angels,Texas Rangers,0,1,0.5481848,0.048184812,0
+2024-07-09,San Diego Padres,Seattle Mariners,0,1,0.79954255,0.29954255,0
+2024-07-09,Arizona Diamondbacks,Atlanta Braves,0,0,0.46943966,0.030560344,1
+2024-07-09,San Francisco Giants,Toronto Blue Jays,1,1,0.68440986,0.18440986,1
+2024-07-10,St. Louis Cardinals,Kansas City Royals,0,1,0.5077174,0.007717371,0
+2024-07-10,St. Louis Cardinals,Kansas City Royals,0,1,0.59098893,0.090988934,0
+2024-07-10,Chicago White Sox,Minnesota Twins,1,0,0.2867311,0.2132689,0
+2024-07-10,Chicago White Sox,Minnesota Twins,0,0,0.19390602,0.306094,1
+2024-07-10,Baltimore Orioles,Chicago Cubs,0,1,0.61508656,0.115086555,0
+2024-07-10,Detroit Tigers,Cleveland Guardians,1,1,0.67102766,0.17102766,1
+2024-07-10,San Diego Padres,Seattle Mariners,0,1,0.7909386,0.29093862,0
+2024-07-10,Tampa Bay Rays,New York Yankees,0,1,0.71232474,0.21232474,0
+2024-07-10,Philadelphia Phillies,Los Angeles Dodgers,1,1,0.7036129,0.20361292,1
+2024-07-10,Cincinnati Reds,Colorado Rockies,0,1,0.5399049,0.039904892,0
+2024-07-10,New York Mets,Washington Nationals,1,1,0.7509343,0.2509343,1
+2024-07-10,Boston Red Sox,Oakland Athletics,0,1,0.7319568,0.23195678,0
+2024-07-10,Houston Astros,Miami Marlins,1,1,0.8251435,0.32514352,1
+2024-07-10,Milwaukee Brewers,Pittsburgh Pirates,1,1,0.59151536,0.09151536,1
+2024-07-10,Los Angeles Angels,Texas Rangers,1,1,0.54634,0.04633999,1
+2024-07-10,Arizona Diamondbacks,Atlanta Braves,1,1,0.52140254,0.021402538,1
+2024-07-10,San Francisco Giants,Toronto Blue Jays,0,1,0.66144496,0.16144496,0
+2024-07-11,Cincinnati Reds,Colorado Rockies,1,1,0.6328894,0.13288939,1
+2024-07-11,Detroit Tigers,Cleveland Guardians,1,1,0.76194066,0.26194066,1
+2024-07-11,New York Mets,Washington Nationals,1,1,0.7412847,0.24128473,1
+2024-07-11,Milwaukee Brewers,Pittsburgh Pirates,0,1,0.507757,0.007757008,0
+2024-07-11,San Francisco Giants,Toronto Blue Jays,0,1,0.5959167,0.09591669,0
+2024-07-11,Philadelphia Phillies,Los Angeles Dodgers,1,1,0.6991957,0.19919568,1
+2024-07-11,Baltimore Orioles,Chicago Cubs,0,1,0.5873282,0.087328196,0
+2024-07-11,Tampa Bay Rays,New York Yankees,1,1,0.7255462,0.22554618,1
+2024-07-11,Boston Red Sox,Oakland Athletics,1,1,0.7218933,0.22189331,1
+2024-07-11,Houston Astros,Miami Marlins,1,1,0.86269295,0.36269295,1
+2024-07-11,Los Angeles Angels,Seattle Mariners,0,0,0.4722493,0.0277507,1
+2024-07-11,Arizona Diamondbacks,Atlanta Braves,1,1,0.5157962,0.015796185,1
+2024-07-12,Detroit Tigers,Los Angeles Dodgers,0,1,0.6264951,0.12649512,0
+2024-07-12,Philadelphia Phillies,Oakland Athletics,0,1,0.7414062,0.2414062,0
+2024-07-12,Tampa Bay Rays,Cleveland Guardians,1,1,0.58704954,0.087049544,1
+2024-07-12,Baltimore Orioles,New York Yankees,0,1,0.67191416,0.17191416,0
+2024-07-12,Boston Red Sox,Kansas City Royals,0,0,0.49799746,0.0020025373,1
+2024-07-12,New York Mets,Colorado Rockies,1,1,0.79736936,0.29736936,1
+2024-07-12,Cincinnati Reds,Miami Marlins,1,1,0.7450536,0.24505359,1
+2024-07-12,Houston Astros,Texas Rangers,1,1,0.73412824,0.23412824,1
+2024-07-12,Chicago White Sox,Pittsburgh Pirates,0,0,0.4397314,0.06026861,1
+2024-07-12,Milwaukee Brewers,Washington Nationals,0,1,0.6127057,0.11270571,0
+2024-07-12,St. Louis Cardinals,Chicago Cubs,0,0,0.46517125,0.034828752,1
+2024-07-12,Los Angeles Angels,Seattle Mariners,1,0,0.45837203,0.041627973,0
+2024-07-12,Arizona Diamondbacks,Toronto Blue Jays,1,1,0.591125,0.09112501,1
+2024-07-12,San Diego Padres,Atlanta Braves,0,1,0.51392823,0.013928235,0
+2024-07-12,San Francisco Giants,Minnesota Twins,1,1,0.50832534,0.008325338,1
+2024-07-13,Detroit Tigers,Los Angeles Dodgers,1,1,0.7289935,0.22899348,1
+2024-07-13,Chicago White Sox,Pittsburgh Pirates,0,0,0.44135934,0.05864066,1
+2024-07-13,St. Louis Cardinals,Chicago Cubs,1,1,0.66440225,0.16440225,1
+2024-07-13,St. Louis Cardinals,Chicago Cubs,1,1,0.54803157,0.04803157,1
+2024-07-13,Philadelphia Phillies,Oakland Athletics,1,1,0.74305785,0.24305785,1
+2024-07-13,Baltimore Orioles,New York Yankees,0,1,0.5238542,0.023854196,0
+2024-07-13,Boston Red Sox,Kansas City Royals,1,1,0.5479893,0.04798931,1
+2024-07-13,New York Mets,Colorado Rockies,1,1,0.79426223,0.29426223,1
+2024-07-13,Tampa Bay Rays,Cleveland Guardians,0,1,0.56744057,0.06744057,0
+2024-07-13,Houston Astros,Texas Rangers,0,1,0.64011973,0.14011973,0
+2024-07-13,Cincinnati Reds,Miami Marlins,1,1,0.73518795,0.23518795,1
+2024-07-13,Milwaukee Brewers,Washington Nationals,0,1,0.5272451,0.027245104,0
+2024-07-13,San Francisco Giants,Minnesota Twins,0,0,0.29439795,0.20560205,1
+2024-07-13,San Diego Padres,Atlanta Braves,1,1,0.5169779,0.016977906,1
+2024-07-13,Los Angeles Angels,Seattle Mariners,1,0,0.46488774,0.03511226,0
+2024-07-13,Arizona Diamondbacks,Toronto Blue Jays,1,1,0.78683114,0.28683114,1
+2024-07-14,Baltimore Orioles,New York Yankees,1,1,0.5457174,0.04571742,1
+2024-07-14,Boston Red Sox,Kansas City Royals,1,1,0.7049335,0.20493352,1
+2024-07-14,Philadelphia Phillies,Oakland Athletics,0,1,0.565727,0.065726995,0
+2024-07-14,Detroit Tigers,Los Angeles Dodgers,1,1,0.8413407,0.34134072,1
+2024-07-14,New York Mets,Colorado Rockies,0,1,0.8120305,0.3120305,0
+2024-07-14,Tampa Bay Rays,Cleveland Guardians,1,1,0.57287717,0.07287717,1
+2024-07-14,Cincinnati Reds,Miami Marlins,0,1,0.75341195,0.25341195,0
+2024-07-14,Houston Astros,Texas Rangers,0,1,0.57646745,0.076467454,0
+2024-07-14,Chicago White Sox,Pittsburgh Pirates,0,0,0.31422088,0.18577912,1
+2024-07-14,Milwaukee Brewers,Washington Nationals,1,1,0.59083366,0.090833664,1
+2024-07-14,St. Louis Cardinals,Chicago Cubs,0,1,0.5361913,0.036191285,0
+2024-07-14,San Francisco Giants,Minnesota Twins,1,1,0.5071433,0.0071433187,1
+2024-07-14,Los Angeles Angels,Seattle Mariners,1,1,0.53218466,0.03218466,1
+2024-07-14,Arizona Diamondbacks,Toronto Blue Jays,0,1,0.61869097,0.11869097,0
+2024-07-14,San Diego Padres,Atlanta Braves,0,0,0.4445298,0.0554702,1
+2024-07-19,Chicago Cubs,Arizona Diamondbacks,0,0,0.34869117,0.15130883,1
+2024-07-19,Pittsburgh Pirates,Philadelphia Phillies,1,1,0.6580131,0.1580131,1
+2024-07-19,Washington Nationals,Cincinnati Reds,1,0,0.37353227,0.12646773,0
+2024-07-19,New York Yankees,Tampa Bay Rays,1,0,0.42861518,0.07138482,0
+2024-07-19,Toronto Blue Jays,Detroit Tigers,0,0,0.1478055,0.3521945,1
+2024-07-19,Cleveland Guardians,San Diego Padres,1,1,0.6355171,0.13551712,1
+2024-07-19,Miami Marlins,New York Mets,1,0,0.3211401,0.17885989,0
+2024-07-19,Texas Rangers,Baltimore Orioles,0,1,0.70500517,0.20500517,0
+2024-07-19,Kansas City Royals,Chicago White Sox,1,1,0.7788188,0.2788188,1
+2024-07-19,Colorado Rockies,San Francisco Giants,1,1,0.6590529,0.15905291,1
+2024-07-19,Oakland Athletics,Los Angeles Angels,1,1,0.7277926,0.22779262,1
+2024-07-19,Los Angeles Dodgers,Boston Red Sox,1,0,0.23865905,0.26134095,0
+2024-07-19,Seattle Mariners,Houston Astros,0,0,0.29604182,0.20395818,1
+2024-07-20,New York Yankees,Tampa Bay Rays,0,0,0.35706854,0.14293146,1
+2024-07-20,Atlanta Braves,St. Louis Cardinals,1,1,0.6216082,0.1216082,1
+2024-07-20,Atlanta Braves,St. Louis Cardinals,0,1,0.61053133,0.11053133,0
+2024-07-20,Toronto Blue Jays,Detroit Tigers,0,0,0.08553969,0.4144603,1
+2024-07-20,Oakland Athletics,Los Angeles Angels,1,1,0.7653085,0.2653085,1
+2024-07-20,Miami Marlins,New York Mets,0,0,0.26326117,0.23673883,1
+2024-07-20,Pittsburgh Pirates,Philadelphia Phillies,1,1,0.6708084,0.17080837,1
+2024-07-20,Washington Nationals,Cincinnati Reds,1,0,0.4404708,0.059529185,0
+2024-07-20,Texas Rangers,Baltimore Orioles,0,1,0.7031988,0.20319879,0
+2024-07-20,Cleveland Guardians,San Diego Padres,0,1,0.622621,0.122621,0
+2024-07-20,Kansas City Royals,Chicago White Sox,1,1,0.83718467,0.33718467,1
+2024-07-20,Minnesota Twins,Milwaukee Brewers,0,1,0.56172305,0.061723053,0
+2024-07-20,Chicago Cubs,Arizona Diamondbacks,0,0,0.3263259,0.1736741,1
+2024-07-20,Los Angeles Dodgers,Boston Red Sox,1,0,0.21186656,0.28813344,0
+2024-07-20,Colorado Rockies,San Francisco Giants,1,1,0.62984526,0.12984526,1
+2024-07-20,Seattle Mariners,Houston Astros,0,0,0.30136222,0.19863778,1
+2024-07-21,Minnesota Twins,Milwaukee Brewers,0,1,0.57827646,0.078276455,0
+2024-07-21,Washington Nationals,Cincinnati Reds,1,1,0.5581009,0.05810088,1
+2024-07-21,Pittsburgh Pirates,Philadelphia Phillies,0,1,0.6481428,0.14814281,0
+2024-07-21,Atlanta Braves,St. Louis Cardinals,0,1,0.6136652,0.11366522,0
+2024-07-21,New York Yankees,Tampa Bay Rays,0,0,0.34316915,0.15683085,1
+2024-07-21,Toronto Blue Jays,Detroit Tigers,1,0,0.19799885,0.30200115,0
+2024-07-21,Cleveland Guardians,San Diego Padres,0,1,0.57248694,0.07248694,0
+2024-07-21,Miami Marlins,New York Mets,1,0,0.32423878,0.17576122,0
+2024-07-21,Kansas City Royals,Chicago White Sox,1,1,0.88450694,0.38450694,1
+2024-07-21,Chicago Cubs,Arizona Diamondbacks,1,0,0.43548837,0.06451163,0
+2024-07-21,Texas Rangers,Baltimore Orioles,1,1,0.6956302,0.1956302,1
+2024-07-21,Colorado Rockies,San Francisco Giants,0,1,0.6220811,0.1220811,0
+2024-07-21,Oakland Athletics,Los Angeles Angels,0,1,0.6940438,0.19404382,0
+2024-07-21,Seattle Mariners,Houston Astros,1,0,0.4380166,0.061983407,0
+2024-07-21,Los Angeles Dodgers,Boston Red Sox,1,0,0.32435834,0.17564166,0
+2024-07-22,New York Yankees,Tampa Bay Rays,1,0,0.42833033,0.07166967,0
+2024-07-22,Cleveland Guardians,Detroit Tigers,0,0,0.12302269,0.37697732,1
+2024-07-22,Pittsburgh Pirates,St. Louis Cardinals,1,1,0.6772511,0.1772511,1
+2024-07-22,Miami Marlins,New York Mets,0,0,0.2821418,0.2178582,1
+2024-07-22,Atlanta Braves,Cincinnati Reds,0,1,0.5742804,0.07428038,0
+2024-07-22,Minnesota Twins,Philadelphia Phillies,1,1,0.5898719,0.08987188,1
+2024-07-22,Texas Rangers,Chicago White Sox,1,1,0.77763784,0.27763784,1
+2024-07-22,Chicago Cubs,Milwaukee Brewers,1,1,0.6584077,0.15840769,1
+2024-07-22,Kansas City Royals,Arizona Diamondbacks,1,1,0.53466254,0.034662545,1
+2024-07-22,Colorado Rockies,Boston Red Sox,1,1,0.622586,0.12258601,1
+2024-07-22,Oakland Athletics,Houston Astros,1,1,0.6116319,0.11163187,1
+2024-07-22,Seattle Mariners,Los Angeles Angels,0,1,0.604831,0.10483098,0
+2024-07-22,Los Angeles Dodgers,San Francisco Giants,1,0,0.4835238,0.016476214,0
+2024-07-23,Cleveland Guardians,Detroit Tigers,1,0,0.21960038,0.28039962,0
+2024-07-23,Pittsburgh Pirates,St. Louis Cardinals,0,1,0.6772511,0.1772511,0
+2024-07-23,Miami Marlins,Baltimore Orioles,1,1,0.604063,0.104062974,1
+2024-07-23,Washington Nationals,San Diego Padres,0,1,0.50880533,0.008805335,0
+2024-07-23,New York Yankees,New York Mets,0,0,0.24757706,0.25242293,1
+2024-07-23,Toronto Blue Jays,Tampa Bay Rays,0,0,0.43250787,0.06749213,1
+2024-07-23,Minnesota Twins,Philadelphia Phillies,0,1,0.590916,0.09091598,0
+2024-07-23,Texas Rangers,Chicago White Sox,1,1,0.820415,0.32041502,1
+2024-07-23,Chicago Cubs,Milwaukee Brewers,0,1,0.6174349,0.11743492,0
+2024-07-23,Kansas City Royals,Arizona Diamondbacks,0,1,0.56696516,0.06696516,0
+2024-07-23,Colorado Rockies,Boston Red Sox,0,1,0.5456764,0.04567641,0
+2024-07-23,Oakland Athletics,Houston Astros,1,1,0.62745345,0.12745345,1
+2024-07-23,Seattle Mariners,Los Angeles Angels,0,0,0.4684675,0.031532496,1
+2024-07-23,Los Angeles Dodgers,San Francisco Giants,1,1,0.608378,0.10837799,1
+2024-07-24,Atlanta Braves,Cincinnati Reds,0,1,0.5618824,0.061882377,0
+2024-07-24,Pittsburgh Pirates,St. Louis Cardinals,1,1,0.71107614,0.21107614,1
+2024-07-24,Minnesota Twins,Philadelphia Phillies,1,1,0.5906672,0.09066719,1
+2024-07-24,Chicago Cubs,Milwaukee Brewers,0,1,0.62518805,0.12518805,0
+2024-07-24,Colorado Rockies,Boston Red Sox,1,1,0.6355083,0.1355083,1
+2024-07-24,Oakland Athletics,Houston Astros,0,1,0.52467626,0.024676263,0
+2024-07-24,Seattle Mariners,Los Angeles Angels,0,0,0.3936013,0.1063987,1
+2024-07-24,Cleveland Guardians,Detroit Tigers,1,0,0.35179648,0.14820352,0
+2024-07-24,Miami Marlins,Baltimore Orioles,1,1,0.7802718,0.28027183,1
+2024-07-24,Washington Nationals,San Diego Padres,0,0,0.40301162,0.09698838,1
+2024-07-24,New York Yankees,New York Mets,0,0,0.16867906,0.33132094,1
+2024-07-24,Toronto Blue Jays,Tampa Bay Rays,1,1,0.5303454,0.03034538,1
+2024-07-24,Texas Rangers,Chicago White Sox,1,1,0.8624242,0.3624242,1
+2024-07-24,Kansas City Royals,Arizona Diamondbacks,0,0,0.29811013,0.20188987,1
+2024-07-24,Los Angeles Dodgers,San Francisco Giants,0,1,0.6444649,0.14446491,0
+2024-07-25,Washington Nationals,San Diego Padres,0,0,0.39614835,0.103851646,1
+2024-07-25,Miami Marlins,Baltimore Orioles,0,1,0.67933345,0.17933345,0
+2024-07-25,Cleveland Guardians,Detroit Tigers,0,0,0.3063505,0.1936495,1
+2024-07-25,Texas Rangers,Chicago White Sox,1,1,0.874772,0.374772,1
+2024-07-25,Toronto Blue Jays,Tampa Bay Rays,0,0,0.4724986,0.027501404,1
+2024-07-25,Los Angeles Dodgers,San Francisco Giants,1,1,0.70006377,0.20006377,1
+2024-07-25,New York Mets,Atlanta Braves,1,1,0.730205,0.230205,1
+2024-07-25,Los Angeles Angels,Oakland Athletics,0,0,0.47709224,0.022907764,1
+2024-07-26,Detroit Tigers,Minnesota Twins,0,1,0.6014162,0.10141617,0
+2024-07-26,Philadelphia Phillies,Cleveland Guardians,0,1,0.5415709,0.041570902,0
+2024-07-26,Tampa Bay Rays,Cincinnati Reds,0,1,0.53956616,0.03956616,0
+2024-07-26,Baltimore Orioles,San Diego Padres,0,0,0.26224944,0.23775056,1
+2024-07-26,Toronto Blue Jays,Texas Rangers,1,0,0.3184983,0.18150169,0
+2024-07-26,New York Mets,Atlanta Braves,1,1,0.8117093,0.31170928,1
+2024-07-26,Boston Red Sox,New York Yankees,1,1,0.50239164,0.0023916364,1
+2024-07-26,Kansas City Royals,Chicago Cubs,1,1,0.56346923,0.06346923,1
+2024-07-26,Houston Astros,Los Angeles Dodgers,1,1,0.6240756,0.12407559,1
+2024-07-26,Chicago White Sox,Seattle Mariners,0,0,0.23736285,0.26263714,1
+2024-07-26,Milwaukee Brewers,Miami Marlins,0,1,0.5442703,0.044270277,0
+2024-07-26,St. Louis Cardinals,Washington Nationals,0,1,0.60910165,0.10910165,0
+2024-07-26,Los Angeles Angels,Oakland Athletics,0,0,0.46307176,0.036928236,1
+2024-07-26,Arizona Diamondbacks,Pittsburgh Pirates,1,1,0.500965,0.0009649992,1
+2024-07-26,San Francisco Giants,Colorado Rockies,1,1,0.681506,0.18150598,1
+2024-07-27,Toronto Blue Jays,Texas Rangers,1,0,0.41664562,0.08335438,0
+2024-07-27,Baltimore Orioles,San Diego Padres,0,0,0.30889246,0.19110754,1
+2024-07-27,Tampa Bay Rays,Cincinnati Reds,1,1,0.57012725,0.07012725,1
+2024-07-27,New York Mets,Atlanta Braves,0,1,0.82695514,0.32695514,0
+2024-07-27,Philadelphia Phillies,Cleveland Guardians,1,1,0.59461886,0.09461886,1
+2024-07-27,Detroit Tigers,Minnesota Twins,1,1,0.61053926,0.11053926,1
+2024-07-27,San Francisco Giants,Colorado Rockies,1,1,0.72494054,0.22494054,1
+2024-07-27,San Francisco Giants,Colorado Rockies,1,1,0.72359204,0.22359204,1
+2024-07-27,Kansas City Royals,Chicago Cubs,0,1,0.59242237,0.092422366,0
+2024-07-27,Houston Astros,Los Angeles Dodgers,1,1,0.58903587,0.08903587,1
+2024-07-27,Milwaukee Brewers,Miami Marlins,0,1,0.5512166,0.051216602,0
+2024-07-27,St. Louis Cardinals,Washington Nationals,0,0,0.44146976,0.05853024,1
+2024-07-27,Chicago White Sox,Seattle Mariners,0,0,0.1649363,0.3350637,1
+2024-07-27,Boston Red Sox,New York Yankees,0,0,0.46407065,0.035929352,1
+2024-07-27,Arizona Diamondbacks,Pittsburgh Pirates,1,1,0.5280794,0.02807939,1
+2024-07-27,Los Angeles Angels,Oakland Athletics,0,0,0.45080405,0.049195945,1
+2024-07-28,Tampa Bay Rays,Cincinnati Reds,1,1,0.59409404,0.09409404,1
+2024-07-28,Baltimore Orioles,San Diego Padres,1,0,0.28147972,0.21852028,0
+2024-07-28,Philadelphia Phillies,Cleveland Guardians,0,1,0.61843795,0.118437946,0
+2024-07-28,Toronto Blue Jays,Texas Rangers,1,1,0.5204586,0.020458579,1
+2024-07-28,Detroit Tigers,Minnesota Twins,0,1,0.5864972,0.08649719,0
+2024-07-28,New York Mets,Atlanta Braves,0,1,0.7330447,0.23304468,0
+2024-07-28,Kansas City Royals,Chicago Cubs,0,1,0.56049395,0.060493946,0
+2024-07-28,Houston Astros,Los Angeles Dodgers,0,1,0.59075654,0.090756536,0
+2024-07-28,Chicago White Sox,Seattle Mariners,0,0,0.10530233,0.39469767,1
+2024-07-28,Milwaukee Brewers,Miami Marlins,1,1,0.5602076,0.060207605,1
+2024-07-28,St. Louis Cardinals,Washington Nationals,1,0,0.4461608,0.053839207,0
+2024-07-28,San Francisco Giants,Colorado Rockies,1,1,0.7310106,0.23101062,1
+2024-07-28,Los Angeles Angels,Oakland Athletics,1,0,0.49868408,0.0013159215,0
+2024-07-28,Arizona Diamondbacks,Pittsburgh Pirates,0,1,0.51132363,0.011323631,0
+2024-07-28,Boston Red Sox,New York Yankees,0,0,0.36070615,0.13929385,1
+2024-07-29,Baltimore Orioles,Toronto Blue Jays,1,0,0.41888985,0.08111015,0
+2024-07-29,Baltimore Orioles,Toronto Blue Jays,0,0,0.34563607,0.15436393,1
+2024-07-29,Detroit Tigers,Cleveland Guardians,0,1,0.51342976,0.013429761,0
+2024-07-29,Philadelphia Phillies,New York Yankees,0,0,0.37935406,0.12064594,1
+2024-07-29,Cincinnati Reds,Chicago Cubs,1,1,0.53791505,0.03791505,1
+2024-07-29,Boston Red Sox,Seattle Mariners,1,1,0.57918406,0.079184055,1
+2024-07-29,New York Mets,Minnesota Twins,1,1,0.72908676,0.22908676,1
+2024-07-29,St. Louis Cardinals,Texas Rangers,0,0,0.39644802,0.103551984,1
+2024-07-29,Houston Astros,Pittsburgh Pirates,0,0,0.38267127,0.11732873,1
+2024-07-29,Chicago White Sox,Kansas City Royals,0,0,0.07210858,0.42789143,1
+2024-07-29,Milwaukee Brewers,Atlanta Braves,1,1,0.6652125,0.16521251,1
+2024-07-29,Arizona Diamondbacks,Washington Nationals,1,1,0.75748086,0.25748086,1
+2024-07-30,Detroit Tigers,Cleveland Guardians,0,0,0.4021691,0.09783089,1
+2024-07-30,Baltimore Orioles,Toronto Blue Jays,1,1,0.5905477,0.09054768,1
+2024-07-30,Philadelphia Phillies,New York Yankees,0,0,0.30617726,0.19382274,1
+2024-07-30,Tampa Bay Rays,Miami Marlins,1,1,0.70319486,0.20319486,1
+2024-07-30,Cincinnati Reds,Chicago Cubs,1,1,0.62984055,0.12984055,1
+2024-07-30,Boston Red Sox,Seattle Mariners,0,1,0.5626483,0.0626483,0
+2024-07-30,New York Mets,Minnesota Twins,1,1,0.80073816,0.30073816,1
+2024-07-30,St. Louis Cardinals,Texas Rangers,1,1,0.51455957,0.014559567,1
+2024-07-30,Houston Astros,Pittsburgh Pirates,0,0,0.3341406,0.1658594,1
+2024-07-30,Chicago White Sox,Kansas City Royals,0,0,0.085518025,0.41448197,1
+2024-07-30,Milwaukee Brewers,Atlanta Braves,0,1,0.6010249,0.101024926,0
+2024-07-30,Los Angeles Angels,Colorado Rockies,1,1,0.81765777,0.31765777,1
+2024-07-30,Arizona Diamondbacks,Washington Nationals,1,1,0.7654774,0.26547742,1
+2024-07-30,San Diego Padres,Los Angeles Dodgers,1,1,0.5263522,0.026352227,1
+2024-07-30,San Francisco Giants,Oakland Athletics,0,0,0.31627077,0.18372923,1
+2024-07-31,Tampa Bay Rays,Miami Marlins,0,1,0.6078651,0.107865095,0
+2024-07-31,Baltimore Orioles,Toronto Blue Jays,1,1,0.6254923,0.12549227,1
+2024-07-31,Philadelphia Phillies,New York Yankees,0,0,0.1576435,0.3423565,1
+2024-07-31,New York Mets,Minnesota Twins,0,1,0.75720763,0.25720763,0
+2024-07-31,Chicago White Sox,Kansas City Royals,0,0,0.06919478,0.4308052,1
+2024-07-31,Milwaukee Brewers,Atlanta Braves,0,1,0.5180043,0.018004298,0
+2024-07-31,St. Louis Cardinals,Texas Rangers,1,1,0.5956723,0.09567231,1
+2024-07-31,Arizona Diamondbacks,Washington Nationals,1,1,0.7609567,0.2609567,1
+2024-07-31,Boston Red Sox,Seattle Mariners,1,1,0.63884705,0.13884705,1
+2024-07-31,Cincinnati Reds,Chicago Cubs,0,1,0.6033189,0.10331893,0
+2024-07-31,Houston Astros,Pittsburgh Pirates,1,0,0.36484587,0.13515413,0
+2024-07-31,San Diego Padres,Los Angeles Dodgers,1,1,0.5717584,0.07175839,1
+2024-07-31,Los Angeles Angels,Colorado Rockies,0,1,0.80354553,0.30354553,0
+2024-07-31,San Francisco Giants,Oakland Athletics,1,0,0.36097485,0.13902515,0
+2024-08-01,Cleveland Guardians,Baltimore Orioles,1,1,0.67067266,0.17067266,1
+2024-08-01,Detroit Tigers,Kansas City Royals,0,0,0.42881963,0.07118037,1
+2024-08-01,Atlanta Braves,Miami Marlins,1,1,0.5065465,0.0065464973,1
+2024-08-01,Chicago Cubs,St. Louis Cardinals,1,1,0.59173465,0.09173465,1
+2024-08-01,Los Angeles Angels,Colorado Rockies,0,1,0.68426955,0.18426955,0
+2024-08-02,Chicago Cubs,St. Louis Cardinals,1,1,0.69350594,0.19350594,1
+2024-08-02,Detroit Tigers,Kansas City Royals,0,0,0.3235304,0.1764696,1
+2024-08-02,Pittsburgh Pirates,Arizona Diamondbacks,0,0,0.2775911,0.22240889,1
+2024-08-02,Washington Nationals,Milwaukee Brewers,0,0,0.44150174,0.058498263,1
+2024-08-02,New York Yankees,Toronto Blue Jays,0,0,0.4969846,0.003015399,1
+2024-08-02,Cleveland Guardians,Baltimore Orioles,1,1,0.70657176,0.20657176,1
+2024-08-02,Cincinnati Reds,San Francisco Giants,0,0,0.27547866,0.22452134,1
+2024-08-02,Atlanta Braves,Miami Marlins,1,0,0.49091575,0.0090842545,0
+2024-08-02,Texas Rangers,Boston Red Sox,0,1,0.5927429,0.09274292,0
+2024-08-02,Houston Astros,Tampa Bay Rays,1,0,0.47961828,0.020381719,0
+2024-08-02,Minnesota Twins,Chicago White Sox,1,1,0.8945287,0.3945287,1
+2024-08-02,Los Angeles Angels,New York Mets,0,0,0.4842029,0.015797108,1
+2024-08-02,Oakland Athletics,Los Angeles Dodgers,1,1,0.6825538,0.18255383,1
+2024-08-02,San Diego Padres,Colorado Rockies,0,1,0.7507005,0.25070047,0
+2024-08-02,Seattle Mariners,Philadelphia Phillies,1,1,0.747558,0.247558,1
+2024-08-03,New York Yankees,Toronto Blue Jays,1,1,0.5120852,0.012085199,1
+2024-08-03,Chicago Cubs,St. Louis Cardinals,0,1,0.5828298,0.08282977,0
+2024-08-03,Washington Nationals,Milwaukee Brewers,1,0,0.44232515,0.057674855,0
+2024-08-03,Detroit Tigers,Kansas City Royals,1,0,0.33636665,0.16363335,0
+2024-08-03,Pittsburgh Pirates,Arizona Diamondbacks,1,0,0.33173323,0.16826677,0
+2024-08-03,Texas Rangers,Boston Red Sox,1,1,0.6073313,0.107331276,1
+2024-08-03,Minnesota Twins,Chicago White Sox,1,1,0.8992599,0.39925992,1
+2024-08-03,Cleveland Guardians,Baltimore Orioles,0,1,0.6970073,0.1970073,0
+2024-08-03,Cincinnati Reds,San Francisco Giants,1,0,0.39428657,0.10571343,0
+2024-08-03,Houston Astros,Tampa Bay Rays,0,0,0.44141275,0.058587253,1
+2024-08-03,Atlanta Braves,Miami Marlins,0,1,0.5016597,0.0016596913,0
+2024-08-03,San Diego Padres,Colorado Rockies,1,1,0.85895425,0.35895425,1
+2024-08-03,Oakland Athletics,Los Angeles Dodgers,0,1,0.6459436,0.14594358,0
+2024-08-03,Los Angeles Angels,New York Mets,1,0,0.49155477,0.008445233,0
+2024-08-03,Seattle Mariners,Philadelphia Phillies,1,1,0.8499285,0.3499285,1
+2024-08-04,Cincinnati Reds,San Francisco Giants,0,0,0.35420606,0.14579394,1
+2024-08-04,Pittsburgh Pirates,Arizona Diamondbacks,0,0,0.18975343,0.3102466,1
+2024-08-04,Atlanta Braves,Miami Marlins,0,0,0.3633682,0.13663179,1
+2024-08-04,New York Yankees,Toronto Blue Jays,1,1,0.59091085,0.09091085,1
+2024-08-04,Washington Nationals,Milwaukee Brewers,1,0,0.48673144,0.01326856,0
+2024-08-04,Cleveland Guardians,Baltimore Orioles,0,1,0.66212404,0.16212404,0
+2024-08-04,Detroit Tigers,Kansas City Royals,0,0,0.21226905,0.28773093,1
+2024-08-04,Houston Astros,Tampa Bay Rays,0,0,0.4546051,0.045394897,1
+2024-08-04,Minnesota Twins,Chicago White Sox,1,1,0.90293,0.40293002,1
+2024-08-04,Texas Rangers,Boston Red Sox,0,1,0.61057884,0.110578835,0
+2024-08-04,Los Angeles Angels,New York Mets,1,0,0.47598013,0.024019867,0
+2024-08-04,Oakland Athletics,Los Angeles Dodgers,0,1,0.53260535,0.03260535,0
+2024-08-04,San Diego Padres,Colorado Rockies,1,1,0.86335415,0.36335415,1
+2024-08-04,Seattle Mariners,Philadelphia Phillies,0,1,0.7521406,0.25214058,0
+2024-08-04,Chicago Cubs,St. Louis Cardinals,1,1,0.63182294,0.13182294,1
+2024-08-05,St. Louis Cardinals,New York Mets,0,0,0.33761653,0.16238347,1
+2024-08-05,Cleveland Guardians,Arizona Diamondbacks,0,0,0.33194962,0.16805038,1
+2024-08-05,Miami Marlins,Cincinnati Reds,0,0,0.47580108,0.02419892,1
+2024-08-05,Washington Nationals,San Francisco Giants,0,0,0.22622576,0.27377424,1
+2024-08-05,Texas Rangers,Houston Astros,1,1,0.6232889,0.12328893,1
+2024-08-05,Chicago Cubs,Minnesota Twins,0,1,0.5758524,0.075852394,0
+2024-08-05,Kansas City Royals,Boston Red Sox,0,1,0.5440557,0.0440557,0
+2024-08-05,Oakland Athletics,Chicago White Sox,1,1,0.86334527,0.36334527,1
+2024-08-05,Los Angeles Dodgers,Philadelphia Phillies,1,1,0.8332866,0.33328658,1
+2024-08-06,Pittsburgh Pirates,San Diego Padres,0,0,0.15569595,0.34430405,1
+2024-08-06,Miami Marlins,Cincinnati Reds,0,0,0.3955245,0.1044755,1
+2024-08-06,Washington Nationals,San Francisco Giants,1,0,0.28925374,0.21074626,0
+2024-08-06,Toronto Blue Jays,Baltimore Orioles,1,1,0.60401756,0.104017556,1
+2024-08-06,Atlanta Braves,Milwaukee Brewers,0,0,0.44154376,0.058456242,1
+2024-08-06,St. Louis Cardinals,Tampa Bay Rays,1,0,0.43256578,0.06743422,0
+2024-08-06,Texas Rangers,Houston Astros,0,1,0.5881493,0.08814931,0
+2024-08-06,Chicago Cubs,Minnesota Twins,1,1,0.552409,0.052408993,1
+2024-08-06,Kansas City Royals,Boston Red Sox,0,0,0.40380508,0.09619492,1
+2024-08-06,Colorado Rockies,New York Mets,1,0,0.36194262,0.13805738,0
+2024-08-06,Seattle Mariners,Detroit Tigers,0,1,0.627838,0.12783802,0
+2024-08-06,Oakland Athletics,Chicago White Sox,0,1,0.8700005,0.37000048,0
+2024-08-06,Los Angeles Dodgers,Philadelphia Phillies,0,1,0.76275253,0.26275253,0
+2024-08-07,Cleveland Guardians,Arizona Diamondbacks,0,0,0.19364254,0.30635744,1
+2024-08-07,Cleveland Guardians,Arizona Diamondbacks,0,0,0.31208658,0.18791342,1
+2024-08-07,Chicago Cubs,Minnesota Twins,1,1,0.5481602,0.048160195,1
+2024-08-07,Texas Rangers,Houston Astros,0,0,0.4567316,0.043268412,1
+2024-08-07,Oakland Athletics,Chicago White Sox,1,1,0.8675343,0.36753428,1
+2024-08-07,New York Yankees,Los Angeles Angels,1,1,0.5419885,0.041988492,1
+2024-08-07,New York Yankees,Los Angeles Angels,0,1,0.5701941,0.070194125,0
+2024-08-07,Pittsburgh Pirates,San Diego Padres,0,0,0.13304591,0.3669541,1
+2024-08-07,Miami Marlins,Cincinnati Reds,1,0,0.4703971,0.029602885,0
+2024-08-07,Washington Nationals,San Francisco Giants,0,0,0.21613131,0.28386867,1
+2024-08-07,Toronto Blue Jays,Baltimore Orioles,0,0,0.4745086,0.025491387,1
+2024-08-07,Atlanta Braves,Milwaukee Brewers,0,0,0.45297647,0.047023535,1
+2024-08-07,St. Louis Cardinals,Tampa Bay Rays,1,1,0.537561,0.037561,1
+2024-08-07,Kansas City Royals,Boston Red Sox,1,0,0.44689462,0.053105384,0
+2024-08-07,Colorado Rockies,New York Mets,0,0,0.35925078,0.14074922,1
+2024-08-07,Seattle Mariners,Detroit Tigers,0,1,0.5710975,0.07109749,0
+2024-08-07,Los Angeles Dodgers,Philadelphia Phillies,0,1,0.7635321,0.2635321,0
+2024-08-08,Washington Nationals,San Francisco Giants,0,0,0.15256,0.34744,1
+2024-08-08,Atlanta Braves,Milwaukee Brewers,0,0,0.42225417,0.077745825,1
+2024-08-08,Pittsburgh Pirates,San Diego Padres,0,0,0.08912045,0.41087955,1
+2024-08-08,Colorado Rockies,New York Mets,0,0,0.3238123,0.1761877,1
+2024-08-08,Miami Marlins,Cincinnati Reds,0,0,0.38270417,0.11729583,1
+2024-08-08,New York Yankees,Los Angeles Angels,0,1,0.5829259,0.082925916,0
+2024-08-08,Toronto Blue Jays,Baltimore Orioles,1,1,0.558589,0.05858898,1
+2024-08-08,St. Louis Cardinals,Tampa Bay Rays,0,0,0.4581845,0.04181549,1
+2024-08-08,Seattle Mariners,Detroit Tigers,1,1,0.62248856,0.12248856,1
+2024-08-08,Arizona Diamondbacks,Philadelphia Phillies,0,1,0.88115984,0.38115984,0
+2024-08-09,Minnesota Twins,Cleveland Guardians,1,1,0.7637118,0.2637118,1
+2024-08-09,Minnesota Twins,Cleveland Guardians,1,1,0.62813574,0.12813574,1
+2024-08-09,Washington Nationals,Los Angeles Angels,1,0,0.4095796,0.090420395,0
+2024-08-09,Tampa Bay Rays,Baltimore Orioles,0,1,0.55938137,0.059381366,0
+2024-08-09,Toronto Blue Jays,Oakland Athletics,1,1,0.51073545,0.010735452,1
+2024-08-09,Boston Red Sox,Houston Astros,0,1,0.51971906,0.019719064,0
+2024-08-09,Miami Marlins,San Diego Padres,0,0,0.12572904,0.37427098,1
+2024-08-09,Kansas City Royals,St. Louis Cardinals,0,1,0.5745484,0.07454842,0
+2024-08-09,Chicago White Sox,Chicago Cubs,0,0,0.086844444,0.41315556,1
+2024-08-09,Milwaukee Brewers,Cincinnati Reds,1,1,0.55007744,0.05007744,1
+2024-08-09,Colorado Rockies,Atlanta Braves,1,1,0.5382503,0.038250327,1
+2024-08-09,Arizona Diamondbacks,Philadelphia Phillies,1,1,0.9139358,0.41393578,1
+2024-08-09,Los Angeles Dodgers,Pittsburgh Pirates,1,1,0.63194424,0.13194424,1
+2024-08-09,Seattle Mariners,New York Mets,1,1,0.671742,0.17174202,1
+2024-08-09,San Francisco Giants,Detroit Tigers,1,1,0.89912885,0.39912885,1
+2024-08-10,New York Yankees,Texas Rangers,1,1,0.7606495,0.2606495,1
+2024-08-10,New York Yankees,Texas Rangers,0,1,0.76844156,0.26844156,0
+2024-08-10,Toronto Blue Jays,Oakland Athletics,0,0,0.4313118,0.068688214,1
+2024-08-10,San Francisco Giants,Detroit Tigers,1,1,0.9377741,0.43777412,1
+2024-08-10,Boston Red Sox,Houston Astros,0,0,0.39666936,0.10333064,1
+2024-08-10,Miami Marlins,San Diego Padres,0,0,0.113350265,0.38664973,1
+2024-08-10,Washington Nationals,Los Angeles Angels,1,1,0.56221884,0.062218845,1
+2024-08-10,Kansas City Royals,St. Louis Cardinals,1,1,0.63784546,0.13784546,1
+2024-08-10,Minnesota Twins,Cleveland Guardians,0,1,0.60672075,0.106720746,0
+2024-08-10,Milwaukee Brewers,Cincinnati Reds,1,1,0.638308,0.13830799,1
+2024-08-10,Tampa Bay Rays,Baltimore Orioles,0,0,0.35887456,0.14112544,1
+2024-08-10,Chicago White Sox,Chicago Cubs,0,0,0.082938515,0.41706148,1
+2024-08-10,Arizona Diamondbacks,Philadelphia Phillies,1,1,0.93082076,0.43082076,1
+2024-08-10,Colorado Rockies,Atlanta Braves,0,0,0.41615632,0.08384368,1
+2024-08-10,Los Angeles Dodgers,Pittsburgh Pirates,1,1,0.6413199,0.14131987,1
+2024-08-10,Seattle Mariners,New York Mets,1,1,0.7465159,0.24651593,1
+2024-08-11,Washington Nationals,Los Angeles Angels,0,0,0.40214485,0.09785515,1
+2024-08-11,Boston Red Sox,Houston Astros,0,0,0.3888292,0.1111708,1
+2024-08-11,New York Yankees,Texas Rangers,1,1,0.880149,0.380149,1
+2024-08-11,Toronto Blue Jays,Oakland Athletics,0,0,0.35461378,0.14538622,1
+2024-08-11,Tampa Bay Rays,Baltimore Orioles,1,0,0.47307727,0.026922733,0
+2024-08-11,Miami Marlins,San Diego Padres,1,0,0.13847823,0.36152178,0
+2024-08-11,Minnesota Twins,Cleveland Guardians,0,1,0.5898171,0.08981711,0
+2024-08-11,Milwaukee Brewers,Cincinnati Reds,0,1,0.5494425,0.04944253,0
+2024-08-11,Colorado Rockies,Atlanta Braves,1,0,0.4907425,0.009257495,0
+2024-08-11,San Francisco Giants,Detroit Tigers,0,1,0.89525753,0.39525753,0
+2024-08-11,Los Angeles Dodgers,Pittsburgh Pirates,1,1,0.7380381,0.23803812,1
+2024-08-11,Arizona Diamondbacks,Philadelphia Phillies,1,1,0.9386342,0.43863422,1
+2024-08-11,Seattle Mariners,New York Mets,1,1,0.78662765,0.28662765,1
+2024-08-12,Cleveland Guardians,Chicago Cubs,1,0,0.34993872,0.15006128,0
+2024-08-12,Cincinnati Reds,St. Louis Cardinals,1,1,0.58576053,0.085760534,1
+2024-08-12,Tampa Bay Rays,Houston Astros,0,0,0.39990112,0.10009888,1
+2024-08-12,Boston Red Sox,Texas Rangers,1,1,0.7627994,0.26279938,1
+2024-08-12,Minnesota Twins,Kansas City Royals,1,1,0.58437973,0.08437973,1
+2024-08-12,Chicago White Sox,New York Yankees,1,0,0.14270775,0.35729223,0
+2024-08-12,Milwaukee Brewers,Los Angeles Dodgers,0,1,0.59990966,0.09990966,0
+2024-08-12,Los Angeles Angels,Toronto Blue Jays,0,1,0.55899495,0.05899495,0
+2024-08-12,Arizona Diamondbacks,Colorado Rockies,1,1,0.88750184,0.38750184,1
+2024-08-12,San Diego Padres,Pittsburgh Pirates,1,1,0.8454032,0.3454032,1
+2024-08-12,San Francisco Giants,Atlanta Braves,0,1,0.7135215,0.21352148,0
+2024-08-13,Baltimore Orioles,Washington Nationals,0,1,0.6697146,0.16971463,0
+2024-08-13,Cleveland Guardians,Chicago Cubs,1,0,0.48789948,0.012100518,0
+2024-08-13,Detroit Tigers,Seattle Mariners,1,0,0.433901,0.06609899,0
+2024-08-13,Cincinnati Reds,St. Louis Cardinals,1,1,0.7110663,0.2110663,1
+2024-08-13,Philadelphia Phillies,Miami Marlins,0,0,0.3310427,0.1689573,1
+2024-08-13,Tampa Bay Rays,Houston Astros,0,0,0.37314823,0.12685177,1
+2024-08-13,New York Mets,Oakland Athletics,0,0,0.3630612,0.13693881,1
+2024-08-13,Boston Red Sox,Texas Rangers,1,1,0.79923815,0.29923815,1
+2024-08-13,Minnesota Twins,Kansas City Royals,1,1,0.5204218,0.020421803,1
+2024-08-13,Chicago White Sox,New York Yankees,0,0,0.14117505,0.35882497,1
+2024-08-13,Milwaukee Brewers,Los Angeles Dodgers,0,1,0.5156044,0.015604377,0
+2024-08-13,Los Angeles Angels,Toronto Blue Jays,0,1,0.5487751,0.048775077,0
+2024-08-13,Arizona Diamondbacks,Colorado Rockies,1,1,0.91705513,0.41705513,1
+2024-08-13,San Diego Padres,Pittsburgh Pirates,1,1,0.87155616,0.37155616,1
+2024-08-13,San Francisco Giants,Atlanta Braves,0,1,0.6881258,0.18812579,0
+2024-08-14,Minnesota Twins,Kansas City Royals,0,0,0.48607215,0.013927847,1
+2024-08-14,Arizona Diamondbacks,Colorado Rockies,1,1,0.92994976,0.42994976,1
+2024-08-14,San Diego Padres,Pittsburgh Pirates,1,1,0.88346463,0.38346463,1
+2024-08-14,Boston Red Sox,Texas Rangers,0,1,0.75557137,0.25557137,0
+2024-08-14,Baltimore Orioles,Washington Nationals,1,1,0.6938799,0.1938799,1
+2024-08-14,Cleveland Guardians,Chicago Cubs,1,1,0.5852494,0.085249424,1
+2024-08-14,Detroit Tigers,Seattle Mariners,1,1,0.52861243,0.028612435,1
+2024-08-14,Cincinnati Reds,St. Louis Cardinals,1,1,0.73215425,0.23215425,1
+2024-08-14,Philadelphia Phillies,Miami Marlins,1,0,0.4915589,0.008441091,0
+2024-08-14,Tampa Bay Rays,Houston Astros,0,0,0.26777524,0.23222476,1
+2024-08-14,New York Mets,Oakland Athletics,1,0,0.45317292,0.046827078,0
+2024-08-14,Chicago White Sox,New York Yankees,0,0,0.13999045,0.36000955,1
+2024-08-14,Milwaukee Brewers,Los Angeles Dodgers,1,1,0.51451147,0.014511466,1
+2024-08-14,Los Angeles Angels,Toronto Blue Jays,0,0,0.4459694,0.054030597,1
+2024-08-14,San Francisco Giants,Atlanta Braves,0,1,0.59448266,0.09448266,0
+2024-08-15,New York Mets,Oakland Athletics,0,0,0.3678677,0.13213229,1
+2024-08-15,Detroit Tigers,Seattle Mariners,1,1,0.626612,0.12661201,1
+2024-08-15,Milwaukee Brewers,Los Angeles Dodgers,1,1,0.5808383,0.08083832,1
+2024-08-15,San Francisco Giants,Atlanta Braves,1,1,0.64766365,0.14766365,1
+2024-08-15,Baltimore Orioles,Boston Red Sox,1,1,0.6113313,0.111331284,1
+2024-08-15,Philadelphia Phillies,Washington Nationals,1,1,0.59541684,0.095416844,1
+2024-08-15,Texas Rangers,Minnesota Twins,0,0,0.24604425,0.25395575,1
+2024-08-16,Chicago Cubs,Toronto Blue Jays,1,1,0.6419578,0.14195782,1
+2024-08-16,Cincinnati Reds,Kansas City Royals,0,0,0.46772268,0.032277316,1
+2024-08-16,Pittsburgh Pirates,Seattle Mariners,1,0,0.2756657,0.2243343,0
+2024-08-16,Philadelphia Phillies,Washington Nationals,1,1,0.6249549,0.12495488,1
+2024-08-16,Detroit Tigers,New York Yankees,0,0,0.3193974,0.18060261,1
+2024-08-16,Tampa Bay Rays,Arizona Diamondbacks,1,0,0.14194077,0.35805923,0
+2024-08-16,Baltimore Orioles,Boston Red Sox,0,1,0.5004745,0.00047451258,0
+2024-08-16,New York Mets,Miami Marlins,1,1,0.52557987,0.02557987,1
+2024-08-16,Texas Rangers,Minnesota Twins,0,0,0.22271512,0.27728486,1
+2024-08-16,Houston Astros,Chicago White Sox,0,1,0.9063542,0.4063542,0
+2024-08-16,Milwaukee Brewers,Cleveland Guardians,1,1,0.64737606,0.14737606,1
+2024-08-16,St. Louis Cardinals,Los Angeles Dodgers,0,0,0.38313225,0.11686775,1
+2024-08-16,Colorado Rockies,San Diego Padres,1,0,0.16615713,0.33384287,0
+2024-08-16,Los Angeles Angels,Atlanta Braves,1,1,0.62778014,0.12778014,1
+2024-08-17,Pittsburgh Pirates,Seattle Mariners,1,0,0.3084073,0.1915927,0
+2024-08-17,Detroit Tigers,New York Yankees,1,1,0.5452781,0.045278072,1
+2024-08-17,Chicago Cubs,Toronto Blue Jays,1,1,0.68916684,0.18916684,1
+2024-08-17,Tampa Bay Rays,Arizona Diamondbacks,1,0,0.27711752,0.22288248,0
+2024-08-17,New York Mets,Miami Marlins,1,1,0.6586882,0.15868819,1
+2024-08-17,Philadelphia Phillies,Washington Nationals,1,1,0.68819946,0.18819946,1
+2024-08-17,Cincinnati Reds,Kansas City Royals,0,0,0.44191438,0.05808562,1
+2024-08-17,Baltimore Orioles,Boston Red Sox,0,0,0.41991103,0.08008897,1
+2024-08-17,Texas Rangers,Minnesota Twins,0,0,0.25973755,0.24026245,1
+2024-08-17,Oakland Athletics,San Francisco Giants,1,1,0.569786,0.06978601,1
+2024-08-17,Houston Astros,Chicago White Sox,1,1,0.91301227,0.41301227,1
+2024-08-17,St. Louis Cardinals,Los Angeles Dodgers,1,0,0.38427255,0.115727454,0
+2024-08-17,Milwaukee Brewers,Cleveland Guardians,1,1,0.81779504,0.31779504,1
+2024-08-17,Colorado Rockies,San Diego Padres,0,0,0.1532072,0.34679282,1
+2024-08-17,Los Angeles Angels,Atlanta Braves,0,1,0.6290129,0.12901288,0
+2024-08-18,New York Mets,Miami Marlins,0,1,0.52316874,0.023168743,0
+2024-08-18,Baltimore Orioles,Boston Red Sox,1,1,0.5291039,0.029103875,1
+2024-08-18,Pittsburgh Pirates,Seattle Mariners,0,0,0.28322366,0.21677634,1
+2024-08-18,Philadelphia Phillies,Washington Nationals,0,1,0.6634828,0.16348279,0
+2024-08-18,Cincinnati Reds,Kansas City Royals,0,0,0.45889652,0.041103482,1
+2024-08-18,Tampa Bay Rays,Arizona Diamondbacks,1,0,0.32403973,0.17596027,0
+2024-08-18,Houston Astros,Chicago White Sox,1,1,0.9151139,0.41511393,1
+2024-08-18,Milwaukee Brewers,Cleveland Guardians,1,1,0.82339984,0.32339984,1
+2024-08-18,St. Louis Cardinals,Los Angeles Dodgers,0,0,0.27658662,0.22341338,1
+2024-08-18,Chicago Cubs,Toronto Blue Jays,0,1,0.58311343,0.08311343,0
+2024-08-18,Texas Rangers,Minnesota Twins,1,0,0.37177742,0.12822258,0
+2024-08-18,Colorado Rockies,San Diego Padres,1,0,0.23837428,0.2616257,0
+2024-08-18,Oakland Athletics,San Francisco Giants,0,1,0.5702649,0.070264876,0
+2024-08-18,Los Angeles Angels,Atlanta Braves,0,1,0.61490804,0.11490804,0
+2024-08-18,Detroit Tigers,New York Yankees,1,1,0.6575118,0.15751177,1
+2024-08-19,Miami Marlins,Arizona Diamondbacks,0,0,0.22902828,0.27097172,1
+2024-08-19,Toronto Blue Jays,Cincinnati Reds,0,0,0.49043941,0.009560585,1
+2024-08-19,New York Mets,Baltimore Orioles,1,0,0.45927286,0.04072714,0
+2024-08-19,Texas Rangers,Pittsburgh Pirates,1,1,0.5928897,0.092889726,1
+2024-08-19,Houston Astros,Boston Red Sox,1,1,0.77963734,0.27963734,1
+2024-08-19,Kansas City Royals,Los Angeles Angels,1,1,0.5979528,0.09795278,1
+2024-08-19,Oakland Athletics,Tampa Bay Rays,1,1,0.6039581,0.10395807,1
+2024-08-19,San Diego Padres,Minnesota Twins,1,1,0.79077387,0.29077387,1
+2024-08-19,San Francisco Giants,Chicago White Sox,1,1,0.8706857,0.3706857,1
+2024-08-19,Los Angeles Dodgers,Seattle Mariners,1,1,0.8709508,0.37095082,1
+2024-08-20,Miami Marlins,Arizona Diamondbacks,0,0,0.16512595,0.33487403,1
+2024-08-20,Washington Nationals,Colorado Rockies,0,1,0.55279595,0.052795947,0
+2024-08-20,New York Yankees,Cleveland Guardians,0,1,0.62893474,0.12893474,0
+2024-08-20,Toronto Blue Jays,Cincinnati Reds,1,0,0.4942517,0.0057483017,0
+2024-08-20,New York Mets,Baltimore Orioles,0,0,0.4442681,0.055731893,1
+2024-08-20,Atlanta Braves,Philadelphia Phillies,1,1,0.5569322,0.05693221,1
+2024-08-20,St. Louis Cardinals,Milwaukee Brewers,0,0,0.14689977,0.35310024,1
+2024-08-20,Chicago Cubs,Detroit Tigers,1,0,0.49509847,0.0049015284,0
+2024-08-20,Texas Rangers,Pittsburgh Pirates,0,1,0.58381367,0.08381367,0
+2024-08-20,Houston Astros,Boston Red Sox,0,1,0.76376456,0.26376456,0
+2024-08-20,Kansas City Royals,Los Angeles Angels,0,1,0.5836804,0.08368039,0
+2024-08-20,Oakland Athletics,Tampa Bay Rays,0,1,0.53430283,0.03430283,0
+2024-08-20,San Diego Padres,Minnesota Twins,1,1,0.7885807,0.28858072,1
+2024-08-20,San Francisco Giants,Chicago White Sox,1,1,0.85738134,0.35738134,1
+2024-08-20,Los Angeles Dodgers,Seattle Mariners,1,1,0.85358506,0.35358506,1
+2024-08-21,New York Mets,Baltimore Orioles,1,1,0.5527518,0.05275178,1
+2024-08-21,Houston Astros,Boston Red Sox,0,1,0.77157307,0.27157307,0
+2024-08-21,Texas Rangers,Pittsburgh Pirates,1,1,0.5721687,0.07216871,1
+2024-08-21,San Francisco Giants,Chicago White Sox,0,1,0.71996576,0.21996576,0
+2024-08-21,San Diego Padres,Minnesota Twins,0,1,0.65273625,0.15273625,0
+2024-08-21,Miami Marlins,Arizona Diamondbacks,0,0,0.13119397,0.36880603,1
+2024-08-21,Washington Nationals,Colorado Rockies,1,1,0.57574755,0.07574755,1
+2024-08-21,New York Yankees,Cleveland Guardians,1,1,0.6080025,0.108002484,1
+2024-08-21,Toronto Blue Jays,Cincinnati Reds,0,1,0.5012644,0.0012643933,0
+2024-08-21,Atlanta Braves,Philadelphia Phillies,0,1,0.5796062,0.079606175,0
+2024-08-21,St. Louis Cardinals,Milwaukee Brewers,1,0,0.17669915,0.32330084,0
+2024-08-21,Chicago Cubs,Detroit Tigers,0,0,0.44029877,0.059701234,1
+2024-08-21,Kansas City Royals,Los Angeles Angels,1,1,0.6945615,0.19456148,1
+2024-08-21,Oakland Athletics,Tampa Bay Rays,0,1,0.5461106,0.04611057,0
+2024-08-21,Los Angeles Dodgers,Seattle Mariners,1,1,0.8649796,0.36497962,1
+2024-08-22,Washington Nationals,Colorado Rockies,1,1,0.62173057,0.121730566,1
+2024-08-22,New York Yankees,Cleveland Guardians,1,1,0.60833347,0.10833347,1
+2024-08-22,St. Louis Cardinals,Milwaukee Brewers,1,0,0.3168786,0.18312141,0
+2024-08-22,Chicago Cubs,Detroit Tigers,1,1,0.5021208,0.0021207929,1
+2024-08-22,Oakland Athletics,Tampa Bay Rays,1,1,0.575305,0.075304985,1
+2024-08-22,Pittsburgh Pirates,Cincinnati Reds,1,0,0.31295392,0.18704608,0
+2024-08-22,Toronto Blue Jays,Los Angeles Angels,1,1,0.73158765,0.23158765,1
+2024-08-22,Baltimore Orioles,Houston Astros,0,0,0.14850162,0.35149837,1
+2024-08-22,Atlanta Braves,Philadelphia Phillies,1,1,0.62383765,0.12383765,1
+2024-08-22,San Diego Padres,New York Mets,0,1,0.627228,0.12722802,0
+2024-08-23,Pittsburgh Pirates,Cincinnati Reds,1,0,0.38563263,0.114367366,0
+2024-08-23,Baltimore Orioles,Houston Astros,1,0,0.25562784,0.24437216,0
+2024-08-23,New York Yankees,Colorado Rockies,1,1,0.7841524,0.2841524,1
+2024-08-23,Toronto Blue Jays,Los Angeles Angels,1,1,0.73989195,0.23989195,1
+2024-08-23,Boston Red Sox,Arizona Diamondbacks,0,0,0.2067754,0.2932246,1
+2024-08-23,Cleveland Guardians,Texas Rangers,0,1,0.6254404,0.12544042,0
+2024-08-23,Miami Marlins,Chicago Cubs,0,0,0.2196339,0.2803661,1
+2024-08-23,Atlanta Braves,Washington Nationals,1,1,0.68644917,0.18644917,1
+2024-08-23,Minnesota Twins,St. Louis Cardinals,0,1,0.58153117,0.08153117,0
+2024-08-23,Kansas City Royals,Philadelphia Phillies,1,1,0.6402709,0.14027089,1
+2024-08-23,Chicago White Sox,Detroit Tigers,0,0,0.24791111,0.2520889,1
+2024-08-23,San Diego Padres,New York Mets,1,1,0.6348544,0.13485438,1
+2024-08-23,Oakland Athletics,Milwaukee Brewers,0,0,0.48241076,0.017589241,1
+2024-08-23,Seattle Mariners,San Francisco Giants,1,0,0.41293234,0.08706766,0
+2024-08-23,Los Angeles Dodgers,Tampa Bay Rays,1,1,0.78136396,0.28136396,1
+2024-08-24,New York Yankees,Colorado Rockies,0,1,0.7191707,0.21917069,0
+2024-08-24,Toronto Blue Jays,Los Angeles Angels,1,1,0.8279286,0.3279286,1
+2024-08-24,Baltimore Orioles,Houston Astros,1,0,0.3451878,0.15481219,0
+2024-08-24,Oakland Athletics,Milwaukee Brewers,0,0,0.46498406,0.03501594,1
+2024-08-24,Boston Red Sox,Arizona Diamondbacks,0,0,0.18970536,0.31029463,1
+2024-08-24,Seattle Mariners,San Francisco Giants,0,0,0.40821064,0.091789365,1
+2024-08-24,Miami Marlins,Chicago Cubs,0,0,0.20806922,0.2919308,1
+2024-08-24,Pittsburgh Pirates,Cincinnati Reds,0,0,0.3552659,0.14473411,1
+2024-08-24,Cleveland Guardians,Texas Rangers,1,1,0.6829939,0.18299389,1
+2024-08-24,Minnesota Twins,St. Louis Cardinals,1,1,0.65536153,0.15536153,1
+2024-08-24,Kansas City Royals,Philadelphia Phillies,0,1,0.6628835,0.16288352,0
+2024-08-24,Chicago White Sox,Detroit Tigers,0,0,0.293701,0.206299,1
+2024-08-24,Atlanta Braves,Washington Nationals,1,1,0.7375881,0.23758811,1
+2024-08-24,San Diego Padres,New York Mets,0,1,0.60791826,0.10791826,0
+2024-08-24,Los Angeles Dodgers,Tampa Bay Rays,0,1,0.7974258,0.2974258,0
+2024-08-25,Atlanta Braves,Washington Nationals,0,1,0.63793755,0.13793755,0
+2024-08-25,Boston Red Sox,Arizona Diamondbacks,0,0,0.13176166,0.36823833,1
+2024-08-25,Pittsburgh Pirates,Cincinnati Reds,1,0,0.44447327,0.055526733,0
+2024-08-25,New York Yankees,Colorado Rockies,1,1,0.8001311,0.30013108,1
+2024-08-25,Toronto Blue Jays,Los Angeles Angels,1,1,0.8596003,0.3596003,1
+2024-08-25,Cleveland Guardians,Texas Rangers,1,1,0.7477126,0.24771261,1
+2024-08-25,Miami Marlins,Chicago Cubs,1,0,0.26064,0.23936,0
+2024-08-25,Minnesota Twins,St. Louis Cardinals,0,1,0.60762036,0.10762036,0
+2024-08-25,Kansas City Royals,Philadelphia Phillies,0,1,0.70515376,0.20515376,0
+2024-08-25,Chicago White Sox,Detroit Tigers,0,0,0.13139604,0.36860394,1
+2024-08-25,Oakland Athletics,Milwaukee Brewers,1,0,0.49062866,0.00937134,0
+2024-08-25,San Diego Padres,New York Mets,1,1,0.5924299,0.09242988,1
+2024-08-25,Seattle Mariners,San Francisco Giants,1,0,0.48401034,0.015989661,0
+2024-08-25,Los Angeles Dodgers,Tampa Bay Rays,1,1,0.7803175,0.2803175,1
+2024-08-25,Baltimore Orioles,Houston Astros,0,0,0.31279302,0.18720698,1
+2024-08-26,Cleveland Guardians,Kansas City Royals,0,0,0.2911347,0.20886531,1
+2024-08-26,Cleveland Guardians,Kansas City Royals,0,1,0.5106206,0.010620594,0
+2024-08-26,Boston Red Sox,Toronto Blue Jays,0,0,0.17634013,0.32365987,1
+2024-08-26,Pittsburgh Pirates,Chicago Cubs,0,0,0.36117035,0.13882965,1
+2024-08-26,Philadelphia Phillies,Houston Astros,1,0,0.4641929,0.035807103,0
+2024-08-26,Washington Nationals,New York Yankees,0,0,0.37691775,0.12308225,1
+2024-08-26,Boston Red Sox,Toronto Blue Jays,0,0,0.23981604,0.26018396,1
+2024-08-26,Minnesota Twins,Atlanta Braves,0,0,0.24837646,0.25162354,1
+2024-08-26,St. Louis Cardinals,San Diego Padres,0,0,0.39769885,0.10230115,1
+2024-08-26,Chicago White Sox,Detroit Tigers,0,0,0.11053295,0.38946706,1
+2024-08-26,Colorado Rockies,Miami Marlins,1,1,0.7062243,0.20622432,1
+2024-08-26,Seattle Mariners,Tampa Bay Rays,1,0,0.4399521,0.060047895,0
+2024-08-27,Detroit Tigers,Los Angeles Angels,1,1,0.9479024,0.44790238,1
+2024-08-27,Cleveland Guardians,Kansas City Royals,0,0,0.29595008,0.20404992,1
+2024-08-27,Cincinnati Reds,Oakland Athletics,0,0,0.37878612,0.12121388,1
+2024-08-27,Pittsburgh Pirates,Chicago Cubs,0,0,0.37796718,0.12203282,1
+2024-08-27,Philadelphia Phillies,Houston Astros,1,1,0.54745233,0.04745233,1
+2024-08-27,Washington Nationals,New York Yankees,1,0,0.4134007,0.08659929,0
+2024-08-27,Boston Red Sox,Toronto Blue Jays,1,0,0.2282588,0.2717412,0
+2024-08-27,Minnesota Twins,Atlanta Braves,0,0,0.22614646,0.27385354,1
+2024-08-27,St. Louis Cardinals,San Diego Padres,0,0,0.24197736,0.25802264,1
+2024-08-27,Chicago White Sox,Texas Rangers,0,0,0.1622576,0.3377424,1
+2024-08-27,Milwaukee Brewers,San Francisco Giants,0,1,0.5064022,0.0064021945,0
+2024-08-27,Colorado Rockies,Miami Marlins,0,1,0.6764088,0.17640883,0
+2024-08-27,Arizona Diamondbacks,New York Mets,0,1,0.7007145,0.20071453,0
+2024-08-27,Seattle Mariners,Tampa Bay Rays,0,0,0.3668126,0.13318741,1
+2024-08-27,Los Angeles Dodgers,Baltimore Orioles,0,1,0.6918569,0.19185692,0
+2024-08-28,Pittsburgh Pirates,Chicago Cubs,0,0,0.34126174,0.15873826,1
+2024-08-28,Cleveland Guardians,Kansas City Royals,1,0,0.29869813,0.20130187,0
+2024-08-28,Philadelphia Phillies,Houston Astros,0,1,0.59048355,0.090483546,0
+2024-08-28,Seattle Mariners,Tampa Bay Rays,1,0,0.31877974,0.18122026,0
+2024-08-28,Chicago White Sox,Texas Rangers,0,0,0.1622576,0.3377424,1
+2024-08-28,Detroit Tigers,Los Angeles Angels,1,1,0.9464654,0.44646537,1
+2024-08-28,Cincinnati Reds,Oakland Athletics,0,0,0.3246073,0.17539269,1
+2024-08-28,Washington Nationals,New York Yankees,1,0,0.49900308,0.0009969175,0
+2024-08-28,Boston Red Sox,Toronto Blue Jays,1,0,0.30732676,0.19267324,0
+2024-08-28,Minnesota Twins,Atlanta Braves,0,0,0.19137956,0.30862045,1
+2024-08-28,St. Louis Cardinals,San Diego Padres,1,0,0.3688448,0.1311552,0
+2024-08-28,Chicago White Sox,Texas Rangers,0,0,0.27333203,0.22666797,1
+2024-08-28,Milwaukee Brewers,San Francisco Giants,1,1,0.6132656,0.113265574,1
+2024-08-28,Colorado Rockies,Miami Marlins,1,1,0.6949341,0.19493413,1
+2024-08-28,Arizona Diamondbacks,New York Mets,1,1,0.6527582,0.15275818,1
+2024-08-28,Los Angeles Dodgers,Baltimore Orioles,1,1,0.6963581,0.19635808,1
+2024-08-29,Detroit Tigers,Los Angeles Angels,0,1,0.93863684,0.43863684,0
+2024-08-29,Chicago White Sox,Texas Rangers,0,0,0.12178162,0.37821838,1
+2024-08-29,Milwaukee Brewers,San Francisco Giants,1,1,0.69692576,0.19692576,1
+2024-08-29,St. Louis Cardinals,San Diego Padres,1,1,0.53544515,0.035445154,1
+2024-08-29,Colorado Rockies,Miami Marlins,0,1,0.6766615,0.17666149,0
+2024-08-29,Arizona Diamondbacks,New York Mets,0,1,0.50931925,0.009319246,0
+2024-08-29,Cincinnati Reds,Oakland Athletics,1,0,0.35793984,0.14206016,0
+2024-08-29,Philadelphia Phillies,Atlanta Braves,1,0,0.4779261,0.022073895,0
+2024-08-29,Boston Red Sox,Toronto Blue Jays,0,0,0.31804162,0.18195838,1
+2024-08-29,Houston Astros,Kansas City Royals,1,0,0.3097219,0.19027811,0
+2024-08-29,Los Angeles Dodgers,Baltimore Orioles,1,1,0.683215,0.18321502,1
+2024-08-30,Cincinnati Reds,Milwaukee Brewers,0,0,0.13365613,0.36634386,1
+2024-08-30,Cincinnati Reds,Milwaukee Brewers,0,0,0.16431087,0.33568913,1
+2024-08-30,Detroit Tigers,Boston Red Sox,0,1,0.70219094,0.20219094,0
+2024-08-30,Philadelphia Phillies,Atlanta Braves,0,0,0.42341173,0.07658827,1
+2024-08-30,Washington Nationals,Chicago Cubs,0,0,0.35284376,0.14715624,1
+2024-08-30,Tampa Bay Rays,San Diego Padres,0,0,0.41655758,0.08344242,1
+2024-08-30,New York Yankees,St. Louis Cardinals,1,1,0.56007946,0.060079455,1
+2024-08-30,Cleveland Guardians,Pittsburgh Pirates,1,0,0.49733198,0.002668023,0
+2024-08-30,Texas Rangers,Oakland Athletics,0,1,0.512562,0.012561977,0
+2024-08-30,Houston Astros,Kansas City Royals,1,0,0.4664353,0.033564687,0
+2024-08-30,Minnesota Twins,Toronto Blue Jays,1,0,0.3211227,0.1788773,0
+2024-08-30,Chicago White Sox,New York Mets,0,0,0.110011056,0.38998896,1
+2024-08-30,Colorado Rockies,Baltimore Orioles,0,0,0.45445925,0.04554075,1
+2024-08-30,Los Angeles Angels,Seattle Mariners,0,0,0.2835849,0.2164151,1
+2024-08-30,Arizona Diamondbacks,Los Angeles Dodgers,0,0,0.3909763,0.10902369,1
+2024-08-30,San Francisco Giants,Miami Marlins,1,1,0.7169272,0.21692717,1
+2024-08-31,New York Yankees,St. Louis Cardinals,0,0,0.40665036,0.093349636,1
+2024-08-31,Washington Nationals,Chicago Cubs,0,0,0.33242086,0.16757914,1
+2024-08-31,Tampa Bay Rays,San Diego Padres,1,0,0.48182744,0.018172562,0
+2024-08-31,Detroit Tigers,Boston Red Sox,1,1,0.7416993,0.24169928,1
+2024-08-31,Cleveland Guardians,Pittsburgh Pirates,0,0,0.38542765,0.114572346,1
+2024-08-31,Texas Rangers,Oakland Athletics,1,1,0.63373387,0.13373387,1
+2024-08-31,Houston Astros,Kansas City Royals,1,1,0.5732644,0.07326442,1
+2024-08-31,Minnesota Twins,Toronto Blue Jays,0,0,0.29085335,0.20914665,1
+2024-08-31,Chicago White Sox,New York Mets,0,0,0.11073993,0.38926005,1
+2024-08-31,Philadelphia Phillies,Atlanta Braves,1,0,0.47665584,0.02334416,0
+2024-08-31,Cincinnati Reds,Milwaukee Brewers,0,0,0.12682901,0.37317097,1
+2024-08-31,Colorado Rockies,Baltimore Orioles,1,1,0.63743013,0.13743013,1
+2024-08-31,Arizona Diamondbacks,Los Angeles Dodgers,0,0,0.19834794,0.30165207,1
+2024-08-31,San Francisco Giants,Miami Marlins,0,1,0.67052317,0.17052317,0
+2024-08-31,Los Angeles Angels,Seattle Mariners,1,0,0.43460894,0.06539106,0
+2024-09-01,Cincinnati Reds,Milwaukee Brewers,1,0,0.24108323,0.25891677,0
+2024-09-01,Washington Nationals,Chicago Cubs,0,0,0.29552862,0.20447138,1
+2024-09-01,New York Yankees,St. Louis Cardinals,0,0,0.36815158,0.13184842,1
+2024-09-01,Detroit Tigers,Boston Red Sox,1,1,0.8627173,0.36271727,1
+2024-09-01,Cleveland Guardians,Pittsburgh Pirates,1,1,0.55923176,0.059231758,1
+2024-09-01,Tampa Bay Rays,San Diego Padres,0,0,0.41501695,0.08498305,1
+2024-09-01,Houston Astros,Kansas City Royals,1,1,0.6821404,0.18214041,1
+2024-09-01,Minnesota Twins,Toronto Blue Jays,1,0,0.34987602,0.15012398,0
+2024-09-01,Chicago White Sox,New York Mets,0,0,0.070839986,0.42916,1
+2024-09-01,Texas Rangers,Oakland Athletics,1,1,0.73860043,0.23860043,1
+2024-09-01,Colorado Rockies,Baltimore Orioles,0,0,0.4702956,0.029704392,1
+2024-09-01,San Francisco Giants,Miami Marlins,0,1,0.61095494,0.11095494,0
+2024-09-01,Los Angeles Angels,Seattle Mariners,1,0,0.43460894,0.06539106,0
+2024-09-01,Arizona Diamondbacks,Los Angeles Dodgers,1,0,0.21661083,0.28338915,0
+2024-09-01,Philadelphia Phillies,Atlanta Braves,1,0,0.47665584,0.02334416,0
+2024-09-02,Milwaukee Brewers,St. Louis Cardinals,1,1,0.6213273,0.12132728,1
+2024-09-02,Baltimore Orioles,Chicago White Sox,1,1,0.8863428,0.38634282,1
+2024-09-02,Cincinnati Reds,Houston Astros,1,0,0.42762795,0.07237205,0
+2024-09-02,Kansas City Royals,Cleveland Guardians,0,0,0.49572483,0.004275173,1
+2024-09-02,Arizona Diamondbacks,Los Angeles Dodgers,0,0,0.2338676,0.2661324,1
+2024-09-02,San Diego Padres,Detroit Tigers,1,0,0.40754858,0.09245142,0
+2024-09-02,Tampa Bay Rays,Minnesota Twins,0,1,0.6226087,0.12260872,0
+2024-09-02,Oakland Athletics,Seattle Mariners,1,1,0.6086305,0.10863048,1
+2024-09-02,New York Mets,Boston Red Sox,1,1,0.72195333,0.22195333,1
+2024-09-02,Chicago Cubs,Pittsburgh Pirates,0,1,0.8158785,0.3158785,0
+2024-09-02,Texas Rangers,New York Yankees,0,1,0.7424358,0.24243581,0
+2024-09-03,Baltimore Orioles,Chicago White Sox,1,1,0.88717914,0.38717914,1
+2024-09-03,Miami Marlins,Washington Nationals,0,0,0.3825136,0.11748639,1
+2024-09-03,Tampa Bay Rays,Minnesota Twins,1,1,0.6219843,0.1219843,1
+2024-09-03,Toronto Blue Jays,Philadelphia Phillies,0,1,0.5295043,0.0295043,0
+2024-09-03,New York Mets,Boston Red Sox,1,1,0.8396641,0.3396641,1
+2024-09-03,Atlanta Braves,Colorado Rockies,1,1,0.74229103,0.24229103,1
+2024-09-03,Kansas City Royals,Cleveland Guardians,0,0,0.36755475,0.13244525,1
+2024-09-03,Chicago Cubs,Pittsburgh Pirates,0,1,0.6474305,0.14743048,0
+2024-09-03,Milwaukee Brewers,St. Louis Cardinals,0,1,0.5644084,0.06440842,0
+2024-09-03,Texas Rangers,New York Yankees,1,1,0.7519328,0.2519328,1
+2024-09-03,Los Angeles Angels,Los Angeles Dodgers,0,0,0.11814832,0.38185167,1
+2024-09-03,Oakland Athletics,Seattle Mariners,1,1,0.66968966,0.16968966,1
+2024-09-03,San Francisco Giants,Arizona Diamondbacks,0,0,0.30623478,0.19376522,1
+2024-09-04,Toronto Blue Jays,Philadelphia Phillies,0,0,0.3516799,0.14832011,1
+2024-09-04,Baltimore Orioles,Chicago White Sox,0,1,0.88953257,0.38953257,0
+2024-09-04,Cincinnati Reds,Houston Astros,1,0,0.4565015,0.043498486,0
+2024-09-04,Miami Marlins,Washington Nationals,1,0,0.38374093,0.11625907,0
+2024-09-04,Tampa Bay Rays,Minnesota Twins,1,1,0.6307752,0.13077521,1
+2024-09-04,New York Mets,Boston Red Sox,1,1,0.8967889,0.3967889,1
+2024-09-04,Atlanta Braves,Colorado Rockies,1,1,0.747026,0.24702603,1
+2024-09-04,Kansas City Royals,Cleveland Guardians,1,0,0.46820113,0.03179887,0
+2024-09-04,Chicago Cubs,Pittsburgh Pirates,1,1,0.87336844,0.37336844,1
+2024-09-04,Milwaukee Brewers,St. Louis Cardinals,0,0,0.33049,0.16951,1
+2024-09-04,Texas Rangers,New York Yankees,1,1,0.74331653,0.24331653,1
+2024-09-04,Los Angeles Angels,Los Angeles Dodgers,1,0,0.22199419,0.2780058,0
+2024-09-04,San Diego Padres,Detroit Tigers,1,1,0.50700057,0.0070005655,1
+2024-09-04,Oakland Athletics,Seattle Mariners,0,1,0.6516684,0.15166843,0
+2024-09-04,San Francisco Giants,Arizona Diamondbacks,0,0,0.24214785,0.25785214,1
+2024-09-05,Cincinnati Reds,Houston Astros,1,0,0.49301732,0.006982684,0
+2024-09-05,Tampa Bay Rays,Minnesota Twins,0,1,0.58769506,0.08769506,0
+2024-09-05,Oakland Athletics,Seattle Mariners,0,1,0.6063143,0.1063143,0
+2024-09-05,San Francisco Giants,Arizona Diamondbacks,1,0,0.33428916,0.16571084,0
+2024-09-05,Pittsburgh Pirates,Washington Nationals,1,1,0.5998123,0.09981233,1
+2024-09-05,Miami Marlins,Philadelphia Phillies,0,0,0.2696514,0.23034859,1
+2024-09-05,Atlanta Braves,Colorado Rockies,0,1,0.75459427,0.25459427,0
+2024-09-05,Texas Rangers,Los Angeles Angels,1,1,0.8132814,0.31328142,1
+2024-09-05,San Diego Padres,Detroit Tigers,0,0,0.3436986,0.15630141,1
+2024-09-06,Chicago Cubs,New York Yankees,0,1,0.68695647,0.18695647,0
+2024-09-06,Milwaukee Brewers,Colorado Rockies,0,1,0.65743154,0.15743154,0
+2024-09-06,Baltimore Orioles,Tampa Bay Rays,1,1,0.6930862,0.1930862,1
+2024-09-06,New York Mets,Cincinnati Reds,1,1,0.88835394,0.38835394,1
+2024-09-06,Boston Red Sox,Chicago White Sox,1,1,0.59885246,0.098852456,1
+2024-09-06,Miami Marlins,Philadelphia Phillies,0,0,0.2064169,0.2935831,1
+2024-09-06,Atlanta Braves,Toronto Blue Jays,1,1,0.7099729,0.20997292,1
+2024-09-06,Texas Rangers,Los Angeles Angels,0,1,0.6904654,0.19046539,0
+2024-09-06,Houston Astros,Arizona Diamondbacks,1,0,0.49512175,0.0048782527,0
+2024-09-06,Kansas City Royals,Minnesota Twins,1,1,0.55168337,0.051683366,1
+2024-09-06,St. Louis Cardinals,Seattle Mariners,0,1,0.6792683,0.1792683,0
+2024-09-06,Oakland Athletics,Detroit Tigers,1,0,0.46724582,0.032754183,0
+2024-09-06,San Diego Padres,San Francisco Giants,1,1,0.7228477,0.2228477,1
+2024-09-06,Los Angeles Dodgers,Cleveland Guardians,0,1,0.67284167,0.17284167,0
+2024-09-07,Pittsburgh Pirates,Washington Nationals,0,0,0.3925377,0.10746229,1
+2024-09-07,Pittsburgh Pirates,Washington Nationals,0,1,0.5414347,0.041434705,0
+2024-09-07,Chicago Cubs,New York Yankees,0,1,0.7945513,0.2945513,0
+2024-09-07,Baltimore Orioles,Tampa Bay Rays,0,1,0.671873,0.17187297,0
+2024-09-07,Oakland Athletics,Detroit Tigers,0,0,0.2765635,0.2234365,1
+2024-09-07,Houston Astros,Arizona Diamondbacks,1,1,0.52442515,0.024425149,1
+2024-09-07,New York Mets,Cincinnati Reds,1,1,0.88176465,0.38176465,1
+2024-09-07,Miami Marlins,Philadelphia Phillies,1,0,0.28675917,0.21324083,0
+2024-09-07,Texas Rangers,Los Angeles Angels,1,1,0.70030034,0.20030034,1
+2024-09-07,Milwaukee Brewers,Colorado Rockies,1,1,0.7531767,0.2531767,1
+2024-09-07,St. Louis Cardinals,Seattle Mariners,1,1,0.6990903,0.1990903,1
+2024-09-07,Kansas City Royals,Minnesota Twins,1,1,0.5590286,0.059028625,1
+2024-09-07,Boston Red Sox,Chicago White Sox,1,1,0.7570876,0.2570876,1
+2024-09-07,Atlanta Braves,Toronto Blue Jays,0,1,0.65897715,0.15897715,0
+2024-09-07,San Diego Padres,San Francisco Giants,0,1,0.731362,0.23136199,0
+2024-09-07,Los Angeles Dodgers,Cleveland Guardians,1,1,0.67284167,0.17284167,1
+2024-09-08,Baltimore Orioles,Tampa Bay Rays,0,1,0.5537809,0.053780913,0
+2024-09-08,Pittsburgh Pirates,Washington Nationals,1,1,0.5033339,0.0033339262,1
+2024-09-08,Atlanta Braves,Toronto Blue Jays,1,1,0.72617364,0.22617364,1
+2024-09-08,Boston Red Sox,Chicago White Sox,0,1,0.68842375,0.18842375,0
+2024-09-08,New York Mets,Cincinnati Reds,0,1,0.79489297,0.29489297,0
+2024-09-08,Miami Marlins,Philadelphia Phillies,1,0,0.35609192,0.14390808,0
+2024-09-08,Kansas City Royals,Minnesota Twins,1,1,0.6521303,0.1521303,1
+2024-09-08,Milwaukee Brewers,Colorado Rockies,0,1,0.612592,0.11259198,0
+2024-09-08,St. Louis Cardinals,Seattle Mariners,0,1,0.6961901,0.19619012,0
+2024-09-08,Chicago Cubs,New York Yankees,1,1,0.7557879,0.2557879,1
+2024-09-08,Texas Rangers,Los Angeles Angels,1,1,0.82675326,0.32675326,1
+2024-09-08,Oakland Athletics,Detroit Tigers,0,0,0.27191976,0.22808024,1
+2024-09-08,Los Angeles Dodgers,Cleveland Guardians,1,1,0.67947555,0.17947555,1
+2024-09-08,San Diego Padres,San Francisco Giants,0,1,0.6361103,0.1361103,0
+2024-09-08,Houston Astros,Arizona Diamondbacks,0,1,0.5109778,0.010977805,0
+2024-09-09,Philadelphia Phillies,Tampa Bay Rays,1,1,0.8217623,0.32176232,1
+2024-09-09,Atlanta Braves,Cincinnati Reds,0,1,0.6379314,0.1379314,0
+2024-09-09,Pittsburgh Pirates,Miami Marlins,1,0,0.4960894,0.003910601,0
+2024-09-09,New York Yankees,Kansas City Royals,1,0,0.49404678,0.0059532225,0
+2024-09-09,Toronto Blue Jays,New York Mets,0,0,0.102716975,0.39728302,1
+2024-09-09,Boston Red Sox,Baltimore Orioles,1,0,0.3899469,0.11005309,0
+2024-09-09,Minnesota Twins,Los Angeles Angels,0,0,0.23791964,0.26208037,1
+2024-09-09,Chicago White Sox,Cleveland Guardians,0,0,0.12958279,0.3704172,1
+2024-09-09,Los Angeles Dodgers,Chicago Cubs,0,1,0.51762533,0.017625332,0
+2024-09-10,Detroit Tigers,Colorado Rockies,1,1,0.8254447,0.3254447,1
+2024-09-10,Philadelphia Phillies,Tampa Bay Rays,1,1,0.83841074,0.33841074,1
+2024-09-10,Pittsburgh Pirates,Miami Marlins,1,1,0.5423979,0.042397916,1
+2024-09-10,Washington Nationals,Atlanta Braves,0,0,0.33056957,0.16943043,1
+2024-09-10,New York Yankees,Kansas City Royals,0,0,0.44793883,0.05206117,1
+2024-09-10,Toronto Blue Jays,New York Mets,1,0,0.17838795,0.32161206,0
+2024-09-10,Boston Red Sox,Baltimore Orioles,0,0,0.3837211,0.11627889,1
+2024-09-10,Minnesota Twins,Los Angeles Angels,1,0,0.375226,0.12477401,0
+2024-09-10,Chicago White Sox,Cleveland Guardians,0,0,0.12485619,0.37514383,1
+2024-09-10,St. Louis Cardinals,Cincinnati Reds,0,1,0.60528785,0.10528785,0
+2024-09-10,Houston Astros,Oakland Athletics,0,0,0.4952967,0.004703313,1
+2024-09-10,Seattle Mariners,San Diego Padres,0,1,0.5800747,0.08007473,0
+2024-09-10,Arizona Diamondbacks,Texas Rangers,1,0,0.34772515,0.15227485,0
+2024-09-10,San Francisco Giants,Milwaukee Brewers,0,0,0.4984533,0.0015467107,1
+2024-09-10,Los Angeles Dodgers,Chicago Cubs,0,0,0.40687904,0.09312096,1
+2024-09-11,Pittsburgh Pirates,Miami Marlins,1,1,0.55974996,0.05974996,1
+2024-09-11,Chicago White Sox,Cleveland Guardians,0,0,0.10113003,0.39886996,1
+2024-09-11,Toronto Blue Jays,New York Mets,0,0,0.07385807,0.42614192,1
+2024-09-11,Arizona Diamondbacks,Texas Rangers,1,0,0.38568604,0.11431396,0
+2024-09-11,Detroit Tigers,Colorado Rockies,1,1,0.77215564,0.27215564,1
+2024-09-11,Philadelphia Phillies,Tampa Bay Rays,1,1,0.8516632,0.35166317,1
+2024-09-11,Washington Nationals,Atlanta Braves,1,0,0.47777548,0.022224516,0
+2024-09-11,New York Yankees,Kansas City Royals,1,0,0.47163513,0.028364867,0
+2024-09-11,Boston Red Sox,Baltimore Orioles,1,0,0.46961358,0.030386418,0
+2024-09-11,Minnesota Twins,Los Angeles Angels,1,0,0.45730415,0.04269585,0
+2024-09-11,St. Louis Cardinals,Cincinnati Reds,1,1,0.60528785,0.10528785,1
+2024-09-11,Houston Astros,Oakland Athletics,0,0,0.48733193,0.012668073,1
+2024-09-11,Seattle Mariners,San Diego Padres,1,1,0.64831746,0.14831746,1
+2024-09-11,San Francisco Giants,Milwaukee Brewers,1,0,0.37858468,0.12141532,0
+2024-09-11,Los Angeles Dodgers,Chicago Cubs,1,0,0.38277775,0.11722225,0
+2024-09-12,Detroit Tigers,Colorado Rockies,0,1,0.7448735,0.24487352,0
+2024-09-12,St. Louis Cardinals,Cincinnati Reds,1,1,0.5915517,0.09155172,1
+2024-09-12,Houston Astros,Oakland Athletics,1,1,0.513288,0.013288021,1
+2024-09-12,Washington Nationals,Miami Marlins,0,0,0.46790907,0.032090932,1
+2024-09-12,Cleveland Guardians,Tampa Bay Rays,0,1,0.70044154,0.20044154,0
+2024-09-12,New York Yankees,Boston Red Sox,1,0,0.3830987,0.11690131,0
+2024-09-12,Seattle Mariners,Texas Rangers,0,0,0.42059925,0.07940075,1
+2024-09-12,San Francisco Giants,Milwaukee Brewers,0,0,0.28699067,0.21300933,1
+2024-09-13,Detroit Tigers,Baltimore Orioles,1,1,0.77774423,0.27774423,1
+2024-09-13,Pittsburgh Pirates,Kansas City Royals,0,1,0.6039257,0.103925705,0
+2024-09-13,Philadelphia Phillies,New York Mets,0,0,0.25400373,0.24599627,1
+2024-09-13,Washington Nationals,Miami Marlins,1,1,0.5535038,0.05350381,1
+2024-09-13,New York Yankees,Boston Red Sox,1,1,0.5249792,0.024979174,1
+2024-09-13,Toronto Blue Jays,St. Louis Cardinals,1,0,0.2377711,0.2622289,0
+2024-09-13,Cleveland Guardians,Tampa Bay Rays,0,1,0.6298542,0.1298542,0
+2024-09-13,Atlanta Braves,Los Angeles Dodgers,1,1,0.52126175,0.021261752,1
+2024-09-13,Chicago White Sox,Oakland Athletics,0,0,0.23848283,0.26151717,1
+2024-09-13,Minnesota Twins,Cincinnati Reds,0,0,0.407809,0.09219101,1
+2024-09-13,Colorado Rockies,Chicago Cubs,1,0,0.49717447,0.0028255284,0
+2024-09-13,Los Angeles Angels,Houston Astros,0,0,0.30599585,0.19400415,1
+2024-09-13,Arizona Diamondbacks,Milwaukee Brewers,0,0,0.33001047,0.16998953,1
+2024-09-13,Seattle Mariners,Texas Rangers,1,1,0.5987728,0.098772824,1
+2024-09-13,San Francisco Giants,San Diego Padres,0,0,0.29805535,0.20194465,1
+2024-09-14,Pittsburgh Pirates,Kansas City Royals,0,1,0.51820654,0.018206537,0
+2024-09-14,New York Yankees,Boston Red Sox,0,1,0.5241658,0.02416581,0
+2024-09-14,Toronto Blue Jays,St. Louis Cardinals,1,0,0.38668022,0.113319784,0
+2024-09-14,Philadelphia Phillies,New York Mets,1,0,0.31555352,0.18444648,0
+2024-09-14,Washington Nationals,Miami Marlins,1,1,0.5456952,0.045695186,1
+2024-09-14,Detroit Tigers,Baltimore Orioles,0,1,0.62227064,0.12227064,0
+2024-09-14,Cleveland Guardians,Tampa Bay Rays,1,1,0.57570803,0.07570803,1
+2024-09-14,Minnesota Twins,Cincinnati Reds,0,0,0.3487734,0.15122661,1
+2024-09-14,Chicago White Sox,Oakland Athletics,1,0,0.33291382,0.16708618,0
+2024-09-14,Atlanta Braves,Los Angeles Dodgers,1,1,0.5631884,0.063188374,1
+2024-09-14,Colorado Rockies,Chicago Cubs,1,1,0.5950556,0.09505558,1
+2024-09-14,Arizona Diamondbacks,Milwaukee Brewers,0,0,0.2505748,0.2494252,1
+2024-09-14,San Francisco Giants,San Diego Padres,0,0,0.3302984,0.1697016,1
+2024-09-14,Los Angeles Angels,Houston Astros,0,0,0.3327857,0.1672143,1
+2024-09-14,Seattle Mariners,Texas Rangers,1,1,0.6507211,0.15072107,1
+2024-09-15,Detroit Tigers,Baltimore Orioles,1,1,0.7138876,0.21388757,1
+2024-09-15,Minnesota Twins,Cincinnati Reds,1,0,0.36533776,0.13466224,0
+2024-09-15,Pittsburgh Pirates,Kansas City Royals,1,1,0.573191,0.07319099,1
+2024-09-15,Philadelphia Phillies,New York Mets,1,1,0.50822103,0.00822103,1
+2024-09-15,Washington Nationals,Miami Marlins,1,1,0.5568552,0.0568552,1
+2024-09-15,New York Yankees,Boston Red Sox,1,1,0.5244146,0.024414599,1
+2024-09-15,Toronto Blue Jays,St. Louis Cardinals,1,1,0.5338255,0.033825517,1
+2024-09-15,Cleveland Guardians,Tampa Bay Rays,1,1,0.64089346,0.14089346,1
+2024-09-15,Chicago White Sox,Oakland Athletics,1,0,0.46686375,0.03313625,0
+2024-09-15,Colorado Rockies,Chicago Cubs,0,1,0.5744454,0.07444543,0
+2024-09-15,San Francisco Giants,San Diego Padres,0,0,0.30037513,0.19962487,1
+2024-09-15,Los Angeles Angels,Houston Astros,0,0,0.32707468,0.17292532,1
+2024-09-15,Seattle Mariners,Texas Rangers,1,1,0.6217741,0.12177408,1
+2024-09-15,Arizona Diamondbacks,Milwaukee Brewers,1,0,0.48523012,0.014769882,0
+2024-09-15,Atlanta Braves,Los Angeles Dodgers,0,1,0.5900255,0.090025485,0
+2024-09-16,Cleveland Guardians,Minnesota Twins,1,1,0.74426425,0.24426425,1
+2024-09-16,New York Mets,Washington Nationals,1,1,0.77629274,0.27629274,1
+2024-09-16,Atlanta Braves,Los Angeles Dodgers,0,1,0.5410916,0.04109162,0
+2024-09-16,Kansas City Royals,Detroit Tigers,0,0,0.27660456,0.22339544,1
+2024-09-16,Chicago Cubs,Oakland Athletics,1,1,0.59587955,0.095879555,1
+2024-09-16,Milwaukee Brewers,Philadelphia Phillies,1,0,0.28560647,0.21439353,0
+2024-09-16,St. Louis Cardinals,Pittsburgh Pirates,1,1,0.55356985,0.053569853,1
+2024-09-16,Colorado Rockies,Arizona Diamondbacks,1,1,0.6281089,0.12810892,1
+2024-09-16,Los Angeles Angels,Chicago White Sox,0,0,0.46526217,0.034737825,1
+2024-09-16,San Diego Padres,Houston Astros,1,1,0.62472194,0.124721944,1
+2024-09-17,Baltimore Orioles,San Francisco Giants,0,1,0.5776901,0.077690125,0
+2024-09-17,Cleveland Guardians,Minnesota Twins,0,1,0.72058994,0.22058994,0
+2024-09-17,Cincinnati Reds,Atlanta Braves,1,1,0.64157474,0.14157474,1
+2024-09-17,Miami Marlins,Los Angeles Dodgers,1,0,0.49772877,0.002271235,0
+2024-09-17,Tampa Bay Rays,Boston Red Sox,1,1,0.621237,0.12123698,1
+2024-09-17,New York Mets,Washington Nationals,1,1,0.7177533,0.21775329,1
+2024-09-17,Kansas City Royals,Detroit Tigers,0,0,0.27354446,0.22645554,1
+2024-09-17,Chicago Cubs,Oakland Athletics,0,0,0.4984744,0.0015256107,1
+2024-09-17,Milwaukee Brewers,Philadelphia Phillies,0,0,0.2658908,0.2341092,1
+2024-09-17,St. Louis Cardinals,Pittsburgh Pirates,1,1,0.55232483,0.05232483,1
+2024-09-17,Texas Rangers,Toronto Blue Jays,1,1,0.77299786,0.27299786,1
+2024-09-17,Colorado Rockies,Arizona Diamondbacks,1,1,0.6351146,0.13511461,1
+2024-09-17,Los Angeles Angels,Chicago White Sox,1,0,0.4596981,0.04030189,0
+2024-09-17,San Diego Padres,Houston Astros,0,1,0.5731325,0.073132515,0
+2024-09-17,Seattle Mariners,New York Yankees,0,1,0.52172667,0.021726668,0
+2024-09-18,Chicago Cubs,Oakland Athletics,0,0,0.46895725,0.031042755,1
+2024-09-18,Colorado Rockies,Arizona Diamondbacks,0,1,0.6444186,0.1444186,0
+2024-09-18,Los Angeles Angels,Chicago White Sox,1,0,0.44622526,0.053774744,0
+2024-09-18,Baltimore Orioles,San Francisco Giants,0,1,0.55160224,0.051602244,0
+2024-09-18,San Diego Padres,Houston Astros,1,1,0.72753394,0.22753394,1
+2024-09-18,Cleveland Guardians,Minnesota Twins,1,1,0.7636827,0.26368272,1
+2024-09-18,Cincinnati Reds,Atlanta Braves,0,1,0.558556,0.05855602,0
+2024-09-18,Miami Marlins,Los Angeles Dodgers,0,0,0.27379432,0.22620568,1
+2024-09-18,Tampa Bay Rays,Boston Red Sox,0,1,0.5487352,0.0487352,0
+2024-09-18,New York Mets,Washington Nationals,1,1,0.74506474,0.24506474,1
+2024-09-18,Kansas City Royals,Detroit Tigers,0,0,0.28089994,0.21910006,1
+2024-09-18,Milwaukee Brewers,Philadelphia Phillies,1,0,0.3367672,0.1632328,0
+2024-09-18,St. Louis Cardinals,Pittsburgh Pirates,1,1,0.6047381,0.104738116,1
+2024-09-18,Texas Rangers,Toronto Blue Jays,1,1,0.7705298,0.2705298,1
+2024-09-18,Seattle Mariners,New York Yankees,0,0,0.37467903,0.12532097,1
+2024-09-19,Baltimore Orioles,San Francisco Giants,1,0,0.49910074,0.0008992553,0
+2024-09-19,Cleveland Guardians,Minnesota Twins,1,1,0.7663949,0.2663949,1
+2024-09-19,Cincinnati Reds,Atlanta Braves,0,1,0.5943578,0.09435779,0
+2024-09-19,Texas Rangers,Toronto Blue Jays,0,1,0.73668593,0.23668593,0
+2024-09-19,Seattle Mariners,New York Yankees,1,1,0.5895526,0.08955258,1
+2024-09-19,Miami Marlins,Los Angeles Dodgers,0,0,0.29020908,0.20979092,1
+2024-09-19,Tampa Bay Rays,Boston Red Sox,1,1,0.55595285,0.055952847,1
+2024-09-19,St. Louis Cardinals,Pittsburgh Pirates,0,1,0.6240423,0.12404227,0
+2024-09-19,New York Mets,Philadelphia Phillies,1,1,0.77177256,0.27177256,1
+2024-09-19,Milwaukee Brewers,Arizona Diamondbacks,0,1,0.519697,0.01969701,0
+2024-09-19,Chicago Cubs,Washington Nationals,1,1,0.56595665,0.06595665,1
+2024-09-19,Houston Astros,Los Angeles Angels,1,1,0.6931246,0.19312459,1
+2024-09-20,Chicago Cubs,Washington Nationals,1,1,0.6356725,0.13567251,1
+2024-09-20,Cincinnati Reds,Pittsburgh Pirates,1,1,0.5335655,0.03356552,1
+2024-09-20,Tampa Bay Rays,Toronto Blue Jays,1,1,0.5514041,0.05140412,1
+2024-09-20,Baltimore Orioles,Detroit Tigers,1,0,0.27831313,0.22168687,0
+2024-09-20,Boston Red Sox,Minnesota Twins,0,1,0.51313657,0.013136566,0
+2024-09-20,New York Mets,Philadelphia Phillies,0,1,0.58838177,0.08838177,0
+2024-09-20,Miami Marlins,Atlanta Braves,1,0,0.4201893,0.07981071,0
+2024-09-20,Texas Rangers,Seattle Mariners,0,0,0.344102,0.155898,1
+2024-09-20,Houston Astros,Los Angeles Angels,1,1,0.741302,0.24130201,1
+2024-09-20,Kansas City Royals,San Francisco Giants,0,1,0.5358754,0.03587538,0
+2024-09-20,Milwaukee Brewers,Arizona Diamondbacks,0,0,0.49966168,0.00033831596,1
+2024-09-20,St. Louis Cardinals,Cleveland Guardians,0,0,0.25140336,0.24859664,1
+2024-09-20,San Diego Padres,Chicago White Sox,1,1,0.8729721,0.37297207,1
+2024-09-20,Oakland Athletics,New York Yankees,0,0,0.27600312,0.22399688,1
+2024-09-20,Los Angeles Dodgers,Colorado Rockies,1,1,0.6423191,0.14231908,1
+2024-09-21,Cincinnati Reds,Pittsburgh Pirates,1,1,0.5593497,0.059349716,1
+2024-09-21,Chicago Cubs,Washington Nationals,0,1,0.5125983,0.012598276,0
+2024-09-21,Baltimore Orioles,Detroit Tigers,0,0,0.16200916,0.33799082,1
+2024-09-21,Tampa Bay Rays,Toronto Blue Jays,1,1,0.6307277,0.13072771,1
+2024-09-21,New York Mets,Philadelphia Phillies,1,1,0.67652404,0.17652404,1
+2024-09-21,Miami Marlins,Atlanta Braves,0,0,0.33322087,0.16677913,1
+2024-09-21,Kansas City Royals,San Francisco Giants,0,0,0.48874745,0.011252552,1
+2024-09-21,Texas Rangers,Seattle Mariners,0,0,0.39676276,0.10323724,1
+2024-09-21,Houston Astros,Los Angeles Angels,1,1,0.7983115,0.29831147,1
+2024-09-21,Milwaukee Brewers,Arizona Diamondbacks,0,1,0.5188121,0.01881212,0
+2024-09-21,St. Louis Cardinals,Cleveland Guardians,1,0,0.39637554,0.10362446,0
+2024-09-21,San Diego Padres,Chicago White Sox,1,1,0.85005796,0.35005796,1
+2024-09-21,Oakland Athletics,New York Yankees,0,0,0.1821758,0.31782418,1
+2024-09-21,Los Angeles Dodgers,Colorado Rockies,0,1,0.5854459,0.08544588,0
+2024-09-22,Boston Red Sox,Minnesota Twins,1,1,0.68130624,0.18130624,1
+2024-09-22,Boston Red Sox,Minnesota Twins,1,1,0.7033491,0.20334911,1
+2024-09-22,Cincinnati Reds,Pittsburgh Pirates,0,0,0.45063275,0.04936725,1
+2024-09-22,Baltimore Orioles,Detroit Tigers,0,0,0.17432675,0.32567325,1
+2024-09-22,Tampa Bay Rays,Toronto Blue Jays,1,1,0.7135511,0.2135511,1
+2024-09-22,Miami Marlins,Atlanta Braves,0,0,0.34551916,0.15448084,1
+2024-09-22,Houston Astros,Los Angeles Angels,0,1,0.728818,0.228818,0
+2024-09-22,Kansas City Royals,San Francisco Giants,0,0,0.36322045,0.13677955,1
+2024-09-22,Milwaukee Brewers,Arizona Diamondbacks,1,1,0.5247945,0.024794519,1
+2024-09-22,St. Louis Cardinals,Cleveland Guardians,1,0,0.45561853,0.04438147,0
+2024-09-22,Chicago Cubs,Washington Nationals,1,1,0.5922603,0.0922603,1
+2024-09-22,Texas Rangers,Seattle Mariners,1,0,0.44834945,0.051650554,0
+2024-09-22,Oakland Athletics,New York Yankees,0,0,0.20597295,0.29402703,1
+2024-09-22,Los Angeles Dodgers,Colorado Rockies,1,1,0.6875285,0.18752849,1
+2024-09-22,San Diego Padres,Chicago White Sox,1,1,0.88877606,0.38877606,1
+2024-09-22,New York Mets,Philadelphia Phillies,1,1,0.740006,0.24000603,1
+2024-09-23,Philadelphia Phillies,Chicago Cubs,1,1,0.5180563,0.018056273,1
+2024-09-23,Toronto Blue Jays,Boston Red Sox,0,0,0.41704997,0.082950026,1
+2024-09-23,Houston Astros,Seattle Mariners,0,1,0.6052492,0.105249226,0
+2024-09-23,Arizona Diamondbacks,San Francisco Giants,0,0,0.45525762,0.044742376,1
+2024-09-24,Detroit Tigers,Tampa Bay Rays,1,1,0.7505057,0.2505057,1
+2024-09-24,Cleveland Guardians,Cincinnati Reds,1,1,0.6088914,0.10889143,1
+2024-09-24,Philadelphia Phillies,Chicago Cubs,0,0,0.49790832,0.002091676,1
+2024-09-24,Pittsburgh Pirates,Milwaukee Brewers,0,1,0.5175343,0.017534316,0
+2024-09-24,Washington Nationals,Kansas City Royals,0,0,0.26688033,0.23311967,1
+2024-09-24,New York Yankees,Baltimore Orioles,0,1,0.71567005,0.21567005,0
+2024-09-24,Toronto Blue Jays,Boston Red Sox,0,0,0.33027056,0.16972944,1
+2024-09-24,Atlanta Braves,New York Mets,1,1,0.5807684,0.08076841,1
+2024-09-24,Chicago White Sox,Los Angeles Angels,1,1,0.5663312,0.06633121,1
+2024-09-24,Minnesota Twins,Miami Marlins,0,0,0.47433516,0.025664836,1
+2024-09-24,Houston Astros,Seattle Mariners,1,1,0.6375739,0.1375739,1
+2024-09-24,Colorado Rockies,St. Louis Cardinals,0,1,0.59087336,0.09087336,0
+2024-09-24,Arizona Diamondbacks,San Francisco Giants,0,0,0.49445003,0.0055499673,1
+2024-09-24,Oakland Athletics,Texas Rangers,1,1,0.54299647,0.042996466,1
+2024-09-24,Los Angeles Dodgers,San Diego Padres,0,0,0.1841246,0.3158754,1
+2024-09-25,Houston Astros,Seattle Mariners,0,1,0.6478963,0.14789629,0
+2024-09-25,Philadelphia Phillies,Chicago Cubs,1,1,0.5985694,0.09856939,1
+2024-09-25,Cleveland Guardians,Cincinnati Reds,1,1,0.65945494,0.15945494,1
+2024-09-25,Detroit Tigers,Tampa Bay Rays,1,1,0.75367135,0.25367135,1
+2024-09-25,Pittsburgh Pirates,Milwaukee Brewers,1,0,0.4781735,0.021826506,0
+2024-09-25,Washington Nationals,Kansas City Royals,0,0,0.29059762,0.20940238,1
+2024-09-25,New York Yankees,Baltimore Orioles,0,1,0.7355383,0.2355383,0
+2024-09-25,Toronto Blue Jays,Boston Red Sox,1,0,0.4234717,0.07652831,0
+2024-09-25,Chicago White Sox,Los Angeles Angels,1,1,0.65257084,0.15257084,1
+2024-09-25,Minnesota Twins,Miami Marlins,1,1,0.5930549,0.09305489,1
+2024-09-25,Colorado Rockies,St. Louis Cardinals,0,0,0.4646393,0.035360694,1
+2024-09-25,Arizona Diamondbacks,San Francisco Giants,1,1,0.56470394,0.06470394,1
+2024-09-25,Oakland Athletics,Texas Rangers,0,1,0.51645654,0.016456544,0
+2024-09-25,Los Angeles Dodgers,San Diego Padres,1,0,0.25963616,0.24036384,0
+2024-09-26,Pittsburgh Pirates,Milwaukee Brewers,0,0,0.44215366,0.057846338,1
+2024-09-26,Washington Nationals,Kansas City Royals,0,0,0.3243358,0.17566419,1
+2024-09-26,Detroit Tigers,Tampa Bay Rays,1,1,0.7531102,0.25311017,1
+2024-09-26,Chicago White Sox,Los Angeles Angels,1,1,0.7749566,0.27495658,1
+2024-09-26,Colorado Rockies,St. Louis Cardinals,1,0,0.46422794,0.035772055,0
+2024-09-26,Oakland Athletics,Texas Rangers,1,1,0.59715706,0.09715706,1
+2024-09-26,New York Yankees,Baltimore Orioles,1,1,0.74412936,0.24412936,1
+2024-09-26,Minnesota Twins,Miami Marlins,0,1,0.60352534,0.10352534,0
+2024-09-26,Los Angeles Dodgers,San Diego Padres,1,0,0.36156186,0.13843814,0
+2024-09-27,Chicago Cubs,Cincinnati Reds,1,1,0.6116086,0.111608624,1
+2024-09-27,Detroit Tigers,Chicago White Sox,1,1,0.88227266,0.38227266,1
+2024-09-27,Washington Nationals,Philadelphia Phillies,1,0,0.45647812,0.04352188,0
+2024-09-27,New York Yankees,Pittsburgh Pirates,0,1,0.7101783,0.21017832,0
+2024-09-27,Toronto Blue Jays,Miami Marlins,0,1,0.5544662,0.054466188,0
+2024-09-27,Cleveland Guardians,Houston Astros,0,1,0.5414909,0.041490912,0
+2024-09-27,Boston Red Sox,Tampa Bay Rays,0,0,0.30698937,0.19301063,1
+2024-09-27,Atlanta Braves,Kansas City Royals,1,1,0.6479575,0.1479575,1
+2024-09-27,Colorado Rockies,Los Angeles Dodgers,0,0,0.2777122,0.2222878,1
+2024-09-27,Minnesota Twins,Baltimore Orioles,0,0,0.32011467,0.17988533,1
+2024-09-27,Milwaukee Brewers,New York Mets,1,1,0.5401748,0.040174782,1
+2024-09-27,Los Angeles Angels,Texas Rangers,0,0,0.30398697,0.19601303,1
+2024-09-27,Arizona Diamondbacks,San Diego Padres,0,0,0.22521234,0.27478766,1
+2024-09-27,Seattle Mariners,Oakland Athletics,1,1,0.80795544,0.30795544,1
+2024-09-27,San Francisco Giants,St. Louis Cardinals,0,0,0.4690525,0.030947506,1
+2024-09-28,New York Yankees,Pittsburgh Pirates,0,1,0.6260108,0.12601078,0
+2024-09-28,Detroit Tigers,Chicago White Sox,0,1,0.82437384,0.32437384,0
+2024-09-28,Chicago Cubs,Cincinnati Reds,1,1,0.6802672,0.18026721,1
+2024-09-28,Toronto Blue Jays,Miami Marlins,0,0,0.32710546,0.17289454,1
+2024-09-28,San Francisco Giants,St. Louis Cardinals,1,1,0.5841293,0.084129274,1
+2024-09-28,Washington Nationals,Philadelphia Phillies,1,1,0.6502812,0.15028119,1
+2024-09-28,Boston Red Sox,Tampa Bay Rays,0,0,0.2773763,0.2226237,1
+2024-09-28,Cleveland Guardians,Houston Astros,0,0,0.43801484,0.061985165,1
+2024-09-28,Minnesota Twins,Baltimore Orioles,0,0,0.25107095,0.24892905,1
+2024-09-28,Milwaukee Brewers,New York Mets,1,1,0.56417346,0.06417346,1
+2024-09-28,Atlanta Braves,Kansas City Royals,1,1,0.7429076,0.24290758,1
+2024-09-28,Colorado Rockies,Los Angeles Dodgers,0,0,0.24761571,0.2523843,1
+2024-09-28,Arizona Diamondbacks,San Diego Padres,0,0,0.17479731,0.3252027,1
+2024-09-28,Los Angeles Angels,Texas Rangers,0,0,0.24074551,0.2592545,1
+2024-09-28,Seattle Mariners,Oakland Athletics,1,1,0.80303216,0.30303216,1
+2024-09-29,San Francisco Giants,St. Louis Cardinals,0,0,0.49813694,0.0018630624,1
+2024-09-29,Boston Red Sox,Tampa Bay Rays,1,0,0.31240296,0.18759704,0
+2024-09-29,Washington Nationals,Philadelphia Phillies,0,1,0.5232286,0.023228586,0
+2024-09-29,New York Yankees,Pittsburgh Pirates,1,1,0.6205214,0.120521426,1
+2024-09-29,Los Angeles Angels,Texas Rangers,0,0,0.29351264,0.20648736,1
+2024-09-29,Toronto Blue Jays,Miami Marlins,0,0,0.3428188,0.1571812,1
+2024-09-29,Colorado Rockies,Los Angeles Dodgers,0,0,0.25248674,0.24751326,1
+2024-09-29,Arizona Diamondbacks,San Diego Padres,1,0,0.24332952,0.25667048,0
+2024-09-29,Seattle Mariners,Oakland Athletics,1,1,0.91979456,0.41979456,1
+2024-09-29,Minnesota Twins,Baltimore Orioles,0,0,0.2806695,0.21933049,1
+2024-09-29,Detroit Tigers,Chicago White Sox,0,1,0.7270996,0.2270996,0
+2024-09-29,Milwaukee Brewers,New York Mets,0,0,0.4376925,0.062307507,1
+2024-09-29,Chicago Cubs,Cincinnati Reds,0,1,0.65242755,0.15242755,0
+2024-09-29,Atlanta Braves,Kansas City Royals,0,1,0.6913647,0.1913647,0
+2024-09-30,Atlanta Braves,New York Mets,0,1,0.57238275,0.07238275,0
+2024-09-30,Atlanta Braves,New York Mets,1,1,0.60470057,0.104700565,1
