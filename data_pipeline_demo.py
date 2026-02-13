@@ -11,6 +11,8 @@ This script:
 6. Outputs results to CSV (simulating Google Sheets export)
 """
 
+import argparse
+import os
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
@@ -436,15 +438,27 @@ class MLBDataPipeline:
 
 def main():
     """Main execution function."""
+    parser = argparse.ArgumentParser(description='MLB Prediction Data Pipeline')
+    parser.add_argument('--output-dir', default='./output', help='Output directory for predictions')
+    parser.add_argument('--season', type=int, default=2024, help='MLB season year')
+    parser.add_argument('--test-mode', default='false', help='Run in test mode (true/false)')
+    args = parser.parse_args()
+
+    output_dir = args.output_dir
+    season = args.season
+
+    # Ensure output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
     print("=" * 70)
     print("MLB PREDICTION DATA PIPELINE DEMO")
     print("=" * 70)
 
     # Initialize pipeline
-    pipeline = MLBDataPipeline(output_dir='./output')
+    pipeline = MLBDataPipeline(output_dir=output_dir)
 
     # Step 1: Fetch data
-    batting_stats, pitching_stats = pipeline.fetch_mlb_data(season=2024)
+    batting_stats, pitching_stats = pipeline.fetch_mlb_data(season=season)
     print(f"\nBatting Stats Shape: {batting_stats.shape}")
     print(f"Pitching Stats Shape: {pitching_stats.shape}")
 
