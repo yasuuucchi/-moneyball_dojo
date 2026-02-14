@@ -274,7 +274,7 @@ jobs:
     name: Update Google Sheets
     needs: [fetch-data, generate-articles]
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && needs.fetch-data.result != 'skipped'
 
     steps:
       - name: Checkout repository
@@ -362,7 +362,7 @@ jobs:
     name: Log Results and Notifications
     needs: [fetch-data, update-sheets]
     runs-on: ubuntu-latest
-    if: always()
+    if: always() && needs.fetch-data.result != 'skipped'
 
     steps:
       - name: Checkout repository
@@ -411,7 +411,7 @@ jobs:
           retention-days: 30
 
       - name: Slack notification (optional)
-        if: always() && secrets.SLACK_WEBHOOK != ''
+        if: always()
         uses: slackapi/slack-github-action@v1.24.0
         with:
           webhook-url: ${{ secrets.SLACK_WEBHOOK }}
@@ -452,7 +452,7 @@ jobs:
     name: Notify on Failure
     runs-on: ubuntu-latest
     needs: [fetch-data, update-sheets]
-    if: failure()
+    if: failure() && needs.fetch-data.result != 'skipped'
 
     steps:
       - name: Create failure issue
