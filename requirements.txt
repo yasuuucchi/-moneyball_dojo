@@ -8,3 +8,5 @@ google-auth-oauthlib>=1.2.0
 google-auth-httplib2>=0.2.0
 requests>=2.31.0
 numpy>=1.24.3
+MLB-StatsAPI>=0.1.80
+anthropic>=0.7.0
