@@ -129,6 +129,7 @@ jobs:
     outputs:
       prediction_count: ${{ steps.predictions.outputs.count }}
       high_confidence_count: ${{ steps.predictions.outputs.high_confidence }}
+      pipeline: ${{ steps.predictions.outputs.pipeline }}
 
     steps:
       - name: Checkout repository
@@ -151,16 +152,33 @@ jobs:
           MLB_API_KEY: ${{ secrets.MLB_API_KEY }}
           TEST_MODE: ${{ github.event.inputs.test_mode }}
         run: |
-          python data_pipeline_demo.py \
-            --output-dir ./output \
-            --season 2024 \
-            --test-mode ${TEST_MODE:-false}
+          TARGET_DATE=$(date -u +'%Y-%m-%d')
+          echo "Target date: $TARGET_DATE"
+
+          # Try run_daily.py first (real MLB data + trained models)
+          if python run_daily.py "$TARGET_DATE"; then
+            echo "run_daily.py succeeded - using production predictions"
+            # Copy predictions to expected location for downstream jobs
+            DATED_DIR="output/$(echo $TARGET_DATE | tr -d '-')"
+            if [ -f "$DATED_DIR/predictions.csv" ]; then
+              cp "$DATED_DIR/predictions.csv" output/daily_predictions.csv
+              echo "pipeline=production" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "run_daily.py failed - falling back to demo pipeline"
+            python data_pipeline_demo.py \
+              --output-dir ./output \
+              --season 2024 \
+              --test-mode ${TEST_MODE:-false}
+            echo "pipeline=demo" >> $GITHUB_OUTPUT
+          fi
 
           # Count predictions
           PRED_COUNT=$(wc -l < output/daily_predictions.csv)
           echo "count=$((PRED_COUNT - 1))" >> $GITHUB_OUTPUT
 
-          HIGH_CONF=$(grep "HIGH" output/daily_predictions.csv | wc -l)
+          # Count high-confidence picks (STRONG from run_daily or HIGH from demo)
+          HIGH_CONF=$(grep -c -E "STRONG|HIGH" output/daily_predictions.csv || echo "0")
           echo "high_confidence=$HIGH_CONF" >> $GITHUB_OUTPUT
 
       - name: Upload predictions artifact
@@ -224,8 +242,11 @@ jobs:
           # Load predictions
           predictions = pd.read_csv('output/daily_predictions.csv')
 
-          # Filter for high-confidence picks only
-          high_conf = predictions[predictions['confidence_tier'] == 'HIGH']
+          # Filter for high-confidence picks (STRONG from run_daily or HIGH from demo)
+          if 'ml_confidence' in predictions.columns:
+              high_conf = predictions[predictions['ml_confidence'] == 'STRONG']
+          else:
+              high_conf = predictions[predictions['confidence_tier'] == 'HIGH']
 
           generator = ArticleGenerator(api_key='${{ secrets.CLAUDE_API_KEY }}')
 
@@ -264,7 +285,10 @@ jobs:
         if: always()
         with:
           name: generated-articles
-          path: output/articles/
+          path: |
+            output/articles/
+            output/*/digest_*.md
+            output/*/twitter_*.txt
           retention-days: 30
 
   # ========================================================================
@@ -386,6 +410,7 @@ jobs:
           - Update Google Sheets: ${{ needs.update-sheets.result }}
 
           PREDICTION SUMMARY:
+          - Pipeline: ${{ needs.fetch-data.outputs.pipeline }}
           - Total Predictions: ${{ needs.fetch-data.outputs.prediction_count }}
           - High Confidence Picks: ${{ needs.fetch-data.outputs.high_confidence_count }}
 

@@ -1,0 +1,126 @@
+{
+  "generated": "2026-02-14T15:23:26.351680",
+  "season": 2025,
+  "train_years": [
+    2022,
+    2023,
+    2024
+  ],
+  "method": "walk-forward (rolling stats), season-level team stats from 2024",
+  "models": {
+    "Moneyline": {
+      "overall_accuracy": 0.6472,
+      "auc": 0.704,
+      "total_games": 2426,
+      "tiers": {
+        "STRONG": {
+          "accuracy": 0.7289,
+          "correct": 960,
+          "total": 1317
+        },
+        "MODERATE": {
+          "accuracy": 0.5605,
+          "correct": 301,
+          "total": 537
+        },
+        "LEAN": {
+          "accuracy": 0.5333,
+          "correct": 192,
+          "total": 360
+        },
+        "PASS": {
+          "accuracy": 0.5519,
+          "correct": 117,
+          "total": 212
+        }
+      }
+    },
+    "Over/Under": {
+      "mae": 3.381,
+      "line_accuracy": {
+        "7.5": 0.6216,
+        "8.0": 0.6047,
+        "8.5": 0.6129,
+        "9.0": 0.6307,
+        "9.5": 0.641
+      },
+      "total_games": 2426
+    },
+    "Run Line": {
+      "overall_accuracy": 0.6628,
+      "auc": 0.6602,
+      "total_games": 2426,
+      "tiers": {
+        "STRONG": {
+          "accuracy": 0.7337,
+          "correct": 956,
+          "total": 1303
+        },
+        "MODERATE": {
+          "accuracy": 0.6211,
+          "correct": 300,
+          "total": 483
+        },
+        "LEAN": {
+          "accuracy": 0.5704,
+          "correct": 227,
+          "total": 398
+        },
+        "PASS": {
+          "accuracy": 0.5165,
+          "correct": 125,
+          "total": 242
+        }
+      }
+    },
+    "F5 Moneyline": {
+      "overall_accuracy": 0.6459,
+      "auc": 0.7092,
+      "total_games": 2426,
+      "tiers": {
+        "STRONG": {
+          "accuracy": 0.695,
+          "correct": 1242,
+          "total": 1787
+        },
+        "MODERATE": {
+          "accuracy": 0.5503,
+          "correct": 175,
+          "total": 318
+        },
+        "LEAN": {
+          "accuracy": 0.3816,
+          "correct": 29,
+          "total": 76
+        },
+        "PASS": {
+          "accuracy": 0.4939,
+          "correct": 121,
+          "total": 245
+        }
+      }
+    },
+    "NRFI": {
+      "overall_accuracy": 0.5348,
+      "auc": 0.5535,
+      "total_games": 2429,
+      "tiers": {
+        "STRONG": {
+          "accuracy": 0.545,
+          "correct": 103,
+          "total": 189
+        },
+        "MODERATE": {
+          "accuracy": 0.5639,
+          "correct": 494,
+          "total": 876
+        },
+        "LEAN": {
+          "accuracy": 0.5147,
+          "correct": 702,
+          "total": 1364
+        }
+      }
+    }
+  }
+}
