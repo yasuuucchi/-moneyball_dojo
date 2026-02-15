@@ -441,122 +441,15 @@ def train_f5_backtest(X_all):
 
 
 def train_nrfi_backtest(games_df, overall_stats, nrfi_df, team_stats_dict):
-    """NRFI v2: 2022-2024 train -> 2025 test (with pitcher + park factors)"""
-    print("  Training NRFI (v2: +pitcher+park)...")
+    """NRFI v3: 2022-2024 train -> 2025 test (pitcher + venue + rolling + cross-features)"""
+    print("  Training NRFI (v3: pitcher+venue+rolling+matchup)...")
 
-    if 'nrfi' in nrfi_df.columns and 'nrfi_result' not in nrfi_df.columns:
-        nrfi_df = nrfi_df.rename(columns={'nrfi': 'nrfi_result'})
+    # Import shared feature builder from train_all_models
+    import sys
+    sys.path.insert(0, str(PROJECT_DIR))
+    from train_all_models import _build_nrfi_features
 
-    # 投手データ読み込み
-    pitcher_stats = {}
-    for year in [2022, 2023, 2024, 2025]:
-        path = DATA_DIR / f"pitcher_stats_{year}.csv"
-        if path.exists():
-            pitcher_stats[year] = pd.read_csv(path)
-
-    # 球場NRFI率
-    games_with_venue = games_df[['game_id', 'venue']].drop_duplicates()
-    nrfi_with_venue = nrfi_df.merge(games_with_venue, on='game_id', how='left')
-    venue_nrfi = nrfi_with_venue.groupby('venue')['nrfi_result'].agg(['mean', 'count']).reset_index()
-    venue_nrfi.columns = ['venue', 'venue_nrfi_rate', 'venue_games']
-    league_avg_nrfi = nrfi_df['nrfi_result'].mean()
-    venue_nrfi.loc[venue_nrfi['venue_games'] < 20, 'venue_nrfi_rate'] = league_avg_nrfi
-    venue_map = dict(zip(venue_nrfi['venue'], venue_nrfi['venue_nrfi_rate']))
-
-    def get_pitcher(pitcher_name, year):
-        defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.5, 'BB_per_9': 3.2}
-        if not isinstance(pitcher_name, str) or not pitcher_name or pitcher_name == 'TBA' or year not in pitcher_stats:
-            return defaults
-        ps = pitcher_stats[year]
-        match = ps[ps['name'] == pitcher_name]
-        if len(match) == 0:
-            last_name = pitcher_name.split()[-1] if ' ' in pitcher_name else pitcher_name
-            match = ps[ps['name'].str.contains(last_name, case=False, na=False)]
-        if len(match) == 0:
-            return defaults
-        p = match.iloc[0]
-        return {
-            'ERA': float(p.get('ERA', 4.12)),
-            'WHIP': float(p.get('WHIP', 1.28)),
-            'K_per_9': float(p.get('K_per_9', 8.5)),
-            'BB_per_9': float(p.get('BB_per_9', 3.2)),
-        }
-
-    # 1回チーム統計
-    home_1st = nrfi_df.groupby(['home_team', 'year'])['home_1st_runs'].agg(['mean', 'count']).reset_index()
-    home_1st.columns = ['team', 'year', 'avg_1st_runs_home', 'games_home']
-    away_1st = nrfi_df.groupby(['away_team', 'year'])['away_1st_runs'].agg(['mean', 'count']).reset_index()
-    away_1st.columns = ['team', 'year', 'avg_1st_runs_away', 'games_away']
-    home_1st_allowed = nrfi_df.groupby(['home_team', 'year'])['away_1st_runs'].agg(['mean']).reset_index()
-    home_1st_allowed.columns = ['team', 'year', 'avg_1st_allowed_home']
-    away_1st_allowed = nrfi_df.groupby(['away_team', 'year'])['home_1st_runs'].agg(['mean']).reset_index()
-    away_1st_allowed.columns = ['team', 'year', 'avg_1st_allowed_away']
-
-    team_1st_stats = home_1st.merge(away_1st, on=['team', 'year'], how='outer')
-    team_1st_stats = team_1st_stats.merge(home_1st_allowed, on=['team', 'year'], how='outer')
-    team_1st_stats = team_1st_stats.merge(away_1st_allowed, on=['team', 'year'], how='outer').fillna(0)
-
-    # games_dfとマージして投手名・球場取得
-    games_info = games_df[['game_id', 'year', 'home_team', 'away_team',
-                           'home_pitcher', 'away_pitcher', 'venue']].drop_duplicates()
-    merged = nrfi_df.merge(games_info, on='game_id', how='inner', suffixes=('', '_g'))
-    if 'year_g' in merged.columns:
-        merged['year'] = merged['year'].fillna(merged['year_g'])
-        merged.drop(columns=['year_g'], inplace=True)
-    for col in ['home_team_g', 'away_team_g']:
-        if col in merged.columns:
-            merged.drop(columns=[col], inplace=True)
-
-    feature_rows = []
-    for _, row in merged.iterrows():
-        home = row['home_team']
-        away = row['away_team']
-        year = int(row['year'])
-
-        h_1st = team_1st_stats[(team_1st_stats['team'] == home) & (team_1st_stats['year'] == year)]
-        a_1st = team_1st_stats[(team_1st_stats['team'] == away) & (team_1st_stats['year'] == year)]
-        if h_1st.empty or a_1st.empty:
-            continue
-
-        h_s = h_1st.iloc[0]
-        a_s = a_1st.iloc[0]
-        home_os = overall_stats.get((home, year), {})
-        away_os = overall_stats.get((away, year), {})
-        hp = get_pitcher(row.get('home_pitcher', ''), year)
-        ap = get_pitcher(row.get('away_pitcher', ''), year)
-        venue = row.get('venue', '')
-        park_nrfi = venue_map.get(venue, league_avg_nrfi)
-
-        features = {
-            'game_id': row['game_id'],
-            'year': year,
-            'nrfi_result': row['nrfi_result'],
-            'home_1st_rs': h_s['avg_1st_runs_home'],
-            'home_1st_ra': h_s['avg_1st_allowed_home'],
-            'away_1st_rs': a_s['avg_1st_runs_away'],
-            'away_1st_ra': a_s['avg_1st_allowed_away'],
-            'combined_1st_ra': (h_s['avg_1st_allowed_home'] + a_s['avg_1st_allowed_away']) / 2,
-            'combined_1st_rs': (h_s['avg_1st_runs_home'] + a_s['avg_1st_runs_away']) / 2,
-            'home_starter_era': hp['ERA'],
-            'away_starter_era': ap['ERA'],
-            'home_starter_whip': hp['WHIP'],
-            'away_starter_whip': ap['WHIP'],
-            'home_starter_k9': hp['K_per_9'],
-            'away_starter_k9': ap['K_per_9'],
-            'starter_era_diff': hp['ERA'] - ap['ERA'],
-            'starter_whip_diff': hp['WHIP'] - ap['WHIP'],
-            'combined_starter_era': (hp['ERA'] + ap['ERA']) / 2,
-            'venue_nrfi_rate': park_nrfi,
-            'home_era': home_os.get('avg_ra', 4.00),
-            'away_era': away_os.get('avg_ra', 4.00),
-            'home_obp': home_os.get('avg_rs', 4.50) / 38,
-            'away_obp': away_os.get('avg_rs', 4.50) / 38,
-            'total_runs_per_game': home_os.get('avg_rs', 4.50) + away_os.get('avg_rs', 4.50),
-        }
-        feature_rows.append(features)
-
-    feat_df = pd.DataFrame(feature_rows)
-    feat_cols = [c for c in feat_df.columns if c not in ['game_id', 'year', 'nrfi_result']]
+    feat_df, feat_cols = _build_nrfi_features(games_df, nrfi_df, team_stats_dict)
 
     train = feat_df[feat_df['year'].isin([2022, 2023, 2024])]
     test = feat_df[feat_df['year'] == 2025]
@@ -570,18 +463,19 @@ def train_nrfi_backtest(games_df, overall_stats, nrfi_df, team_stats_dict):
     X_tr = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols)
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols)
 
-    model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
-                          subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
-                          reg_alpha=0.1, reg_lambda=1.0,
+    model = XGBClassifier(n_estimators=300, max_depth=4, learning_rate=0.02,
+                          subsample=0.8, colsample_bytree=0.6, min_child_weight=5,
+                          reg_alpha=0.3, reg_lambda=2.0, gamma=0.15,
                           eval_metric='logloss', random_state=42, verbosity=0)
 
     cv = cross_val_score(model, X_tr, y_train, cv=5, scoring='accuracy')
-    model.fit(X_tr, y_train)
+    model.fit(X_tr, y_train, verbose=False)
 
     y_prob = model.predict_proba(X_te)[:, 1]
 
     print(f"    CV Accuracy: {cv.mean():.4f} (+/- {cv.std():.4f})")
     print(f"    Test games: {len(test)}")
+    print(f"    Features: {len(feat_cols)}")
 
     return model, scaler, feat_cols, y_prob, y_test, test
 

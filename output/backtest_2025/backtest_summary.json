@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-14T15:23:26.351680",
+  "generated": "2026-02-15T15:20:19.562189",
   "season": 2025,
   "train_years": [
     2022,
@@ -101,24 +101,24 @@
       }
     },
     "NRFI": {
-      "overall_accuracy": 0.5348,
-      "auc": 0.5535,
+      "overall_accuracy": 0.6208,
+      "auc": 0.673,
       "total_games": 2429,
       "tiers": {
         "STRONG": {
-          "accuracy": 0.545,
-          "correct": 103,
-          "total": 189
+          "accuracy": 0.6891,
+          "correct": 911,
+          "total": 1322
         },
         "MODERATE": {
-          "accuracy": 0.5639,
-          "correct": 494,
-          "total": 876
+          "accuracy": 0.5566,
+          "correct": 290,
+          "total": 521
         },
         "LEAN": {
-          "accuracy": 0.5147,
-          "correct": 702,
-          "total": 1364
+          "accuracy": 0.5239,
+          "correct": 307,
+          "total": 586
         }
       }
     }
