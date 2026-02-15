@@ -291,8 +291,8 @@ def train_moneyline(X, meta_cols):
                            'blowout_rate_home', 'blowout_rate_away']
     feat_cols = [c for c in X.columns if c not in exclude and c != target]
 
-    train = X[X['year'].isin([2022, 2023])]
-    test = X[X['year'] == 2024]
+    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    test = X[X['year'] == 2025]
 
     X_train, y_train = train[feat_cols].astype(float), train[target].astype(int)
     X_test, y_test = test[feat_cols].astype(float), test[target].astype(int)
@@ -338,8 +338,8 @@ def train_over_under(X, meta_cols):
     exclude = meta_cols + ['home_win', 'total_runs', 'run_margin', 'home_covers_rl', 'over_8_5']
     feat_cols = [c for c in X.columns if c not in exclude]
 
-    train = X[X['year'].isin([2022, 2023])]
-    test = X[X['year'] == 2024]
+    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    test = X[X['year'] == 2025]
 
     X_train, y_train_reg = train[feat_cols].astype(float), train[target_reg].astype(float)
     X_test, y_test_reg = test[feat_cols].astype(float), test[target_reg].astype(float)
@@ -424,8 +424,8 @@ def train_run_line(X, meta_cols):
     exclude = meta_cols + ['home_win', 'total_runs', 'run_margin', 'home_covers_rl', 'over_8_5']
     feat_cols = [c for c in X.columns if c not in exclude and c in X.columns]
 
-    train = X[X['year'].isin([2022, 2023])]
-    test = X[X['year'] == 2024]
+    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    test = X[X['year'] == 2025]
 
     X_train, y_train = train[feat_cols].astype(float), train[target].astype(int)
     X_test, y_test = test[feat_cols].astype(float), test[target].astype(int)
@@ -488,8 +488,8 @@ def train_f5_moneyline(X, meta_cols):
                            'home_margin_avg', 'away_margin_avg']
     feat_cols = [c for c in X.columns if c not in exclude and c != target]
 
-    train = X[X['year'].isin([2022, 2023])]
-    test = X[X['year'] == 2024]
+    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    test = X[X['year'] == 2025]
 
     X_train, y_train = train[feat_cols].astype(float), train[target].astype(int)
     X_test, y_test = test[feat_cols].astype(float), test[target].astype(int)
@@ -765,12 +765,12 @@ def train_batter_props():
     meta = ['player_id', 'name', 'year', 'team', 'target_hits_per_game', 'target_HR_per_game']
     feat_cols = [c for c in bdf.columns if c not in meta]
 
-    train = bdf[bdf['year'].isin([2022, 2023])]
-    test = bdf[bdf['year'] == 2024]
+    train = bdf[bdf['year'].isin([2022, 2023, 2024, 2025])]
+    test = bdf[bdf['year'] == 2025]
 
     if len(test) == 0:
-        train = bdf[bdf['year'] == 2022]
-        test = bdf[bdf['year'] == 2023]
+        train = bdf[bdf['year'].isin([2022, 2023, 2024])]
+        test = bdf[bdf['year'] == 2024]
 
     X_train = train[feat_cols].astype(float)
     X_test = test[feat_cols].astype(float)
@@ -863,9 +863,9 @@ def train_batter_props():
 # MODEL 7: NRFI/YRFI — 初回無得点予測
 # ============================================================================
 def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
-    """Train NRFI (No Run First Inning) model with improved features"""
+    """Train NRFI model with starting pitcher data + park factors"""
     print("\n" + "="*60)
-    print("  NRFI/YRFI MODEL — 初回無得点予測 (Improved)")
+    print("  NRFI/YRFI MODEL — 初回無得点予測 (v2: +投手+球場)")
     print("="*60)
 
     nrfi_path = DATA_DIR / "nrfi_data_2022_2025.csv"
@@ -879,77 +879,141 @@ def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
 
     print(f"  ✓ Loaded {len(nrfi_df)} NRFI records")
 
-    # --- 1回に特化したチーム統計を計算 ---
-    # ホームチームとしての1回失点率、アウェイチームとしての1回失点率などを計算
+    # --- 投手データ読み込み ---
+    pitcher_stats = {}
+    for year in [2022, 2023, 2024, 2025]:
+        path = DATA_DIR / f"pitcher_stats_{year}.csv"
+        if path.exists():
+            pitcher_stats[year] = pd.read_csv(path)
+    print(f"  ✓ Pitcher stats: {sorted(pitcher_stats.keys())}")
+
+    # --- 球場別NRFI率（パークファクター）計算 ---
+    games_with_venue = games_df[['game_id', 'venue']].drop_duplicates()
+    nrfi_with_venue = nrfi_df.merge(games_with_venue, on='game_id', how='left')
+    venue_nrfi = nrfi_with_venue.groupby('venue')['nrfi_result'].agg(['mean', 'count']).reset_index()
+    venue_nrfi.columns = ['venue', 'venue_nrfi_rate', 'venue_games']
+    # 少なすぎるサンプルの球場はリーグ平均に
+    league_avg_nrfi = nrfi_df['nrfi_result'].mean()
+    venue_nrfi.loc[venue_nrfi['venue_games'] < 20, 'venue_nrfi_rate'] = league_avg_nrfi
+    venue_map = dict(zip(venue_nrfi['venue'], venue_nrfi['venue_nrfi_rate']))
+    print(f"  ✓ Park factors: {len(venue_map)} venues (avg NRFI rate: {league_avg_nrfi:.3f})")
+
+    # --- 1回チーム統計 ---
     home_1st = nrfi_df.groupby(['home_team', 'year'])['home_1st_runs'].agg(['mean', 'count']).reset_index()
     home_1st.columns = ['team', 'year', 'avg_1st_runs_home', 'games_home']
-    
     away_1st = nrfi_df.groupby(['away_team', 'year'])['away_1st_runs'].agg(['mean', 'count']).reset_index()
     away_1st.columns = ['team', 'year', 'avg_1st_runs_away', 'games_away']
-    
-    # 守備側としての失点率（ホーム時はホーム投手、アウェイ時はアウェイ投手）
     home_1st_allowed = nrfi_df.groupby(['home_team', 'year'])['away_1st_runs'].agg(['mean']).reset_index()
     home_1st_allowed.columns = ['team', 'year', 'avg_1st_allowed_home']
-    
     away_1st_allowed = nrfi_df.groupby(['away_team', 'year'])['home_1st_runs'].agg(['mean']).reset_index()
     away_1st_allowed.columns = ['team', 'year', 'avg_1st_allowed_away']
 
-    # 統合
     team_1st_stats = home_1st.merge(away_1st, on=['team', 'year'], how='outer')
     team_1st_stats = team_1st_stats.merge(home_1st_allowed, on=['team', 'year'], how='outer')
     team_1st_stats = team_1st_stats.merge(away_1st_allowed, on=['team', 'year'], how='outer').fillna(0)
-    
-    # 総合的な1回得点率と失点率
-    team_1st_stats['overall_1st_rs'] = (team_1st_stats['avg_1st_runs_home'] + team_1st_stats['avg_1st_runs_away']) / 2
-    team_1st_stats['overall_1st_ra'] = (team_1st_stats['avg_1st_allowed_home'] + team_1st_stats['avg_1st_allowed_away']) / 2
 
-    merged = nrfi_df.merge(
-        games_df[['game_id', 'year', 'home_team', 'away_team']].drop_duplicates(),
-        on='game_id', how='inner', suffixes=('', '_games')
-    )
+    # --- 投手マッチング用ヘルパー ---
+    def get_pitcher_stats(pitcher_name, year):
+        """投手名からERA/WHIP/K9を取得（ファジーマッチ）"""
+        defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.5, 'BB_per_9': 3.2}
+        if not isinstance(pitcher_name, str) or not pitcher_name or pitcher_name == 'TBA' or year not in pitcher_stats:
+            return defaults
+        ps = pitcher_stats[year]
+        # 完全一致
+        match = ps[ps['name'] == pitcher_name]
+        if len(match) == 0:
+            # 姓でマッチ
+            last_name = pitcher_name.split()[-1] if ' ' in pitcher_name else pitcher_name
+            match = ps[ps['name'].str.contains(last_name, case=False, na=False)]
+        if len(match) == 0:
+            return defaults
+        p = match.iloc[0]
+        return {
+            'ERA': float(p.get('ERA', 4.12)),
+            'WHIP': float(p.get('WHIP', 1.28)),
+            'K_per_9': float(p.get('K_per_9', 8.5)),
+            'BB_per_9': float(p.get('BB_per_9', 3.2)),
+        }
+
+    # --- games_dfとマージして投手名・球場を取得 ---
+    games_info = games_df[['game_id', 'year', 'home_team', 'away_team',
+                           'home_pitcher', 'away_pitcher', 'venue']].drop_duplicates()
+    merged = nrfi_df.merge(games_info, on='game_id', how='inner', suffixes=('', '_g'))
+
+    # year列の重複処理
+    if 'year_g' in merged.columns:
+        merged['year'] = merged['year'].fillna(merged['year_g'])
+        merged.drop(columns=['year_g'], inplace=True)
+    for col in ['home_team_g', 'away_team_g']:
+        if col in merged.columns:
+            merged.drop(columns=[col], inplace=True)
 
     feature_rows = []
+    pitcher_matched = 0
     for _, row in merged.iterrows():
         home = row['home_team']
         away = row['away_team']
-        year = row['year']
+        year = int(row['year'])
 
         h_1st = team_1st_stats[(team_1st_stats['team'] == home) & (team_1st_stats['year'] == year)]
         a_1st = team_1st_stats[(team_1st_stats['team'] == away) & (team_1st_stats['year'] == year)]
-        
         if h_1st.empty or a_1st.empty:
             continue
 
         h_s = h_1st.iloc[0]
         a_s = a_1st.iloc[0]
 
-        home_stats = overall_stats.get((home, year), {})
-        away_stats = overall_stats.get((away, year), {})
+        home_os = overall_stats.get((home, year), {})
+        away_os = overall_stats.get((away, year), {})
+
+        # 先発投手データ
+        hp = get_pitcher_stats(row.get('home_pitcher', ''), year)
+        ap = get_pitcher_stats(row.get('away_pitcher', ''), year)
+        if hp['ERA'] != 4.12 or ap['ERA'] != 4.12:
+            pitcher_matched += 1
+
+        # 球場パークファクター
+        venue = row.get('venue', '')
+        park_nrfi = venue_map.get(venue, league_avg_nrfi)
 
         features = {
             'game_id': row['game_id'],
             'year': year,
             'nrfi_result': row['nrfi_result'],
-            
-            # --- 1回特化型特徴量 (これが重要) ---
+
+            # 1回特化型特徴量
             'home_1st_rs': h_s['avg_1st_runs_home'],
             'home_1st_ra': h_s['avg_1st_allowed_home'],
             'away_1st_rs': a_s['avg_1st_runs_away'],
             'away_1st_ra': a_s['avg_1st_allowed_away'],
             'combined_1st_ra': (h_s['avg_1st_allowed_home'] + a_s['avg_1st_allowed_away']) / 2,
             'combined_1st_rs': (h_s['avg_1st_runs_home'] + a_s['avg_1st_runs_away']) / 2,
-            
-            # --- チーム全体の統計 (コンテキストとして保持) ---
-            'home_era': home_stats.get('team_era', 4.00),
-            'away_era': away_stats.get('team_era', 4.00),
-            'home_obp': home_stats.get('team_obp', 0.320),
-            'away_obp': away_stats.get('team_obp', 0.320),
-            'total_runs_per_game': home_stats.get('runs_per_game', 0) + away_stats.get('runs_per_game', 0),
+
+            # 先発投手の個人成績（新規追加）
+            'home_starter_era': hp['ERA'],
+            'away_starter_era': ap['ERA'],
+            'home_starter_whip': hp['WHIP'],
+            'away_starter_whip': ap['WHIP'],
+            'home_starter_k9': hp['K_per_9'],
+            'away_starter_k9': ap['K_per_9'],
+            'starter_era_diff': hp['ERA'] - ap['ERA'],
+            'starter_whip_diff': hp['WHIP'] - ap['WHIP'],
+            'combined_starter_era': (hp['ERA'] + ap['ERA']) / 2,
+
+            # 球場パークファクター（新規追加）
+            'venue_nrfi_rate': park_nrfi,
+
+            # チーム全体統計
+            'home_era': home_os.get('avg_ra', 4.00),
+            'away_era': away_os.get('avg_ra', 4.00),
+            'home_obp': home_os.get('avg_rs', 4.50) / 38,  # 打席数で近似
+            'away_obp': away_os.get('avg_rs', 4.50) / 38,
+            'total_runs_per_game': home_os.get('avg_rs', 4.50) + away_os.get('avg_rs', 4.50),
         }
         feature_rows.append(features)
 
     feat_df = pd.DataFrame(feature_rows)
-    print(f"  ✓ Built improved features for {len(feat_df)} games")
+    print(f"  ✓ Built features for {len(feat_df)} games ({pitcher_matched} with pitcher data)")
 
     feat_cols = [c for c in feat_df.columns if c not in ['game_id', 'year', 'nrfi_result']]
 
@@ -971,15 +1035,18 @@ def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
     X_train_s = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols)
     X_test_s = pd.DataFrame(scaler.transform(X_test), columns=feat_cols)
 
-    # パラメータをより保守的に（過学習防止）
     model = XGBClassifier(
-        n_estimators=100,
-        max_depth=3,
-        learning_rate=0.03,
+        n_estimators=200,
+        max_depth=4,
+        learning_rate=0.05,
         subsample=0.8,
-        colsample_bytree=0.8,
+        colsample_bytree=0.7,
+        min_child_weight=3,
+        reg_alpha=0.1,
+        reg_lambda=1.0,
         eval_metric='logloss',
-        random_state=42
+        random_state=42,
+        verbosity=0,
     )
     model.fit(X_train_s, y_train)
 
@@ -989,11 +1056,16 @@ def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
     acc = accuracy_score(y_test, y_pred)
     try:
         auc_val = roc_auc_score(y_test, y_prob)
-    except:
+    except Exception:
         auc_val = 0.0
 
     cv = cross_val_score(model, X_train_s, y_train, cv=5, scoring='accuracy')
     print(f"  Accuracy: {acc:.4f} | AUC: {auc_val:.4f} | CV: {cv.mean():.4f}±{cv.std():.4f}")
+
+    # 特徴量重要度
+    importances = sorted(zip(feat_cols, model.feature_importances_),
+                         key=lambda x: x[1], reverse=True)
+    print(f"  Top features: {', '.join(f'{n}({v:.3f})' for n, v in importances[:5])}")
 
     save_model('model_nrfi.pkl', model, scaler, feat_cols,
                'NRFI/YRFI', acc, auc_val, cv)
@@ -1292,8 +1364,8 @@ def save_model(filename, model, scaler, feat_cols, model_type, accuracy, auc, cv
         'n_features': len(feat_cols),
         'model_type': model_type,
         'training_date': datetime.now().isoformat(),
-        'train_years': [2022, 2023],
-        'test_year': 2024,
+        'train_years': [2022, 2023, 2024, 2025],
+        'test_year': 2025,
         'test_accuracy': accuracy,
         'test_auc': auc,
         'metrics': {

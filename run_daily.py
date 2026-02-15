@@ -698,7 +698,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 except Exception:
                     pass
 
-        # --- NRFI/YRFI ---
+        # --- NRFI/YRFI (v2: with pitcher + park factors) ---
         if 'nrfi' in models:
             try:
                 nrfi_data = models['nrfi']
@@ -706,22 +706,59 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 nrfi_scaler = nrfi_data['scaler']
                 nrfi_feat_cols = nrfi_data['feature_cols']
 
-                # nrfi_feat_cols expect home_runs_per_game, away_runs_per_game, etc.
+                # 先発投手データの取得
+                def _get_pitcher_stats(pitcher_name, year, pitcher_stats_dict):
+                    defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.5}
+                    if not isinstance(pitcher_name, str) or not pitcher_name or pitcher_name == 'TBA':
+                        return defaults
+                    if year not in pitcher_stats_dict:
+                        return defaults
+                    ps = pitcher_stats_dict[year]
+                    match = ps[ps['name'] == pitcher_name]
+                    if len(match) == 0:
+                        last_name = pitcher_name.split()[-1]
+                        match = ps[ps['name'].str.contains(last_name, case=False, na=False)]
+                    if len(match) == 0:
+                        return defaults
+                    p = match.iloc[0]
+                    return {
+                        'ERA': float(p.get('ERA', 4.12)),
+                        'WHIP': float(p.get('WHIP', 1.28)),
+                        'K_per_9': float(p.get('K_per_9', 8.5)),
+                    }
+
+                # 投手データ取得
+                hp_name = game.get('home_pitcher', 'TBA')
+                ap_name = game.get('away_pitcher', 'TBA')
+                hp = _get_pitcher_stats(hp_name, latest_year, pitcher_stats if pitcher_stats else {})
+                ap = _get_pitcher_stats(ap_name, latest_year, pitcher_stats if pitcher_stats else {})
+
                 nrfi_features = {
-                    'home_runs_per_game': home_season['avg_rs'],
-                    'home_ba': home_api['BA'],
-                    'home_obp': home_api['OBP'],
-                    'away_runs_per_game': away_season['avg_rs'],
-                    'away_ba': away_api['BA'],
-                    'away_obp': away_api['OBP'],
-                    'total_runs_per_game': home_season['avg_rs'] + away_season['avg_rs'],
+                    # 1回特化チーム統計（リアルタイムでは簡易推定）
+                    'home_1st_rs': home_season['avg_rs'] * 0.11,
+                    'home_1st_ra': home_season['avg_ra'] * 0.11,
+                    'away_1st_rs': away_season['avg_rs'] * 0.11,
+                    'away_1st_ra': away_season['avg_ra'] * 0.11,
+                    'combined_1st_ra': (home_season['avg_ra'] + away_season['avg_ra']) * 0.055,
+                    'combined_1st_rs': (home_season['avg_rs'] + away_season['avg_rs']) * 0.055,
+                    # 先発投手
+                    'home_starter_era': hp['ERA'],
+                    'away_starter_era': ap['ERA'],
+                    'home_starter_whip': hp['WHIP'],
+                    'away_starter_whip': ap['WHIP'],
+                    'home_starter_k9': hp['K_per_9'],
+                    'away_starter_k9': ap['K_per_9'],
+                    'starter_era_diff': hp['ERA'] - ap['ERA'],
+                    'starter_whip_diff': hp['WHIP'] - ap['WHIP'],
+                    'combined_starter_era': (hp['ERA'] + ap['ERA']) / 2,
+                    # 球場（リアルタイムではリーグ平均を使用）
+                    'venue_nrfi_rate': 0.511,
+                    # チーム統計
                     'home_era': home_api['ERA'],
                     'away_era': away_api['ERA'],
-                    'combined_era': (home_api['ERA'] + away_api['ERA']) / 2,
-                    'home_win_pct': home_season['win_pct'],
-                    'away_win_pct': away_season['win_pct'],
-                    'home_run_diff': home_season['run_diff'],
-                    'away_run_diff': away_season['run_diff'],
+                    'home_obp': home_api['OBP'],
+                    'away_obp': away_api['OBP'],
+                    'total_runs_per_game': home_season['avg_rs'] + away_season['avg_rs'],
                 }
 
                 nrfi_df = pd.DataFrame([nrfi_features])
@@ -733,7 +770,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
 
                 pred['nrfi_prob'] = round(float(prob), 4)
                 pred['nrfi_pick'] = 'NRFI' if prob > 0.5 else 'YRFI'
-                
+
                 abs_edge = abs(prob - 0.5)
                 if abs_edge >= 0.10:
                     pred['nrfi_confidence'] = 'STRONG'
@@ -1025,6 +1062,28 @@ def generate_english_digest(predictions, target_date, models_loaded):
             md.append(f"**F5 Moneyline:** {best['f5_pick']} ({best['f5_prob']*100:.1f}%)")
         md.append("")
 
+    # トラックレコード要約
+    track_record_path = PROJECT_DIR / "output" / "track_record_data.json"
+    if track_record_path.exists():
+        try:
+            with open(track_record_path, 'r') as f:
+                tr = json.load(f)
+            sp = tr.get('strong_picks', {})
+            md.append("## 2025 Backtested Track Record (STRONG Picks)")
+            md.append("")
+            md.append("| Market | Win Rate | ROI | Games |")
+            md.append("|--------|----------|-----|-------|")
+            for name in ['Moneyline', 'Run Line', 'Over/Under', 'F5 Moneyline']:
+                s = sp.get(name)
+                if s:
+                    md.append(f"| {name} | {s['accuracy']:.1%} | {s['roi']:+.1f}% | {s['total']} |")
+            c = tr.get('combined', {})
+            if c:
+                md.append(f"\n> Combined: **{c['accuracy']:.1%}** win rate, **{c['roi']:+.1f}%** ROI across {c['total']} picks")
+            md.append("")
+        except Exception:
+            pass
+
     # フッター
     md.append("---")
     md.append("")
@@ -1152,6 +1211,29 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
                 for b in batters:
                     md.append(f"| {b['name']} | {team} | {b['hits_pred']:.2f} | {b['hr_pred']:.3f} |")
         md.append("")
+
+    # トラックレコード要約
+    track_record_path = PROJECT_DIR / "output" / "track_record_data.json"
+    if track_record_path.exists():
+        try:
+            with open(track_record_path, 'r') as f:
+                tr = json.load(f)
+            sp = tr.get('strong_picks', {})
+            name_ja = {'Moneyline': 'ML', 'Run Line': 'RL', 'Over/Under': 'O/U', 'F5 Moneyline': 'F5'}
+            md.append("## 2025バックテスト実績（STRONGピック限定）")
+            md.append("")
+            md.append("| マーケット | 勝率 | ROI | 試合数 |")
+            md.append("|-----------|------|-----|--------|")
+            for name in ['Moneyline', 'Run Line', 'Over/Under', 'F5 Moneyline']:
+                s = sp.get(name)
+                if s:
+                    md.append(f"| {name_ja.get(name, name)} | {s['accuracy']:.1%} | {s['roi']:+.1f}% | {s['total']} |")
+            c = tr.get('combined', {})
+            if c:
+                md.append(f"\n> 全体: **{c['accuracy']:.1%}** 勝率、**{c['roi']:+.1f}%** ROI（{c['total']}ピック）")
+            md.append("")
+        except Exception:
+            pass
 
     # フッター
     md.append("---")
