@@ -1,6 +1,6 @@
 # Moneyball Dojo — 2025 Season Backtest Results
 
-Generated: 2026-02-14
+Generated: 2026-02-15
 
 ## Methodology
 
@@ -82,16 +82,16 @@ Generated: 2026-02-14
 
 ## NRFI
 
-- **Overall Accuracy**: 53.5% (2429 games)
-- **AUC-ROC**: 0.5535
+- **Overall Accuracy**: 62.1% (2429 games)
+- **AUC-ROC**: 0.6730
 
 ### Accuracy by Confidence Tier
 
 | Tier | Accuracy | Record |
 |------|----------|--------|
-| STRONG | 54.5% | 103/189 |
-| MODERATE | 56.4% | 494/876 |
-| LEAN | 51.5% | 702/1364 |
+| STRONG | 68.9% | 911/1322 |
+| MODERATE | 55.7% | 290/521 |
+| LEAN | 52.4% | 307/586 |
 
 ---
 
