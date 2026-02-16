@@ -291,7 +291,8 @@ def train_moneyline(X, meta_cols):
                            'blowout_rate_home', 'blowout_rate_away']
     feat_cols = [c for c in X.columns if c not in exclude and c != target]
 
-    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    # 時系列分離: 2022-2024で学習、2025で評価（リーク防止）
+    train = X[X['year'].isin([2022, 2023, 2024])]
     test = X[X['year'] == 2025]
 
     X_train, y_train = train[feat_cols].astype(float), train[target].astype(int)
@@ -338,7 +339,8 @@ def train_over_under(X, meta_cols):
     exclude = meta_cols + ['home_win', 'total_runs', 'run_margin', 'home_covers_rl', 'over_8_5']
     feat_cols = [c for c in X.columns if c not in exclude]
 
-    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    # 時系列分離: 2022-2024で学習、2025で評価（リーク防止）
+    train = X[X['year'].isin([2022, 2023, 2024])]
     test = X[X['year'] == 2025]
 
     X_train, y_train_reg = train[feat_cols].astype(float), train[target_reg].astype(float)
@@ -424,7 +426,8 @@ def train_run_line(X, meta_cols):
     exclude = meta_cols + ['home_win', 'total_runs', 'run_margin', 'home_covers_rl', 'over_8_5']
     feat_cols = [c for c in X.columns if c not in exclude and c in X.columns]
 
-    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    # 時系列分離: 2022-2024で学習、2025で評価（リーク防止）
+    train = X[X['year'].isin([2022, 2023, 2024])]
     test = X[X['year'] == 2025]
 
     X_train, y_train = train[feat_cols].astype(float), train[target].astype(int)
@@ -488,7 +491,8 @@ def train_f5_moneyline(X, meta_cols):
                            'home_margin_avg', 'away_margin_avg']
     feat_cols = [c for c in X.columns if c not in exclude and c != target]
 
-    train = X[X['year'].isin([2022, 2023, 2024, 2025])]
+    # 時系列分離: 2022-2024で学習、2025で評価（リーク防止）
+    train = X[X['year'].isin([2022, 2023, 2024])]
     test = X[X['year'] == 2025]
 
     X_train, y_train = train[feat_cols].astype(float), train[target].astype(int)
@@ -765,11 +769,12 @@ def train_batter_props():
     meta = ['player_id', 'name', 'year', 'team', 'target_hits_per_game', 'target_HR_per_game']
     feat_cols = [c for c in bdf.columns if c not in meta]
 
-    train = bdf[bdf['year'].isin([2022, 2023, 2024, 2025])]
+    # 時系列分離: 2022-2024で学習、2025で評価（リーク防止）
+    train = bdf[bdf['year'].isin([2022, 2023, 2024])]
     test = bdf[bdf['year'] == 2025]
 
     if len(test) == 0:
-        train = bdf[bdf['year'].isin([2022, 2023, 2024])]
+        train = bdf[bdf['year'].isin([2022, 2023])]
         test = bdf[bdf['year'] == 2024]
 
     X_train = train[feat_cols].astype(float)
@@ -1419,7 +1424,7 @@ def save_model(filename, model, scaler, feat_cols, model_type, accuracy, auc, cv
         'n_features': len(feat_cols),
         'model_type': model_type,
         'training_date': datetime.now().isoformat(),
-        'train_years': [2022, 2023, 2024, 2025],
+        'train_years': [2022, 2023, 2024],  # 2025は評価用
         'test_year': 2025,
         'test_accuracy': accuracy,
         'test_auc': auc,
