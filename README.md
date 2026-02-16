@@ -142,6 +142,82 @@ moneyball_dojo/
     └── claude_pro_project_instructions.md
 ```
 
+## Google Sheets Schema
+
+Predictions are logged to 4 sheets for full transparency and CLV tracking:
+
+### Daily Predictions
+
+| Column | Example | Description |
+|--------|---------|-------------|
+| `date` | 2026-04-15 | Game date |
+| `game` | NYY vs BOS | Matchup |
+| `market` | moneyline | Bet type |
+| `pick` | NYY | Model selection |
+| `model_prob` | 0.642 | Model's win probability |
+| `book` | FanDuel | Sportsbook source |
+| `line_posted` | -148 | Line at time of prediction |
+| `implied_prob` | 0.597 | Odds → probability conversion |
+| `edge` | +4.5% | `model_prob - implied_prob` |
+| `tier` | STRONG | Edge-based confidence |
+| `line_close` | -155 | Closing line (updated post-game) |
+| `clv` | +7 | Closing Line Value (`line_close - line_posted`) |
+
+### Results (updated daily)
+
+| Column | Description |
+|--------|-------------|
+| `result` | W / L / Push |
+| `actual_score` | 5-3 |
+| `units` | +1.0 / -1.1 (flat 1u) |
+| `cumulative_roi` | Running ROI % |
+
+### Model Performance (weekly rollup)
+
+| Column | Description |
+|--------|-------------|
+| `week` | Week number |
+| `record` | 15-9 |
+| `roi` | +8.2% |
+| `avg_edge` | +5.1% |
+| `avg_clv` | +4.3 |
+| `strong_tier_record` | 8-3 |
+
+### Article Queue
+
+| Column | Description |
+|--------|-------------|
+| `date` | Publish date |
+| `platform` | Substack / note.com |
+| `status` | draft / published |
+| `url` | Published article URL |
+
+> **Why CLV matters:** Closing Line Value is the gold standard for measuring betting skill. If your posted line consistently moves in your direction by close, you're finding real edges — not just getting lucky.
+
+## Content Strategy (Substack)
+
+### Free Tier (Daily)
+
+- Top 1-2 picks with brief reasoning
+- Edge and line info (which book, which line)
+- Previous day's results (units / ROI)
+
+### Paid Tier (Daily)
+
+- Full card (3-5 picks across markets)
+- Bet sizing guidance (flat 1u or fractional Kelly)
+- Model reasoning (key features: starter matchup, bullpen edge, splits)
+- Line timing: "buy now" vs "wait for movement"
+
+### Weekly Report (Every Monday)
+
+- Model Performance sheet → article format
+- Week's record, ROI, CLV summary
+- Tier breakdown (STRONG vs MODERATE hit rates)
+- Upcoming week preview
+
+> This structure turns prediction logs into a **subscription-worthy product** — free tier builds trust, paid tier delivers actionable edge, weekly reports justify continued subscription.
+
 ## GitHub Actions
 
 The workflow (`.github/workflows/moneyball_daily.yml`) runs automatically:
