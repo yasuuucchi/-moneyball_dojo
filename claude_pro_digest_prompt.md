@@ -26,6 +26,7 @@ python run_daily.py
 - エッジ最大の試合を1つ「Featured」として深掘り（3-4段落）
 - STRONG/MODERATEの試合を「Quick Takes」で紹介
 - トーン: データ重視、正直、少しウィットを効かせる
+- バックテスト実績を誇りにする（Moneyline 64.7%, STRONG 72.9%）
 - フッターに "Built by a Japanese AI engineer in Tokyo" を入れる
 - "Not financial advice. Gamble responsibly." を入れる
 
