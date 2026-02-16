@@ -495,7 +495,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 ou_features = {**features, **ou_extra}
 
                 # Regression model for total runs
-                reg_model = ou_data['model']  # regressor
+                reg_model = ou_data['regressor']  # regressor
                 reg_scaler = ou_data['scaler']
                 reg_feat_cols = ou_data['feature_cols']
 
@@ -648,7 +648,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             for side, team_name in [('home', home), ('away', away)]:
                 try:
                     bp_data = models['batter_props']
-                    hit_model = bp_data['model']       # hit model
+                    hit_model = bp_data['hit_model']   # hit model
                     hr_model = bp_data.get('hr_model')  # hr model
                     bp_scaler = bp_data['scaler']
                     bp_feat_cols = bp_data['feature_cols']
