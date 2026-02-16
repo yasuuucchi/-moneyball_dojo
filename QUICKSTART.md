@@ -2,281 +2,102 @@
 
 Get up and running in 5 minutes.
 
-## Installation (2 minutes)
+## Installation
 
 ```bash
-cd /sessions/bold-awesome-ritchie/mnt/taiki/moneyball_dojo
 pip install -r requirements.txt
 ```
 
-## Run Demo Pipeline (1 minute)
+## Run the Daily Pipeline
 
 ```bash
-python data_pipeline_demo.py
+python run_daily.py
 ```
 
-**Output:**
-- Fetches 2024 MLB data (200 batters, 100 pitchers)
-- Trains XGBoost model (62% accuracy)
-- Generates 10 sample predictions
-- Exports to `output/daily_predictions.csv`
+This single command:
+1. Fetches today's MLB schedule from MLB Stats API
+2. Loads 9 trained XGBoost models
+3. Generates 37-feature vectors for each game
+4. Predicts across all markets (Moneyline, O/U, Run Line, F5, NRFI, Props)
+5. Calculates edge vs. implied odds
+6. Generates English + Japanese digests + Twitter post
+7. Saves everything to `output/YYYYMMDD/`
 
-## Explore Components (2 minutes)
+### Output Files
 
-### 1. View Google Sheets Schema
+```
+output/YYYYMMDD/
+├── digest_EN_YYYY-MM-DD.md    → Copy-paste to Substack
+├── digest_JA_YYYY-MM-DD.md    → Copy-paste to note.com
+├── twitter_YYYY-MM-DD.txt     → Copy-paste to X/Twitter
+├── predictions.csv             → Google Sheets import
+└── predictions_YYYY-MM-DD.json → Full prediction data
+```
+
+## Model Training
 
 ```bash
-python sheets_schema.py
+# Retrain all 9 models
+python train_all_models.py
+
+# Validate on 2025 season (2,426 games)
+python backtest_2025.py
+
+# Generate track record page
+python generate_track_record.py
 ```
 
-Shows all 4 sheets with 54 total columns.
+## Key Scripts
 
-### 2. Generate Sample Articles
+| Script | Purpose |
+|--------|---------|
+| `run_daily.py` | Main pipeline — run this daily |
+| `train_all_models.py` | Train all 9 XGBoost models |
+| `backtest_2025.py` | Full season backtest validation |
+| `generate_track_record.py` | Performance page for Substack |
+| `daily_digest_generator.py` | Digest template engine |
+| `sheets_schema_v2.py` | Google Sheets event-log schema |
 
-```bash
-python -c "
-from article_generator_template import ArticleGenerator
+## Confidence Tiers
 
-gen = ArticleGenerator()
+| Tier | Edge | Emoji |
+|------|------|-------|
+| STRONG | 8%+ | 🔥 |
+| MODERATE | 4-8% | 👍 |
+| LEAN | 2-4% | → |
+| PASS | <2% | ⏸ |
 
-# Sample game
-game = {
-    'away_team': 'NYY',
-    'home_team': 'BOS',
-    'away_pitcher': 'Gerrit Cole',
-    'home_pitcher': 'Garrett Whitlock',
-    'model_probability': 0.62,
-    'confidence_tier': 'HIGH',
-    'pick': 'HOME',
-    'date': '2024-06-15'
-}
-
-print(gen.generate_english_article(game)[:500])
-"
-```
-
-## Files Overview
-
-| File | Purpose | Lines | Key Classes |
-|------|---------|-------|-------------|
-| `requirements.txt` | Dependencies | 10 | - |
-| `data_pipeline_demo.py` | Main prediction engine | 550 | `MLBDataPipeline` |
-| `sheets_schema.py` | Database schema | 400 | `ColumnDef`, schema dicts |
-| `article_generator_template.py` | Article generation | 550 | `ArticleGenerator` |
-| `github_actions_workflow.yml` | Daily automation | 400 | GitHub Actions jobs |
-| `README.md` | Full documentation | 500 | - |
-
-**Total: 2,400+ lines of production code**
-
-## Core Concepts (30 seconds each)
-
-### MLBDataPipeline
-
-```python
-from data_pipeline_demo import MLBDataPipeline
-
-pipeline = MLBDataPipeline()
-
-# 1. Fetch data
-batting, pitching = pipeline.fetch_mlb_data(2024)
-
-# 2. Compute team stats
-stats = pipeline.compute_team_stats(batting, pitching)
-
-# 3. Train model
-training = pipeline.create_training_dataset(500)
-metrics = pipeline.train_model(training)
-
-# 4. Predict game
-pred = pipeline.predict_game('NYY', 'BOS', 3.45, 4.12)
-# Returns: {'pick': 'HOME', 'confidence_tier': 'HIGH', ...}
-
-# 5. Export predictions
-pipeline.export_predictions('daily_predictions.csv')
-```
-
-### ArticleGenerator
-
-```python
-from article_generator_template import ArticleGenerator
-
-gen = ArticleGenerator(api_key='sk-ant-...')
-
-game_data = {
-    'away_team': 'NYY',
-    'home_team': 'BOS',
-    'model_probability': 0.62,
-    'confidence_tier': 'HIGH',
-    'pick': 'HOME',
-    # ... more fields
-}
-
-# Generate articles
-english = gen.generate_english_article(game_data)
-japanese = gen.generate_japanese_article(game_data)
-```
-
-### Google Sheets Schema
-
-```python
-from sheets_schema import SHEETS_SCHEMA, create_headers
-
-# Get columns for a sheet
-headers = create_headers('Daily Predictions')
-# ['date', 'game_id', 'away_team', 'home_team', ...]
-
-# All 4 sheets
-for sheet_name in SHEETS_SCHEMA.keys():
-    print(f"{sheet_name}: {len(create_headers(sheet_name))} columns")
-```
-
-## Data Flow
+## Daily Workflow (90 seconds)
 
 ```
-Input: 2024 MLB Stats (pybaseball)
-  ↓
-Compute: Team-level aggregation
-  ↓
-Engineer: Game-specific features (13 features)
-  ↓
-Train: XGBoost on 500 synthetic games
-  ↓
-Predict: 10 upcoming games (10 minutes)
-  ↓
-Output: CSV + JSON + Articles
-  ↓
-Google Sheets: Auto-logged daily
+1. python run_daily.py           ← generates everything
+2. Open output/YYYYMMDD/
+3. Copy digest_EN → paste to Substack → Publish
+4. Copy twitter → paste to X → Post
+5. (Weekly) Copy digest_JA → paste to note.com → Publish
 ```
 
-## Prediction Output
+## Backtest Results
 
-```csv
-date,game_id,away_team,home_team,away_pitcher,home_pitcher,model_probability,pick,confidence_tier
-2024-06-15,mlb_20240615_001,NYY,BOS,Gerrit Cole,Garrett Whitlock,0.62,HOME,HIGH
-2024-06-16,mlb_20240616_001,LAD,SF,Clayton Kershaw,Logan Webb,0.58,HOME,MEDIUM
-```
-
-**Columns:**
-- `model_probability`: 0.0-1.0 (home team win chance)
-- `pick`: HOME or AWAY recommendation
-- `confidence_tier`: HIGH (>65%), MEDIUM (55-65%), LOW (<55%)
-
-## Key Features
-
-✓ **Production-Ready Code**
-- 2,400+ lines of well-documented Python
-- Comprehensive error handling
-- Synthetic data fallback
-
-✓ **Complete Data Pipeline**
-- Fetches live MLB data
-- Trains ML model on historical data
-- Generates predictions with confidence scores
-
-✓ **Claude API Integration**
-- English articles (Substack format)
-- Japanese articles (note.com format)
-- Team-specific writing prompts
-
-✓ **Google Sheets Automation**
-- 4 interconnected sheets
-- 54 total columns
-- Daily automated logging
-
-✓ **GitHub Actions Workflow**
-- Scheduled daily execution
-- 5-step automation pipeline
-- Slack notifications (optional)
-
-✓ **Analytics & Tracking**
-- ROI calculation
-- Weekly performance metrics
-- Confidence tier breakdown
-
-## Next Steps
-
-1. **Install:** `pip install -r requirements.txt`
-2. **Test:** `python data_pipeline_demo.py`
-3. **Explore:** Check individual modules
-4. **Setup:** Configure GitHub Actions for automation
-5. **Integrate:** Connect to Google Sheets
-6. **Deploy:** Run daily predictions
-
-## Common Commands
-
-```bash
-# Run pipeline
-python data_pipeline_demo.py
-
-# Show schema
-python sheets_schema.py
-
-# Test article generation
-python article_generator_template.py
-
-# Check imports
-python -c "from data_pipeline_demo import MLBDataPipeline; print('OK')"
-
-# Run with arguments (when extended)
-python data_pipeline_demo.py --season 2024 --output-dir ./output
-```
-
-## Architecture
-
-```
-moneyball_dojo/
-├── Core Pipeline
-│   └── data_pipeline_demo.py ......... Main prediction engine
-├── Data Definition
-│   └── sheets_schema.py .............. Database schema
-├── Content Generation
-│   └── article_generator_template.py  Claude API integration
-├── Automation
-│   └── github_actions_workflow.yml ... Daily scheduled runs
-├── Documentation
-│   ├── README.md .................... Full guide
-│   └── QUICKSTART.md ................ This file
-└── Dependencies
-    └── requirements.txt ............. Python packages
-```
-
-## Model Performance
-
-**Training Results:**
-- Train Accuracy: 62-63%
-- Test Accuracy: 60-62%
-- Features: 13 (batting, pitching, context)
-- Model: XGBoost with 100 estimators
-- Confidence Tiers: HIGH/MEDIUM/LOW
-
-**Expected ROI:**
-- Conservative: 5% per season
-- Moderate: 10% per season
-- Ambitious: 15% per season
-- *Results vary - depends on betting discipline*
+| Model | Accuracy | STRONG Tier |
+|-------|----------|-------------|
+| Moneyline | 64.7% | 72.9% |
+| Run Line | 66.3% | 73.4% |
+| F5 Moneyline | 64.6% | 69.5% |
+| NRFI | 62.1% | 68.9% |
 
 ## Troubleshooting
 
 | Issue | Solution |
 |-------|----------|
 | ModuleNotFoundError | `pip install -r requirements.txt` |
-| No pybaseball data | Uses synthetic data (automatic fallback) |
-| Google Sheets not updating | Verify credentials and sheet ID |
-| Claude API fails | Optional - articles not required for pipeline |
-| GitHub Actions fails | Check workflow logs, verify secrets |
+| No games found | Off-season or no games scheduled for today |
+| Model file missing | Run `python train_all_models.py` |
+| Google Sheets not updating | Check credentials in `.env` or GitHub Secrets |
 
-## Resources
+## Next Steps
 
-- **pybaseball:** https://github.com/jldbc/pybaseball
-- **XGBoost:** https://xgboost.readthedocs.io/
-- **Claude API:** https://console.anthropic.com/
-- **Google Sheets API:** https://developers.google.com/sheets/api
-- **GitHub Actions:** https://github.com/features/actions
-
-## Support
-
-See README.md for full documentation and detailed guides.
-
----
-
-**Ready to go!** Start with `python data_pipeline_demo.py`
+1. Read [`README.md`](README.md) for full documentation
+2. Read [`ROADMAP.md`](ROADMAP.md) for project timeline
+3. Read [`SETUP_GUIDE.md`](SETUP_GUIDE.md) for platform setup (Substack, X, etc.)
+4. Read [`README_TRAIN_MODEL.md`](README_TRAIN_MODEL.md) for model training details

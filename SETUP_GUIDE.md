@@ -4,19 +4,19 @@
 
 ### ドメイン登録
 1. **Namecheap**（https://www.namecheap.com）または **Google Domains** にアクセス
-2. `moneyballdojo.com` を検索 — 現在取得可能
+2. `moneyballdojo.com` を検索
 3. 代替案: `moneyballdojo.io`（テック感がある）
 4. 費用: .comで年間約$10-15
 
 ### Twitter/X アカウント
 1. https://twitter.com/signup にアクセス
-2. `@MoneyballDojo` を登録 — 現在取得可能
+2. `@MoneyballDojo` を登録
 3. プロフィール案: "東京発・AI駆動のMLB予測 | 日本人AIエンジニアが開発 | 勘より数字で勝負"
 4. 初日にアプローチを説明するスレッドを固定投稿
 
 ### Substack アカウント
 1. https://substack.com にアクセス
-2. パブリケーション作成: `moneyballdojo.substack.com` — 現在取得可能
+2. パブリケーション作成: `moneyballdojo.substack.com`
 3. 後から: カスタムドメイン `moneyballdojo.com` を接続（Substackはこれをサポート）
 4. 無料プランで即開始、有料購読者500人以上で有料プラン（$12.99/月）を追加
 
@@ -67,11 +67,7 @@ cp -r /path/to/moneyball_dojo/* .
 5. Google スプレッドシート作成:
    - 名前: "Moneyball Dojo - Predictions 2026"
    - サービスアカウントのメールアドレスに編集権限を付与
-6. 4つのシート/タブを作成:
-   - "Daily Predictions"（日次予測）
-   - "Results"（結果）
-   - "Model Performance"（モデル性能）
-   - "Article Queue"（記事キュー）
+6. イベントログ方式のスプレッドシートを作成（`sheets_schema_v2.py` 参照）
 
 ### gspread 動作テスト:
 ```python
@@ -118,11 +114,11 @@ print(response.content[0].text)
 
 ## ステップ5: プレシーズン・コンテンツ計画
 
-### 第1-2週（シーズン開始前）:
-- [ ] "Moneyball Dojoの紹介" - オリジン・ストーリー（日本人AIエンジニアの視点）
-- [ ] "AIモデルの仕組み" - 方法論の解説
-- [ ] "2025年シーズン振り返り：データが語ること"
-- [ ] "2026年MLBシーズンプレビュー：地区別予測"
+### プレシーズン記事（✅ 全4本作成済み — articles/フォルダ）:
+- [x] 01: "Introducing Moneyball Dojo" — オリジン・ストーリー
+- [x] 02: "How Our AI Model Works" — 方法論の解説
+- [x] 03: "2025 Season Review" — データ分析
+- [x] 04: "2026 Division Predictions" — 地区別予測
 
 ### 開幕日（2026年3月27日）:
 - [ ] 初日の全予測と詳細分析
@@ -145,9 +141,9 @@ print(response.content[0].text)
 - [ ] note.com アカウントを作成
 - [ ] GitHub プライベートリポジトリをセットアップ
 - [ ] Google Cloud プロジェクト + Sheets API をセットアップ
-- [ ] 4つのタブを持つ Google スプレッドシートを作成
+- [ ] Google スプレッドシートを作成（sheets_schema_v2.py参照）
 - [ ] Claude APIキーを取得
-- [ ] 実際のpybaseballデータでデータパイプラインをテスト
-- [ ] 最初の3記事を執筆（プレシーズン・コンテンツ）
+- [ ] `python run_daily.py` でパイプラインをテスト
+- [x] プレシーズン記事4本作成済み（articles/フォルダ）
 - [ ] ロゴをデザイン（確定版）
 - [ ] Twitter での発信を開始（投稿開始）
