@@ -1,0 +1,192 @@
+name: Sync Predictions to Public Repository
+
+# ============================================================================
+# 公開リポジトリへの自動同期ワークフロー
+# ============================================================================
+# メインリポジトリで予測が完了した後、以下のファイルのみを
+# 別リポジトリ moneyball-dojo-predictions に自動 Push する。
+#
+# 同期対象:
+#   - output/YYYYMMDD/predictions.csv
+#   - output/YYYYMMDD/digest_EN_*.md
+#   - output/YYYYMMDD/digest_JA_*.md
+#   - output/YYYYMMDD/twitter_*.txt
+#
+# 機密情報の除外:
+#   - models/*.pkl (学習済みモデル)
+#   - *.py (ソースコード / ロジック)
+#   - credentials.json / .env
+#   - data/*.csv (生データ)
+# ============================================================================
+
+on:
+  # メインの予測ワークフロー完了後にトリガー
+  workflow_run:
+    workflows: ["Moneyball Dojo Daily Predictions"]
+    types:
+      - completed
+
+  # 手動トリガー
+  workflow_dispatch:
+    inputs:
+      date:
+        description: 'Target date (YYYYMMDD format, e.g., 20260327)'
+        required: false
+        default: ''
+
+env:
+  PUBLIC_REPO: moneyball-dojo-predictions
+  PUBLIC_REPO_BRANCH: main
+
+jobs:
+  sync-to-public:
+    name: Sync to Public Repository
+    runs-on: ubuntu-latest
+    # workflow_run の場合は成功時のみ実行
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      github.event.workflow_run.conclusion == 'success'
+
+    steps:
+      - name: Checkout main repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Determine target date
+        id: date
+        run: |
+          if [ -n "${{ github.event.inputs.date }}" ]; then
+            TARGET_DATE="${{ github.event.inputs.date }}"
+          else
+            TARGET_DATE=$(date -u +'%Y%m%d')
+          fi
+          echo "target=$TARGET_DATE" >> $GITHUB_OUTPUT
+          echo "Target date: $TARGET_DATE"
+
+      - name: Verify prediction files exist
+        id: verify
+        run: |
+          TARGET_DIR="output/${{ steps.date.outputs.target }}"
+          if [ ! -d "$TARGET_DIR" ]; then
+            echo "Directory $TARGET_DIR does not exist"
+            echo "found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+
+          # Check for predictions.csv
+          if [ -f "$TARGET_DIR/predictions.csv" ]; then
+            echo "found=true" >> $GITHUB_OUTPUT
+            echo "Files found in $TARGET_DIR:"
+            ls -la "$TARGET_DIR/"
+          else
+            echo "found=false" >> $GITHUB_OUTPUT
+            echo "No predictions.csv in $TARGET_DIR"
+          fi
+
+      - name: Prepare public files
+        if: steps.verify.outputs.found == 'true'
+        run: |
+          TARGET_DIR="output/${{ steps.date.outputs.target }}"
+          STAGING_DIR="/tmp/public_sync"
+          mkdir -p "$STAGING_DIR/${{ steps.date.outputs.target }}"
+
+          # 厳密なファイル選択: 予測データと記事のみ
+          for pattern in \
+            "predictions.csv" \
+            "digest_EN_*.md" \
+            "digest_JA_*.md" \
+            "twitter_*.txt" \
+            "predictions_*.json"; do
+            for f in $TARGET_DIR/$pattern; do
+              if [ -f "$f" ]; then
+                cp "$f" "$STAGING_DIR/${{ steps.date.outputs.target }}/"
+                echo "Copied: $(basename $f)"
+              fi
+            done
+          done
+
+          # 機密ファイルが混入していないことを確認
+          echo ""
+          echo "=== Security Check ==="
+          DANGEROUS_PATTERNS="*.pkl *.py credentials* .env* *.key *.pem"
+          FOUND_DANGER=false
+          for pattern in $DANGEROUS_PATTERNS; do
+            if ls "$STAGING_DIR"/**/$pattern 2>/dev/null; then
+              echo "DANGER: Found sensitive file matching $pattern"
+              FOUND_DANGER=true
+            fi
+          done
+
+          if [ "$FOUND_DANGER" = true ]; then
+            echo "ABORTING: Sensitive files detected in staging directory"
+            exit 1
+          fi
+
+          echo "Security check passed — no sensitive files"
+          echo ""
+          echo "=== Files to sync ==="
+          find "$STAGING_DIR" -type f | sort
+
+      - name: Clone public repository
+        if: steps.verify.outputs.found == 'true'
+        run: |
+          git clone "https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/${{ github.repository_owner }}/${{ env.PUBLIC_REPO }}.git" /tmp/public_repo || {
+            echo "Public repo not found — creating it"
+            mkdir -p /tmp/public_repo
+            cd /tmp/public_repo
+            git init
+            git checkout -b ${{ env.PUBLIC_REPO_BRANCH }}
+          }
+
+      - name: Copy files and push
+        if: steps.verify.outputs.found == 'true'
+        run: |
+          STAGING_DIR="/tmp/public_sync"
+          PUBLIC_DIR="/tmp/public_repo"
+
+          # Copy staged files to public repo
+          cp -r "$STAGING_DIR/${{ steps.date.outputs.target }}" "$PUBLIC_DIR/"
+
+          # Update README index
+          cd "$PUBLIC_DIR"
+
+          # Generate/update README with latest dates
+          cat > README.md << 'HEREDOC'
+          # Moneyball Dojo — Public Predictions
+
+          Daily MLB predictions from our 9-model XGBoost ensemble.
+
+          ## Structure
+          Each date folder contains:
+          - `predictions.csv` — Full prediction data
+          - `digest_EN_*.md` — English article (Substack)
+          - `digest_JA_*.md` — Japanese article (note.com)
+          - `twitter_*.txt` — Twitter/X summary
+
+          ## Models
+          9 XGBoost models: Moneyline, Over/Under, Run Line, F5 ML, Pitcher K, Batter Props, NRFI, Stolen Bases, Pitcher Outs
+
+          ## Track Record
+          Backtested 2025: 64.7% ML accuracy, +72.9% ROI on STRONG picks
+
+          ---
+          *Built by a Japanese AI engineer in Tokyo. Not financial advice.*
+          HEREDOC
+
+          # Commit and push
+          git config user.name "Moneyball Dojo Bot"
+          git config user.email "bot@moneyball-dojo.ai"
+          git add -A
+          git commit -m "auto: Add predictions for ${{ steps.date.outputs.target }}" || echo "No changes"
+          git remote set-url origin "https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/${{ github.repository_owner }}/${{ env.PUBLIC_REPO }}.git" 2>/dev/null || \
+            git remote add origin "https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/${{ github.repository_owner }}/${{ env.PUBLIC_REPO }}.git"
+          git push -u origin ${{ env.PUBLIC_REPO_BRANCH }} || echo "Push failed — check PUBLIC_REPO_TOKEN secret"
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "=== Sync Summary ==="
+          echo "Target date: ${{ steps.date.outputs.target }}"
+          echo "Files found: ${{ steps.verify.outputs.found }}"
+          echo "Public repo: ${{ github.repository_owner }}/${{ env.PUBLIC_REPO }}"
