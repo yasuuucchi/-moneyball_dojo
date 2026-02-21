@@ -106,10 +106,6 @@ When the model had a rough stretch in July–August 2025 (backtest accuracy dipp
 - ROI tracking for each model
 - Honest commentary on misses and adjustments
 
-**Player Spotlight** (special coverage)
-- Deep analysis when Japanese players are in key matchups — I've watched most of them since their NPB days, so you'll get context that doesn't exist in English media
-- Pre-scouting reports on NPB players likely to cross the Pacific next
-
 During preseason, all content is free. After Opening Day on March 27, we'll introduce a premium tier with the full daily digest and all 9 model outputs. Free subscribers will continue to receive weekly summaries and selected picks.
 
 ## Who I Am
