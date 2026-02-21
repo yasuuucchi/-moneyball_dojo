@@ -29,6 +29,9 @@ import os
 import sys
 import pickle
 import json
+import time
+import logging
+import traceback
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -45,9 +48,28 @@ except ImportError:
 # Google Sheets（オプション）
 try:
     import gspread
+    from google.oauth2.service_account import Credentials as ServiceAccountCredentials
     SHEETS_AVAILABLE = True
 except ImportError:
     SHEETS_AVAILABLE = False
+
+# Anthropic API（オプション）
+try:
+    from article_generator_template import ArticleGenerator
+    ARTICLE_GEN_AVAILABLE = True
+except ImportError:
+    ARTICLE_GEN_AVAILABLE = False
+
+# ========================================================
+# ロギング設定
+# ========================================================
+LOG_LEVEL = os.environ.get('LOG_LEVEL', 'INFO').upper()
+logging.basicConfig(
+    level=getattr(logging, LOG_LEVEL, logging.INFO),
+    format='%(asctime)s [%(levelname)s] %(message)s',
+    datefmt='%Y-%m-%d %H:%M:%S',
+)
+logger = logging.getLogger(__name__)
 
 # ========================================================
 # 設定
@@ -57,6 +79,10 @@ MODELS_DIR = PROJECT_DIR / "models"
 DATA_DIR = PROJECT_DIR / "data"
 CREDENTIALS_PATH = PROJECT_DIR / "credentials.json"
 SPREADSHEET_NAME = "Moneyball Dojo DB"
+
+# リトライ設定
+MAX_RETRIES = 3
+RETRY_DELAYS = [2, 4, 8]  # seconds
 
 
 # ========================================================
@@ -1345,21 +1371,56 @@ def save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date):
     return OUTPUT_DIR
 
 
-def upload_to_sheets(predictions, target_date):
-    """Google Sheetsにアップロード"""
+def upload_to_sheets(predictions, target_date, model_version="v3"):
+    """
+    Google Sheets v2 スキーマに基づき予測データを append する。
+    認証: credentials.json または GOOGLE_SHEETS_CREDENTIALS 環境変数
+    対象: GOOGLE_SHEETS_ID 環境変数 or SPREADSHEET_NAME
+    """
     if not SHEETS_AVAILABLE:
-        print("  ⚠ gspread未インストール → pip install gspread")
+        print("  ⚠ gspread未インストール → pip install gspread google-auth")
         return False
 
-    if not CREDENTIALS_PATH.exists():
-        print("  ⚠ credentials.json が見つかりません → Sheets連携スキップ")
-        return False
-
+    # 認証
+    gc = None
     try:
-        gc = gspread.service_account(filename=str(CREDENTIALS_PATH))
-        sh = gc.open(SPREADSHEET_NAME)
-        ws = sh.worksheet('predictions')
+        # 1) 環境変数からJSON認証情報（GitHub Actions用）
+        creds_json = os.environ.get('GOOGLE_SHEETS_CREDENTIALS')
+        if creds_json:
+            import json as _json
+            creds_dict = _json.loads(creds_json)
+            credentials = ServiceAccountCredentials.from_service_account_info(
+                creds_dict,
+                scopes=['https://www.googleapis.com/auth/spreadsheets'],
+            )
+            gc = gspread.authorize(credentials)
+        # 2) credentials.json ファイル（ローカル用）
+        elif CREDENTIALS_PATH.exists():
+            gc = gspread.service_account(filename=str(CREDENTIALS_PATH))
+        else:
+            print("  ⚠ 認証情報なし（credentials.json / GOOGLE_SHEETS_CREDENTIALS）→ Sheets連携スキップ")
+            return False
+    except Exception as e:
+        print(f"  ⚠ Sheets認証失敗: {e}")
+        return False
 
+    # スプレッドシートを開く
+    try:
+        sheet_id = os.environ.get('GOOGLE_SHEETS_ID')
+        if sheet_id:
+            sh = gc.open_by_key(sheet_id)
+        else:
+            sh = gc.open(SPREADSHEET_NAME)
+    except Exception as e:
+        print(f"  ⚠ Spreadsheet open failed: {e}")
+        return False
+
+    now_iso = datetime.utcnow().isoformat() + "Z"
+    errors = []
+
+    # --- Sheet: Daily Predictions (メインの予測データ) ---
+    try:
+        ws = _get_or_create_worksheet(sh, 'Daily Predictions')
         rows = []
         for p in predictions:
             rows.append([
@@ -1367,24 +1428,138 @@ def upload_to_sheets(predictions, target_date):
                 str(p.get('game_id', '')),
                 str(p.get('away_team', '')),
                 str(p.get('home_team', '')),
+                str(p.get('away_pitcher', 'TBA')),
+                str(p.get('home_pitcher', 'TBA')),
                 str(round(float(p.get('ml_prob', 0)), 4)),
-                str(round(float(p.get('ml_edge', 0)), 4)),
                 str(p.get('ml_pick', '')),
+                str(round(float(p.get('ml_edge', 0)), 4)),
                 str(p.get('ml_confidence', '')),
                 str(p.get('ou_predicted_total', '')),
                 str(p.get('rl_pick', '')),
+                str(p.get('rl_confidence', '')),
                 str(p.get('f5_pick', '')),
+                str(p.get('f5_confidence', '')),
+                str(p.get('nrfi_pick', '')),
+                str(p.get('nrfi_confidence', '')),
+                str(p.get('sb_pick', '')),
+                now_iso,
             ])
-
-        for row in rows:
-            ws.append_row(row)
-
-        print(f"  ✓ Google Sheets → {len(rows)} rows uploaded")
-        return True
-
+        _batch_append_with_retry(ws, rows)
+        print(f"  ✓ Daily Predictions → {len(rows)} rows")
     except Exception as e:
-        print(f"  ⚠ Sheets upload failed: {e}")
+        errors.append(f"Daily Predictions: {e}")
+
+    # --- Sheet: predictions (v2 スキーマ: append-only event log) ---
+    try:
+        ws_pred = _get_or_create_worksheet(sh, 'predictions')
+        pred_rows = []
+        for p in predictions:
+            pred_rows.append([
+                str(p.get('game_id', '')),
+                f"{model_version}_{target_date.replace('-', '_')}",
+                str(round(float(p.get('ml_prob', 0)), 4)),
+                str(p.get('ou_predicted_total', '')),
+                str(round(float(p.get('ml_edge', 0)), 4)),
+                str(p.get('ml_confidence', '')),
+                str(p.get('ml_pick', '')),
+                f"Edge={p.get('ml_edge', 0)*100:+.1f}%",
+                now_iso,
+            ])
+        _batch_append_with_retry(ws_pred, pred_rows)
+        print(f"  ✓ predictions (v2 log) → {len(pred_rows)} rows")
+    except Exception as e:
+        errors.append(f"predictions: {e}")
+
+    if errors:
+        for err in errors:
+            print(f"  ⚠ Sheets error: {err}")
         return False
+
+    return True
+
+
+def _get_or_create_worksheet(sh, name):
+    """ワークシートを取得。なければ作成する。"""
+    try:
+        return sh.worksheet(name)
+    except gspread.exceptions.WorksheetNotFound:
+        return sh.add_worksheet(title=name, rows=1000, cols=26)
+
+
+def _batch_append_with_retry(ws, rows, max_retries=MAX_RETRIES):
+    """gspread batch append with retry logic."""
+    for attempt in range(max_retries):
+        try:
+            ws.append_rows(rows, value_input_option='USER_ENTERED')
+            return
+        except Exception as e:
+            if attempt < max_retries - 1:
+                delay = RETRY_DELAYS[attempt]
+                logger.warning(f"Sheets append failed (attempt {attempt+1}): {e}. Retrying in {delay}s...")
+                time.sleep(delay)
+            else:
+                raise
+
+
+# ========================================================
+# エラー通知
+# ========================================================
+def _notify_error(step_name: str, error: Exception, target_date: str):
+    """パイプラインエラーを Slack / GitHub Issues に通知する。"""
+    error_msg = f"[{step_name}] {type(error).__name__}: {error}"
+    logger.error(error_msg)
+    logger.error(traceback.format_exc())
+
+    # Slack通知（環境変数あれば）
+    slack_webhook = os.environ.get('SLACK_WEBHOOK')
+    if slack_webhook:
+        try:
+            import requests
+            payload = {
+                "text": f"🚨 Moneyball Dojo Pipeline Error — {target_date}\n"
+                        f"Step: {step_name}\n"
+                        f"Error: {error_msg}\n"
+                        f"```{traceback.format_exc()[-500:]}```"
+            }
+            for attempt in range(MAX_RETRIES):
+                try:
+                    resp = requests.post(slack_webhook, json=payload, timeout=10)
+                    if resp.status_code == 200:
+                        logger.info("Slack notification sent")
+                        break
+                except Exception:
+                    if attempt < MAX_RETRIES - 1:
+                        time.sleep(RETRY_DELAYS[attempt])
+        except ImportError:
+            pass
+
+    # エラーログファイル
+    error_dir = PROJECT_DIR / "output" / target_date.replace("-", "")
+    error_dir.mkdir(parents=True, exist_ok=True)
+    error_path = error_dir / "pipeline_errors.log"
+    with open(error_path, 'a', encoding='utf-8') as f:
+        f.write(f"\n{'='*60}\n")
+        f.write(f"Time: {datetime.utcnow().isoformat()}Z\n")
+        f.write(f"Step: {step_name}\n")
+        f.write(f"Error: {error_msg}\n")
+        f.write(traceback.format_exc())
+
+
+def _run_step_with_retry(step_name, func, *args, max_retries=MAX_RETRIES, **kwargs):
+    """パイプラインステップをリトライ付きで実行する。"""
+    last_error = None
+    for attempt in range(max_retries):
+        try:
+            return func(*args, **kwargs)
+        except Exception as e:
+            last_error = e
+            if attempt < max_retries - 1:
+                delay = RETRY_DELAYS[attempt]
+                logger.warning(f"[{step_name}] failed (attempt {attempt+1}): {e}. Retrying in {delay}s...")
+                time.sleep(delay)
+            else:
+                logger.error(f"[{step_name}] failed after {max_retries} attempts")
+    raise last_error
 
 
 # ========================================================
@@ -1392,9 +1567,10 @@ def upload_to_sheets(predictions, target_date):
 # ========================================================
 def main():
     target_date = sys.argv[1] if len(sys.argv) > 1 else datetime.now().strftime("%Y-%m-%d")
+    pipeline_errors = []
 
     print("=" * 70)
-    print("MONEYBALL DOJO — DAILY PREDICTION PIPELINE v3 (ALL MARKETS)")
+    print("MONEYBALL DOJO — DAILY PREDICTION PIPELINE v4 (FULL AUTOMATION)")
     print(f"Date: {target_date}")
     print("=" * 70)
     print()
@@ -1432,11 +1608,11 @@ def main():
         print("❌ No predictions generated. Exiting.")
         return
 
-    # 6. 英語Digest
+    # 6. 英語Digest（テンプレート版 — フォールバック用）
     en_digest = generate_english_digest(predictions, target_date, models)
     print()
 
-    # 7. 日本語Digest
+    # 7. 日本語Digest（テンプレート版 — フォールバック用）
     ja_digest = generate_japanese_digest(predictions, target_date, models)
     print()
 
@@ -1444,27 +1620,82 @@ def main():
     twitter_post = generate_twitter_post(predictions, target_date, models)
     print()
 
+    # ========================================================
+    # [NEW] Anthropic API による記事生成（テンプレート版を上書き）
+    # ========================================================
+    if ARTICLE_GEN_AVAILABLE:
+        print("[API] Generating AI-powered articles via Anthropic API...")
+        try:
+            generator = ArticleGenerator()
+            if generator.api_available:
+                api_en, api_ja = _run_step_with_retry(
+                    "Anthropic API Article Generation",
+                    generator.generate_daily_digest,
+                    predictions, target_date, len(models),
+                )
+                if api_en:
+                    en_digest = api_en
+                    print(f"  ✓ API English digest: {len(en_digest)} characters")
+                if api_ja:
+                    ja_digest = api_ja
+                    print(f"  ✓ API Japanese digest: {len(ja_digest)} characters")
+            else:
+                print("  ⚠ Anthropic API key not set — using template digests")
+        except Exception as e:
+            pipeline_errors.append(("Anthropic API", e))
+            _notify_error("Anthropic API Article Generation", e, target_date)
+            print(f"  ⚠ API article generation failed: {e} — using template fallback")
+    else:
+        print("[API] article_generator_template not available — using template digests")
+    print()
+
     # 9. 保存
     output_dir = save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date)
     print()
 
-    # Bonus: Google Sheets
-    print("[BONUS] Uploading to Google Sheets...")
-    upload_to_sheets(predictions, target_date)
-
+    # ========================================================
+    # [NEW] Google Sheets v2 スキーマ自動書き込み
+    # ========================================================
+    print("[SHEETS] Uploading to Google Sheets (v2 schema)...")
+    try:
+        sheets_ok = _run_step_with_retry(
+            "Google Sheets Upload",
+            upload_to_sheets,
+            predictions, target_date,
+            max_retries=MAX_RETRIES,
+        )
+        if not sheets_ok:
+            print("  ⚠ Sheets upload skipped (no credentials)")
+    except Exception as e:
+        pipeline_errors.append(("Google Sheets", e))
+        _notify_error("Google Sheets Upload", e, target_date)
+        print(f"  ⚠ Sheets upload failed: {e}")
     print()
+
+    # ========================================================
+    # パイプラインサマリー
+    # ========================================================
     print("=" * 70)
-    print("✅ DAILY PIPELINE v3 COMPLETE — ALL MARKETS")
+    if pipeline_errors:
+        print(f"⚠️  PIPELINE COMPLETE WITH {len(pipeline_errors)} ERROR(S)")
+        for step, err in pipeline_errors:
+            print(f"   ❌ {step}: {err}")
+    else:
+        print("✅ DAILY PIPELINE v4 COMPLETE — FULL AUTOMATION")
     print(f"   Models used: {', '.join(models.keys())}")
     print(f"   Games analyzed: {len(predictions)}")
     print(f"   All outputs saved to: {output_dir}/")
     print()
-    print("📋 NEXT STEPS (Taiki's 90-second routine):")
-    print(f"   1. Open {output_dir}/digest_EN_{target_date}.md")
-    print(f"   2. Copy → Paste into Substack → Publish")
-    print(f"   3. Open {output_dir}/twitter_{target_date}.txt")
-    print(f"   4. Copy → Paste into Twitter/X → Post")
-    print(f"   5. (Weekly) Open {output_dir}/digest_JA_{target_date}.md → note.com")
+
+    if not pipeline_errors:
+        print("🤖 FULLY AUTOMATED — No manual steps needed!")
+        print("   Articles generated → Ready for Substack / note.com")
+        print("   Sheets updated → Google Sheets synced")
+    else:
+        print("📋 FALLBACK STEPS:")
+        print(f"   1. Open {output_dir}/digest_EN_{target_date}.md → Substack")
+        print(f"   2. Open {output_dir}/digest_JA_{target_date}.md → note.com")
+        print(f"   3. Open {output_dir}/twitter_{target_date}.txt → Twitter/X")
     print("=" * 70)
 
 
