@@ -20,6 +20,7 @@ models/*.pkl
 models/backup_original/
 
 # 生成されるアウトプット（再生成可能）
+output/[0-9]*/
 output/backtest_2025/backtest_per_game.csv
 output/track_record_*.md
 output/track_record_*.json

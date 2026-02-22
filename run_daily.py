@@ -561,12 +561,15 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 pred['rl_covers_prob'] = round(float(prob), 4)
                 pred['rl_pick'] = 'HOME -1.5' if prob > 0.5 else 'AWAY +1.5'
 
-                abs_edge = abs(prob - 0.5)
-                if abs_edge >= 0.15:
+                # Historical base rate: home team covers -1.5 ~35.7% of the time.
+                # Confidence reflects deviation from that base rate, not from 0.5.
+                RL_BASE_RATE = 0.357
+                abs_edge = abs(prob - RL_BASE_RATE)
+                if abs_edge >= 0.12:
                     pred['rl_confidence'] = 'STRONG'
-                elif abs_edge >= 0.08:
+                elif abs_edge >= 0.06:
                     pred['rl_confidence'] = 'MODERATE'
-                elif abs_edge < 0.03:
+                elif abs_edge < 0.02:
                     pred['rl_confidence'] = 'PASS'
                 else:
                     pred['rl_confidence'] = 'LEAN'
@@ -938,6 +941,15 @@ def generate_english_digest(predictions, target_date, models_loaded):
     active_models = len(models_loaded)
     md.append(f"*{len(predictions)} games analyzed across {active_models} AI models. Here's what the numbers say.*")
     md.append("")
+
+    # Spring Training banner
+    is_spring_training = any(p.get('game_type') == 'S' for p in predictions)
+    if is_spring_training:
+        md.append("> **Spring Training Notice:** Models are trained on regular season data (2022-2025).")
+        md.append("> Spring Training games feature non-standard lineups, split squads, and pitchers on strict pitch counts.")
+        md.append("> Treat all picks as directional signals, not high-conviction bets.")
+        md.append("")
+
     md.append("---")
     md.append("")
 
@@ -976,17 +988,16 @@ def generate_english_digest(predictions, target_date, models_loaded):
         md.append("")
 
     # === RUN LINE ===
-    if any(p.get('rl_covers_prob') for p in predictions):
+    rl_actionable = [p for p in predictions if p.get('rl_confidence') in ('STRONG', 'MODERATE')]
+    if rl_actionable:
         md.append("## Run Line (-1.5)")
         md.append("")
-        md.append("| Matchup | Pick | Prob | Confidence |")
-        md.append("|---------|------|------|------------|")
-        for p in predictions:
-            if p.get('rl_pick', 'N/A') == 'N/A':
-                continue
+        md.append("| Matchup | Pick | Home Cover Prob | Confidence |")
+        md.append("|---------|------|-----------------|------------|")
+        for p in rl_actionable:
             matchup = f"{p['away_team']} @ {p['home_team']}"
             pick = p.get('rl_pick', 'N/A')
-            prob = p.get('rl_covers_prob', 0.5)
+            prob = p.get('rl_covers_prob', 0.357)
             conf = p.get('rl_confidence', 'N/A')
             md.append(f"| {matchup} | {pick} | {prob*100:.1f}% | {conf} |")
         md.append("")
@@ -1138,6 +1149,14 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
     md.append("")
     md.append(f"こんにちは、Moneyball Dojoです。本日は{len(predictions)}試合を{active_models}つのAIモデルで分析しました。")
     md.append("")
+
+    # Spring Training banner
+    is_spring_training = any(p.get('game_type') == 'S' for p in predictions)
+    if is_spring_training:
+        md.append("> **【春季キャンプ期間中】** 本モデルはレギュラーシーズンデータ（2022-2025年）で学習しています。")
+        md.append("> 春季トレーニングは通常と異なるオーダー・投手起用のため、予測は参考値としてご利用ください。")
+        md.append("")
+
     md.append("---")
     md.append("")
 
@@ -1173,17 +1192,16 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
         md.append("")
 
     # === RUN LINE ===
-    if any(p.get('rl_pick') for p in predictions):
+    rl_actionable_ja = [p for p in predictions if p.get('rl_confidence') in ('STRONG', 'MODERATE')]
+    if rl_actionable_ja:
         md.append("## ランライン (-1.5)")
         md.append("")
-        md.append("| 対戦 | 予測 | 確率 | 信頼度 |")
-        md.append("|------|------|------|--------|")
-        for p in predictions:
-            if p.get('rl_pick', 'N/A') == 'N/A':
-                continue
+        md.append("| 対戦 | 予測 | ホームカバー確率 | 信頼度 |")
+        md.append("|------|------|-----------------|--------|")
+        for p in rl_actionable_ja:
             matchup = f"{p['away_team']} @ {p['home_team']}"
             pick = p.get('rl_pick', 'N/A')
-            prob = p.get('rl_covers_prob', 0.5)
+            prob = p.get('rl_covers_prob', 0.357)
             conf = confidence_ja.get(p.get('rl_confidence', 'N/A'), '-')
             md.append(f"| {matchup} | {pick} | {prob*100:.1f}% | {conf} |")
         md.append("")
