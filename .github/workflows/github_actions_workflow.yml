@@ -242,10 +242,9 @@ jobs:
           retention-days: 30
 
       - name: Slack notification
-        if: always()
+        if: always() && env.SLACK_WEBHOOK_URL != ''
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           payload: |
             {
               "text": "Moneyball Dojo v4 Daily Pipeline",
@@ -259,6 +258,8 @@ jobs:
                 }
               ]
             }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
         continue-on-error: true
 
       - name: Create GitHub Issue for daily review
@@ -299,13 +300,15 @@ jobs:
             });
 
       - name: Slack failure alert
+        if: env.SLACK_WEBHOOK_URL != ''
         uses: slackapi/slack-github-action@v1.24.0
         with:
-          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
           payload: |
             {
               "text": "🚨 Moneyball Dojo Pipeline FAILED — https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
             }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
         continue-on-error: true
 
 # ============================================================================
