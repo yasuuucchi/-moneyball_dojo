@@ -39,10 +39,12 @@ Dojo Labs (親ブランド)
 - run_daily.py: データ取得→予測→記事生成→Sheets書込の完全パイプライン
 - 配信ガイド（DELIVERY_GUIDE.md）、ウェルカムメール、マルチバーティカル戦略書
 
+### 完了済み（ユーザーの手動作業）
+- [x] Substackに記事を投稿済み
+- [x] X (@MoneyballDojo) で自己紹介スレッド投稿済み
+
 ### 未完了（ユーザーの手動作業）
-- [ ] Substackに記事を投稿（6本のMarkdown → コピペするだけ）
 - [ ] note.comに日本語版を投稿（6本）
-- [ ] X (@MoneyballDojo) で自己紹介スレッド投稿
 - [ ] GitHub Secrets 設定（CLAUDE_API_KEY, GOOGLE_SHEETS_*）
 - [ ] Spring Training 予測配信の開始
 
