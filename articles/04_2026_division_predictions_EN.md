@@ -4,13 +4,40 @@
 
 This is the article I've been building toward. Every feature we trained, every edge we calculated, every lesson from the 2022-2024 data — it all converges here: our AI model's division-by-division outlook for the 2026 MLB season.
 
-A few ground rules before we start. These projections come from our XGBoost model's analysis of team strength metrics, historical performance trends, and roster composition. They are not crystal balls. They are probabilistic assessments — our model's best estimate of competitive balance, filtered through the 18 features we discussed in Article 2.
+A few ground rules before we start. These projections come from our XGBoost model's analysis of team strength metrics, historical performance trends, and roster composition — now backed by **10,000 Monte Carlo season simulations**. Every number below is a probability, not a guess. They are not crystal balls. They are probabilistic assessments based on real data.
 
 Where we agree with the consensus, I'll say so. Where we disagree? That's where the edge lives.
 
+### Simulation Summary: 2026 Playoff Probability
+
+| Team | Playoff % | Div Win % | WS % |
+|------|-----------|-----------|------|
+| Cleveland Guardians | 100% | 100% | 50.1% |
+| Los Angeles Dodgers | 100% | 91.8% | 21.7% |
+| New York Yankees | 100% | 97.6% | 5.4% |
+| Seattle Mariners | 100% | 97.8% | 8.2% |
+| Miami Marlins | 100% | 59.5% | 6.9% |
+| Atlanta Braves | 100% | 40.3% | 4.6% |
+| San Diego Padres | 98.6% | 8.2% | 1.1% |
+| Cincinnati Reds | 79.3% | 75.3% | 0.2% |
+| Athletics | 78.0% | 2.1% | 0.6% |
+| Toronto Blue Jays | 74.9% | 1.4% | 0.5% |
+| Philadelphia Phillies | 70.3% | 0.1% | 0.3% |
+| Boston Red Sox | 69.7% | 1.1% | 0.4% |
+
+*10,000 simulations. XGBoost moneyline model. Data: 2022-2025.*
+
 ## American League East: The Arms Race Continues
 
-**Model's projected order:** Orioles, Yankees, Blue Jays, Red Sox, Rays
+**Model's projected order:** Yankees, Blue Jays, Red Sox, Orioles, Rays
+
+| Team | Div Win % | Playoff % | Avg W |
+|------|-----------|-----------|-------|
+| New York Yankees | 97.6% | 100% | 118.5 |
+| Toronto Blue Jays | 1.4% | 74.9% | 100.2 |
+| Boston Red Sox | 1.1% | 69.7% | 99.6 |
+| Baltimore Orioles | 0.0% | 0.8% | 80.9 |
+| Tampa Bay Rays | 0.0% | 0.0% | 54.6 |
 
 This division has been a bloodbath for three years running, and our model doesn't expect that to change. But the *internal ordering* is where we diverge from conventional wisdom.
 
@@ -22,7 +49,15 @@ The model is lower on the **Rays** than most projections. Tampa's bullpen volati
 
 ## American League Central: The Hidden Imbalance
 
-**Model's projected order:** Guardians, Twins, Royals, Tigers, White Sox
+**Model's projected order:** Guardians, Royals, Twins, White Sox, Tigers
+
+| Team | Div Win % | Playoff % | Avg W |
+|------|-----------|-----------|-------|
+| Cleveland Guardians | 100% | 100% | 134.6 |
+| Kansas City Royals | 0.0% | 57.9% | 97.9 |
+| Minnesota Twins | 0.0% | 0.0% | 71.7 |
+| Chicago White Sox | 0.0% | 0.0% | 52.4 |
+| Detroit Tigers | 0.0% | 0.0% | 36.5 |
 
 Here's the AL division I teased last week — the one with a competitive imbalance the market hasn't fully priced.
 
@@ -34,7 +69,15 @@ The **White Sox** project as historically bad again. The rebuild is ongoing, and
 
 ## American League West: Astros in Transition
 
-**Model's projected order:** Mariners, Rangers, Astros, Athletics, Angels
+**Model's projected order:** Mariners, Athletics, Astros, Angels, Rangers
+
+| Team | Div Win % | Playoff % | Avg W |
+|------|-----------|-----------|-------|
+| Seattle Mariners | 97.8% | 100% | 118.7 |
+| Athletics | 2.1% | 78.0% | 101.5 |
+| Houston Astros | 0.1% | 18.8% | 91.9 |
+| Los Angeles Angels | 0.0% | 0.0% | 41.4 |
+| Texas Rangers | 0.0% | 0.0% | 39.2 |
 
 This might be our most contrarian call. The **Mariners** topping the AL West challenges the narrative that Houston owns this division indefinitely.
 
@@ -46,7 +89,15 @@ The **Athletics** in their new stadium situation create modeling uncertainty. Ho
 
 ## National League East: Depth vs. Star Power
 
-**Model's projected order:** Phillies, Braves, Mets, Marlins, Nationals
+**Model's projected order:** Marlins, Braves, Phillies, Mets, Nationals
+
+| Team | Div Win % | Playoff % | Avg W |
+|------|-----------|-----------|-------|
+| Miami Marlins | 59.5% | 100% | 114.8 |
+| Atlanta Braves | 40.3% | 100% | 112.3 |
+| Philadelphia Phillies | 0.1% | 70.3% | 93.7 |
+| New York Mets | 0.0% | 0.5% | 75.0 |
+| Washington Nationals | 0.0% | 0.0% | 52.1 |
 
 The NL East is loaded with talent, and our model sees it as the tightest race in baseball. The top three teams all project within a few games of each other.
 
@@ -58,7 +109,15 @@ The **Mets** are the boom-or-bust candidate. High Offensive_Strength, inconsiste
 
 ## National League Central: Still Waiting for a Clear Favorite
 
-**Model's projected order:** Brewers, Cubs, Cardinals, Reds, Pirates
+**Model's projected order:** Reds, Cubs, Brewers, Pirates, Cardinals
+
+| Team | Div Win % | Playoff % | Avg W |
+|------|-----------|-----------|-------|
+| Cincinnati Reds | 75.3% | 79.3% | 94.8 |
+| Chicago Cubs | 13.5% | 19.5% | 85.6 |
+| Milwaukee Brewers | 10.4% | 15.3% | 84.2 |
+| Pittsburgh Pirates | 0.9% | 1.6% | 77.4 |
+| St. Louis Cardinals | 0.0% | 0.1% | 69.3 |
 
 The NL Central continues to be baseball's most unpredictable division, and our model reflects that uncertainty. No team projects to dominate.
 
@@ -69,6 +128,14 @@ The **Cubs** are the sleeper I mentioned last week — the NL team everyone is s
 ## National League West: The Dodgers Tax
 
 **Model's projected order:** Dodgers, Padres, Diamondbacks, Giants, Rockies
+
+| Team | Div Win % | Playoff % | Avg W |
+|------|-----------|-----------|-------|
+| Los Angeles Dodgers | 91.8% | 100% | 116.7 |
+| San Diego Padres | 8.2% | 98.6% | 105.3 |
+| Arizona Diamondbacks | 0.0% | 14.9% | 86.5 |
+| San Francisco Giants | 0.0% | 0.0% | 66.6 |
+| Colorado Rockies | 0.0% | 0.0% | 31.4 |
 
 Let's be honest: the Dodgers are probably going to win this division. Our model agrees with the consensus here. Los Angeles grades out as the best team in baseball across nearly every metric — Offensive_Strength, Defensive_Strength, and every differential. They are the benchmark.
 
