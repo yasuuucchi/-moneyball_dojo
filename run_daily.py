@@ -485,22 +485,26 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
         if 'moneyline' in models:
             try:
                 ml_model, ml_feat = predict_with_model(models['moneyline'], features)
-                prob = ml_model.predict_proba(ml_feat)[0][1]
-                pred['ml_prob'] = round(float(prob), 4)
-                pred['ml_pick'] = 'HOME' if prob > 0.5 else 'AWAY'
+                home_prob = ml_model.predict_proba(ml_feat)[0][1]
+                pred['ml_pick'] = 'HOME' if home_prob > 0.5 else 'AWAY'
 
-                # マーケットオッズ推定
-                implied = (home_season['win_pct'] * 0.54) / (home_season['win_pct'] * 0.54 + away_season['win_pct'] * 0.46)
-                implied = max(0.30, min(0.70, implied))
-                pred['ml_implied'] = round(float(implied), 4)
-                pred['ml_edge'] = round(float(prob - implied), 4)
+                # Store probability of the PICKED team winning
+                pick_prob = home_prob if pred['ml_pick'] == 'HOME' else 1 - home_prob
+                pred['ml_prob'] = round(float(pick_prob), 4)
+
+                # マーケットオッズ推定 (from HOME perspective, then convert)
+                home_implied = (home_season['win_pct'] * 0.54) / (home_season['win_pct'] * 0.54 + away_season['win_pct'] * 0.46)
+                home_implied = max(0.30, min(0.70, home_implied))
+                pick_implied = home_implied if pred['ml_pick'] == 'HOME' else 1 - home_implied
+                pred['ml_implied'] = round(float(pick_implied), 4)
+                pred['ml_edge'] = round(float(pick_prob - pick_implied), 4)
 
                 abs_edge = abs(pred['ml_edge'])
                 if abs_edge >= 0.08:
                     pred['ml_confidence'] = 'STRONG'
                 elif abs_edge >= 0.04:
                     pred['ml_confidence'] = 'MODERATE'
-                elif abs(prob - 0.5) < 0.03:
+                elif abs(home_prob - 0.5) < 0.03:
                     pred['ml_confidence'] = 'PASS'
                 else:
                     pred['ml_confidence'] = 'LEAN'
