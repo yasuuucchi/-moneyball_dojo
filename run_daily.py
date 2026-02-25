@@ -11,7 +11,7 @@ Moneyball Dojo - Daily Orchestrator v3 (全市場対応)
    - First 5 Innings (前半5回勝敗)
    - Pitcher K Props (先発投手の奪三振数)
    - Batter Props (打者のヒット/HR数)
-4. エッジ（モデル確率 vs マーケットオッズ）を計算
+4. エッジ（モデル確率 vs Log5ベースライン）を計算
 5. Substack用の英語Daily Digestを生成（Markdown）
 6. note用の日本語Daily Digestを生成（Markdown）
 7. Google Sheets用のCSVを出力
@@ -503,12 +503,16 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 pick_prob = home_prob if pred['ml_pick'] == 'HOME' else 1 - home_prob
                 pred['ml_prob'] = round(float(pick_prob), 4)
 
-                # マーケットオッズ推定 (from HOME perspective, then convert)
-                home_implied = (home_season['win_pct'] * 0.54) / (home_season['win_pct'] * 0.54 + away_season['win_pct'] * 0.46)
-                home_implied = max(0.30, min(0.70, home_implied))
-                pick_implied = home_implied if pred['ml_pick'] == 'HOME' else 1 - home_implied
-                pred['ml_implied'] = round(float(pick_implied), 4)
-                pred['ml_edge'] = round(float(pick_prob - pick_implied), 4)
+                # Baseline probability (log5 method — standard sabermetric formula)
+                # This is NOT a market line. Real odds require a sportsbook API.
+                hw = home_season['win_pct']
+                aw = away_season['win_pct']
+                # Log5: P(A beats B) = (pA - pA*pB) / (pA + pB - 2*pA*pB)
+                home_baseline = (hw - hw * aw) / (hw + aw - 2 * hw * aw) if (hw + aw - 2 * hw * aw) != 0 else 0.5
+                home_baseline = max(0.25, min(0.75, home_baseline))
+                pick_baseline = home_baseline if pred['ml_pick'] == 'HOME' else 1 - home_baseline
+                pred['ml_implied'] = round(float(pick_baseline), 4)
+                pred['ml_edge'] = round(float(pick_prob - pick_baseline), 4)
 
                 abs_edge = abs(pred['ml_edge'])
                 if abs_edge >= 0.08:
@@ -977,7 +981,7 @@ def generate_english_digest(predictions, target_date, models_loaded):
 
     md.append("## Moneyline Picks")
     md.append("")
-    md.append("| Matchup | Pick | Win Prob | Edge | Confidence |")
+    md.append("| Matchup | Pick | Win Prob | Edge vs Log5 | Confidence |")
     md.append("|---------|------|----------|------|------------|")
     for p in predictions:
         matchup = f"{p['away_team']} @ {p['home_team']}"
@@ -1095,11 +1099,16 @@ def generate_english_digest(predictions, target_date, models_loaded):
         md.append("")
         md.append("| Player | Team | Pred Hits/G | Pred HR/G |")
         md.append("|--------|------|-------------|-----------|")
+        seen_batters = set()
         for p in predictions:
             for side in ['home', 'away']:
                 batters = p.get(f'{side}_batter_preds', [])
                 team = p[f'{side}_team']
                 for b in batters:
+                    key = (b['name'], team)
+                    if key in seen_batters:
+                        continue
+                    seen_batters.add(key)
                     md.append(f"| {b['name']} | {team} | {b['hits_pred']:.2f} | {b['hr_pred']:.3f} |")
         md.append("")
 
@@ -1182,7 +1191,7 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
     # === MONEYLINE ===
     md.append("## マネーライン予測")
     md.append("")
-    md.append("| 対戦 | 予測 | 勝率 | エッジ | 信頼度 |")
+    md.append("| 対戦 | 予測 | 勝率 | Edge vs Log5 | 信頼度 |")
     md.append("|------|------|------|--------|--------|")
     for p in predictions:
         matchup = f"{p['away_team']} @ {p['home_team']}"
@@ -1267,11 +1276,16 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
         md.append("")
         md.append("| 選手名 | チーム | 予測H/G | 予測HR/G |")
         md.append("|--------|--------|---------|----------|")
+        seen_batters_ja = set()
         for p in predictions:
             for side in ['home', 'away']:
                 batters = p.get(f'{side}_batter_preds', [])
                 team = p[f'{side}_team']
                 for b in batters:
+                    key = (b['name'], team)
+                    if key in seen_batters_ja:
+                        continue
+                    seen_batters_ja.add(key)
                     md.append(f"| {b['name']} | {team} | {b['hits_pred']:.2f} | {b['hr_pred']:.3f} |")
         md.append("")
 

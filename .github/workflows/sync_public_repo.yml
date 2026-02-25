@@ -168,7 +168,7 @@ jobs:
           9 XGBoost models: Moneyline, Over/Under, Run Line, F5 ML, Pitcher K, Batter Props, NRFI, Stolen Bases, Pitcher Outs
 
           ## Track Record
-          Backtested 2025: 64.7% ML accuracy, +72.9% ROI on STRONG picks
+          Backtested 2025: 64.7% ML accuracy, 72.9% STRONG-tier win rate (+15.3% ROI)
 
           ---
           *Built by a Japanese AI engineer in Tokyo. Not financial advice.*
