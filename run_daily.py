@@ -460,6 +460,16 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
     """全6モデルで全試合の予測を生成"""
     print("[5/9] Generating predictions with all models...")
 
+    # Spring Training shrinkage: regress probabilities toward 0.5
+    # ST games use non-standard lineups, short pitching, split squads — model signal is weaker
+    ST_SHRINK = 0.5  # multiply deviation from 0.5 by this factor for game_type='S'
+
+    def st_adjust(prob, game_type):
+        """Shrink probability toward 0.5 for Spring Training games."""
+        if game_type == 'S':
+            return 0.5 + (prob - 0.5) * ST_SHRINK
+        return prob
+
     overall_stats = compute_team_overall_stats(games_df, latest_year)
     rolling_stats = compute_team_rolling_stats(games_df, window=15)
 
@@ -486,6 +496,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             try:
                 ml_model, ml_feat = predict_with_model(models['moneyline'], features)
                 home_prob = ml_model.predict_proba(ml_feat)[0][1]
+                home_prob = st_adjust(home_prob, game.get('game_type', 'R'))
                 pred['ml_pick'] = 'HOME' if home_prob > 0.5 else 'AWAY'
 
                 # Store probability of the PICKED team winning
@@ -562,6 +573,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             try:
                 rl_model, rl_feat = predict_with_model(models['run_line'], features)
                 prob = rl_model.predict_proba(rl_feat)[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
                 pred['rl_covers_prob'] = round(float(prob), 4)
                 pred['rl_pick'] = 'HOME -1.5' if prob > 0.5 else 'AWAY +1.5'
 
@@ -590,6 +602,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             try:
                 f5_model, f5_feat = predict_with_model(models['f5_moneyline'], features)
                 prob = f5_model.predict_proba(f5_feat)[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
                 pred['f5_prob'] = round(float(prob), 4)
                 pred['f5_pick'] = 'HOME' if prob > 0.5 else 'AWAY'
 
@@ -800,6 +813,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 nrfi_df = nrfi_df[nrfi_feat_cols].astype(float)
                 nrfi_scaled = nrfi_scaler.transform(nrfi_df)
                 prob = nrfi_model.predict_proba(pd.DataFrame(nrfi_scaled, columns=nrfi_feat_cols))[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
 
                 pred['nrfi_prob'] = round(float(prob), 4)
                 pred['nrfi_pick'] = 'NRFI' if prob > 0.5 else 'YRFI'
@@ -842,6 +856,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 sb_df = sb_df[sb_feat_cols].astype(float)
                 sb_scaled = sb_scaler.transform(sb_df)
                 prob = sb_model.predict_proba(pd.DataFrame(sb_scaled, columns=sb_feat_cols))[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
 
                 pred['sb_prob'] = round(float(prob), 4)
                 pred['sb_pick'] = 'OVER' if prob > 0.5 else 'UNDER'
@@ -949,8 +964,8 @@ def generate_english_digest(predictions, target_date, models_loaded):
     # Spring Training banner
     is_spring_training = any(p.get('game_type') == 'S' for p in predictions)
     if is_spring_training:
-        md.append("> **Spring Training Notice:** Models are trained on regular season data (2022-2025).")
-        md.append("> Spring Training games feature non-standard lineups, split squads, and pitchers on strict pitch counts.")
+        md.append("> **Spring Training Notice:** Probabilities are **shrunk 50% toward the mean** to reflect")
+        md.append("> non-standard lineups, split squads, and short pitching stints. Treat all picks with extra caution.")
         md.append("> Treat all picks as directional signals, not high-conviction bets.")
         md.append("")
 
