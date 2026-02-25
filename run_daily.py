@@ -1545,8 +1545,73 @@ def _batch_append_with_retry(ws, rows, max_retries=MAX_RETRIES):
 
 
 # ========================================================
-# エラー通知
+# Slack通知
 # ========================================================
+def _slack_post(webhook_url, payload):
+    """Slack webhookにPOSTする。リトライ付き。"""
+    try:
+        import requests
+    except ImportError:
+        return False
+    for attempt in range(MAX_RETRIES):
+        try:
+            resp = requests.post(webhook_url, json=payload, timeout=10)
+            if resp.status_code == 200:
+                return True
+        except Exception:
+            pass
+        if attempt < MAX_RETRIES - 1:
+            time.sleep(RETRY_DELAYS[attempt])
+    return False
+
+
+def _notify_success(predictions, target_date, models, en_digest, ja_digest, twitter_post):
+    """パイプライン成功時にSlackへ投稿用コンテンツを送信する。"""
+    slack_webhook = os.environ.get('SLACK_WEBHOOK')
+    if not slack_webhook:
+        return
+
+    # --- Message 1: サマリー + X投稿(コピペ用) ---
+    strong = [p for p in predictions if p.get('ml_confidence') == 'STRONG']
+    top = predictions[0] if predictions else None
+
+    summary_lines = [
+        f"*Moneyball Dojo {target_date}*",
+        f"{len(predictions)} games | {len(models)} models | STRONG {len(strong)}",
+        "",
+    ]
+    if top:
+        summary_lines.append(
+            f"Top: {top['away_team']} @ {top['home_team']} "
+            f"→ {top.get('ml_pick', '?')} {top.get('ml_prob', 0)*100:.0f}%"
+        )
+        summary_lines.append("")
+
+    summary_lines.append("*--- POST TO X (copy below) ---*")
+    summary_lines.append(f"```{twitter_post}```")
+
+    _slack_post(slack_webhook, {"text": "\n".join(summary_lines)})
+
+    # --- Message 2: Substack記事 (EN) ---
+    # Slack text limit ~40k chars, but keep it reasonable
+    en_trimmed = en_digest[:3900]
+    if len(en_digest) > 3900:
+        en_trimmed += "\n\n... (truncated, full version in output/latest/POST_TO_SUBSTACK.md)"
+    _slack_post(slack_webhook, {
+        "text": f"*--- POST TO SUBSTACK (copy below) ---*\n```{en_trimmed}```"
+    })
+
+    # --- Message 3: note記事 (JA) ---
+    ja_trimmed = ja_digest[:3900]
+    if len(ja_digest) > 3900:
+        ja_trimmed += "\n\n... (truncated, full version in output/latest/POST_TO_NOTE.md)"
+    _slack_post(slack_webhook, {
+        "text": f"*--- POST TO note.com (copy below) ---*\n```{ja_trimmed}```"
+    })
+
+    logger.info("Slack success notifications sent (3 messages)")
+
+
 def _notify_error(step_name: str, error: Exception, target_date: str):
     """パイプラインエラーを Slack / GitHub Issues に通知する。"""
     error_msg = f"[{step_name}] {type(error).__name__}: {error}"
@@ -1716,6 +1781,17 @@ def main():
     print()
 
     # ========================================================
+    # Slack成功通知（投稿用コンテンツ付き）
+    # ========================================================
+    print("[SLACK] Sending predictions to Slack...")
+    try:
+        _notify_success(predictions, target_date, models, en_digest, ja_digest, twitter_post)
+        print("  ✓ Slack notifications sent")
+    except Exception as e:
+        print(f"  ⚠ Slack notification failed: {e}")
+    print()
+
+    # ========================================================
     # パイプラインサマリー
     # ========================================================
     print("=" * 70)
@@ -1728,17 +1804,20 @@ def main():
     print(f"   Models used: {', '.join(models.keys())}")
     print(f"   Games analyzed: {len(predictions)}")
     print(f"   All outputs saved to: {output_dir}/")
+    print(f"   Quick access:  output/latest/")
     print()
 
     if not pipeline_errors:
         print("🤖 FULLY AUTOMATED — No manual steps needed!")
-        print("   Articles generated → Ready for Substack / note.com")
-        print("   Sheets updated → Google Sheets synced")
+        print("   Slack → コピペして投稿するだけ")
+        print("   output/latest/POST_TO_SUBSTACK.md → Substack")
+        print("   output/latest/POST_TO_NOTE.md     → note.com")
+        print("   output/latest/POST_TO_X.txt       → X")
     else:
         print("📋 FALLBACK STEPS:")
-        print(f"   1. Open {output_dir}/digest_EN_{target_date}.md → Substack")
-        print(f"   2. Open {output_dir}/digest_JA_{target_date}.md → note.com")
-        print(f"   3. Open {output_dir}/twitter_{target_date}.txt → Twitter/X")
+        print(f"   1. output/latest/POST_TO_SUBSTACK.md → Substack")
+        print(f"   2. output/latest/POST_TO_NOTE.md     → note.com")
+        print(f"   3. output/latest/POST_TO_X.txt       → X")
     print("=" * 70)
 
 
