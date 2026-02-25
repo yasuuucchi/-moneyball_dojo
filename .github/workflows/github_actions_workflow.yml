@@ -19,11 +19,12 @@ on:
     - cron: '0 8 * * *'   # 予測生成 (08:00 UTC)
     - cron: '0 15 * * *'  # 結果取得 (15:00 UTC)
     - cron: '0 0 * * 1'   # 毎週月曜再学習
+    - cron: '0 1 * * 1'   # 毎週月曜 週次レビュー (01:00 UTC)
 
   workflow_dispatch:
     inputs:
       action:
-        description: 'Action to run (predict/update/retrain)'
+        description: 'Action to run (predict/update/retrain/review)'
         required: true
         default: 'predict'
       test_mode:
@@ -106,11 +107,62 @@ jobs:
           git push
 
   # ========================================================================
+  # JOB 0.7: WEEKLY REVIEW (Every Monday at 01:00 UTC)
+  # ========================================================================
+  weekly-review:
+    name: Weekly Review
+    if: github.event.schedule == '0 1 * * 1' || github.event.inputs.action == 'review'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate weekly review
+        run: python weekly_review_generator.py
+
+      - name: Commit and push weekly review
+        run: |
+          git config --global user.name "Moneyball Dojo Bot"
+          git config --global user.email "bot@moneyball-dojo.ai"
+          git add output/weekly/
+          git commit -m "auto: Weekly review $(date -u +'%Y-%m-%d') [skip ci]" || echo "No changes"
+          git push
+
+      - name: Upload weekly review
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: weekly-review
+          path: output/weekly/
+          retention-days: 90
+
+      - name: Slack notification (weekly review)
+        if: env.SLACK_WEBHOOK_URL != ''
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "📊 Weekly Review generated — check output/weekly/ for EN+JA reports"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true
+
+  # ========================================================================
   # JOB 1: FULL AUTOMATED PIPELINE (run_daily.py v4)
   # ========================================================================
   daily-pipeline:
     name: Daily Prediction Pipeline
-    if: github.event.schedule == '0 8 * * *' || github.event.inputs.action == 'predict' || github.event_name == 'workflow_dispatch'
+    if: github.event.schedule == '0 8 * * *' || github.event.inputs.action == 'predict'
     runs-on: ubuntu-latest
     outputs:
       prediction_count: ${{ steps.run.outputs.count }}
