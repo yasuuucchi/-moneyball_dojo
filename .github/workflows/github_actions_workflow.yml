@@ -241,22 +241,15 @@ jobs:
           path: execution_summary.txt
           retention-days: 30
 
-      - name: Slack notification
+      # NOTE: 投稿用コンテンツはrun_daily.py内から直接Slackに送信済み。
+      # ここではGitHub Actions側のステータスだけ通知する。
+      - name: Slack notification (pipeline status)
         if: always() && env.SLACK_WEBHOOK_URL != ''
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-              "text": "Moneyball Dojo v4 Daily Pipeline",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Moneyball Dojo v4 Pipeline Complete* ✅\n\nPipeline: ${{ needs.daily-pipeline.outputs.pipeline }}\nPredictions: ${{ needs.daily-pipeline.outputs.prediction_count }}\nHigh Confidence: ${{ needs.daily-pipeline.outputs.high_confidence_count }}\n\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Details>"
-                  }
-                }
-              ]
+              "text": "GitHub Actions: pipeline=${{ needs.daily-pipeline.outputs.pipeline }}, status=${{ needs.daily-pipeline.result }} — <https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|logs>"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
