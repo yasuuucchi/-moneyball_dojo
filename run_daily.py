@@ -38,6 +38,8 @@ from pathlib import Path
 import pandas as pd
 import numpy as np
 
+from ensemble_wrapper import EnsembleWrapper  # noqa: F401 — needed for pickle deserialization
+
 # MLB Stats API
 try:
     import statsapi
@@ -458,14 +460,42 @@ def get_api_team_stats(team_name, year, team_stats_dict):
 # ========================================================
 # 5. 特徴量生成 + 全モデル予測
 # ========================================================
-def build_game_features(home, away, overall_stats, rolling_stats, team_stats_dict, latest_year):
-    """1試合分のゲームレベル特徴量を生成（37特徴量）"""
+def _get_sp_stats(pitcher_name, year, pitcher_stats_dict):
+    """Get starting pitcher individual stats with fallback defaults."""
+    defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.0, 'BB_per_9': 3.0}
+    if not isinstance(pitcher_name, str) or not pitcher_name or pitcher_name == 'TBA':
+        return defaults
+    if year not in pitcher_stats_dict:
+        return defaults
+    ps = pitcher_stats_dict[year]
+    match = ps[ps['name'] == pitcher_name]
+    if len(match) == 0:
+        last_name = pitcher_name.split()[-1]
+        match = ps[ps['name'].str.contains(last_name, case=False, na=False)]
+    if len(match) == 0:
+        return defaults
+    p = match.iloc[0]
+    return {
+        'ERA': float(p.get('ERA', 4.12)),
+        'WHIP': float(p.get('WHIP', 1.28)),
+        'K_per_9': float(p.get('K_per_9', 8.0)),
+        'BB_per_9': float(p.get('BB_per_9', 3.0)),
+    }
+
+
+def build_game_features(home, away, overall_stats, rolling_stats, team_stats_dict, latest_year,
+                        home_pitcher=None, away_pitcher=None, pitcher_stats_dict=None):
+    """1試合分のゲームレベル特徴量を生成（先発投手特徴量含む）"""
     home_season = overall_stats[home]
     away_season = overall_stats[away]
     home_api = get_api_team_stats(home, latest_year, team_stats_dict)
     away_api = get_api_team_stats(away, latest_year, team_stats_dict)
     home_rolling = rolling_stats.get(home, {'rolling_win_pct': 0.5, 'rolling_rs': 4.5, 'rolling_ra': 4.5, 'rolling_run_diff': 0})
     away_rolling = rolling_stats.get(away, {'rolling_win_pct': 0.5, 'rolling_rs': 4.5, 'rolling_ra': 4.5, 'rolling_run_diff': 0})
+
+    # Starting pitcher individual stats
+    hp = _get_sp_stats(home_pitcher, latest_year, pitcher_stats_dict or {})
+    ap = _get_sp_stats(away_pitcher, latest_year, pitcher_stats_dict or {})
 
     features = {
         # Season-level
@@ -508,6 +538,22 @@ def build_game_features(home, away, overall_stats, rolling_stats, team_stats_dic
                           (away_api['BA'] + away_api['OBP'] + away_api['SLG'])) / 3,
         'defensive_diff': (1/(1+home_api['ERA']) * 1/(1+home_api['WHIP'])) -
                          (1/(1+away_api['ERA']) * 1/(1+away_api['WHIP'])),
+        # Starting pitcher individual features
+        'sp_home_era': hp['ERA'], 'sp_away_era': ap['ERA'],
+        'sp_era_diff': ap['ERA'] - hp['ERA'],
+        'sp_home_whip': hp['WHIP'], 'sp_away_whip': ap['WHIP'],
+        'sp_whip_diff': ap['WHIP'] - hp['WHIP'],
+        'sp_home_k9': hp['K_per_9'], 'sp_away_k9': ap['K_per_9'],
+        'sp_k9_diff': hp['K_per_9'] - ap['K_per_9'],
+        'sp_home_bb9': hp['BB_per_9'], 'sp_away_bb9': ap['BB_per_9'],
+        'sp_bb9_diff': ap['BB_per_9'] - hp['BB_per_9'],
+        'sp_home_era_x_opp_obp': hp['ERA'] * away_api['OBP'],
+        'sp_away_era_x_opp_obp': ap['ERA'] * home_api['OBP'],
+        'sp_home_dominance': hp['K_per_9'] / max(hp['ERA'], 0.5),
+        'sp_away_dominance': ap['K_per_9'] / max(ap['ERA'], 0.5),
+        'sp_dominance_diff': (hp['K_per_9'] / max(hp['ERA'], 0.5)) - (ap['K_per_9'] / max(ap['ERA'], 0.5)),
+        'sp_combined_era': (hp['ERA'] + ap['ERA']) / 2,
+        'sp_combined_whip': (hp['WHIP'] + ap['WHIP']) / 2,
     }
 
     return features, home_season, away_season, home_api, away_api, home_rolling, away_rolling
@@ -590,9 +636,12 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             skipped += 1
             continue
 
-        # ゲームレベル特徴量
+        # ゲームレベル特徴量（先発投手特徴量含む）
         features, home_season, away_season, home_api, away_api, home_rolling, away_rolling = \
-            build_game_features(home, away, overall_stats, rolling_stats, team_stats_dict, latest_year)
+            build_game_features(home, away, overall_stats, rolling_stats, team_stats_dict, latest_year,
+                                home_pitcher=game.get('home_pitcher'),
+                                away_pitcher=game.get('away_pitcher'),
+                                pitcher_stats_dict=pitcher_stats if pitcher_stats else {})
 
         pred = {**game}
 
