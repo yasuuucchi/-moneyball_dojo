@@ -218,6 +218,162 @@ def load_all_data():
     return games_df, team_stats
 
 
+def compute_park_factors(games_df):
+    """Compute park factor per venue-year: avg total runs at venue / league avg.
+    Park factor > 1.0 = hitter-friendly, < 1.0 = pitcher-friendly.
+    Uses Bayesian shrinkage (min 20 games, regress toward 1.0)."""
+    games_df = games_df.copy()
+    games_df['total_runs'] = games_df['home_score'] + games_df['away_score']
+
+    park_factors = {}
+    for year in games_df['year'].unique():
+        yg = games_df[games_df['year'] == year]
+        league_avg = yg['total_runs'].mean()
+        if league_avg == 0:
+            continue
+
+        for venue in yg['venue'].dropna().unique():
+            vg = yg[yg['venue'] == venue]
+            n = len(vg)
+            venue_avg = vg['total_runs'].mean()
+            raw_pf = venue_avg / league_avg
+            # Bayesian shrinkage: weight toward 1.0 for small samples
+            shrink = min(n, 80) / 80
+            pf = 1.0 + (raw_pf - 1.0) * shrink
+            park_factors[(venue, year)] = pf
+
+    return park_factors
+
+
+def compute_rest_days(games_df):
+    """Compute rest days for each team before each game.
+    Returns dict: game_id -> {'home': rest_days, 'away': rest_days}"""
+    games_sorted = games_df.sort_values('date').reset_index(drop=True)
+    games_sorted['date'] = pd.to_datetime(games_sorted['date'])
+    all_teams = set(games_sorted['home_team'].unique()) | set(games_sorted['away_team'].unique())
+
+    rest_map = {}  # game_id -> {team: rest_days}
+    for team in all_teams:
+        mask = (games_sorted['home_team'] == team) | (games_sorted['away_team'] == team)
+        tg = games_sorted[mask].copy()
+
+        prev_date = None
+        for _, row in tg.iterrows():
+            gid = row['game_id']
+            if gid not in rest_map:
+                rest_map[gid] = {}
+
+            curr_date = row['date']
+            if prev_date is not None:
+                days = (curr_date - prev_date).days
+                rest = min(max(days - 1, 0), 5)  # cap at 5 (All-Star break etc.)
+            else:
+                rest = 1  # default for first game of season
+            rest_map[gid][team] = rest
+            prev_date = curr_date
+
+    return rest_map
+
+
+# Stadium coordinates for travel distance calculation (lat, lon)
+STADIUM_COORDS = {
+    'Angel Stadium': (33.800, -117.883),
+    'Busch Stadium': (38.623, -90.193),
+    'Chase Field': (33.446, -112.067),
+    'Citi Field': (40.757, -73.846),
+    'Citizens Bank Park': (39.906, -75.167),
+    'Comerica Park': (42.339, -83.049),
+    'Coors Field': (39.756, -104.994),
+    'Dodger Stadium': (34.074, -118.240),
+    'Fenway Park': (42.346, -71.097),
+    'Globe Life Field': (32.747, -97.084),
+    'Great American Ball Park': (39.097, -84.507),
+    'Guaranteed Rate Field': (41.830, -87.634),
+    'Kauffman Stadium': (39.051, -94.480),
+    'LoanDepot park': (25.778, -80.220),
+    'loanDepot park': (25.778, -80.220),
+    'Marlins Park': (25.778, -80.220),
+    'Minute Maid Park': (29.757, -95.355),
+    'Nationals Park': (38.873, -77.007),
+    'Oakland Coliseum': (37.752, -122.201),
+    'Oracle Park': (37.778, -122.389),
+    'Oriole Park at Camden Yards': (39.284, -76.622),
+    'PNC Park': (40.447, -80.006),
+    'Petco Park': (32.707, -117.157),
+    'Progressive Field': (41.496, -81.685),
+    'RingCentral Coliseum': (37.752, -122.201),
+    'Rogers Centre': (43.641, -79.389),
+    'T-Mobile Park': (47.591, -122.332),
+    'Target Field': (44.982, -93.278),
+    'Tropicana Field': (27.768, -82.653),
+    'Truist Park': (33.891, -84.468),
+    'Wrigley Field': (41.948, -87.656),
+    'Yankee Stadium': (40.829, -73.927),
+    'American Family Field': (43.028, -87.971),
+}
+
+
+# Dome stadiums (retractable roof counted as dome — controlled environment)
+DOME_STADIUMS = {
+    'Tropicana Field', 'Rogers Centre', 'loanDepot park', 'LoanDepot park',
+    'Marlins Park', 'Minute Maid Park', 'Globe Life Field',
+    'American Family Field', 'Chase Field', 'T-Mobile Park',
+}
+
+# High altitude stadiums (Coors Field: 5,280 ft — ball carries further)
+HIGH_ALTITUDE = {'Coors Field': 5280}
+
+
+def get_venue_features(venue):
+    """Return dome/outdoor flag and altitude factor for a venue."""
+    is_dome = 1 if venue in DOME_STADIUMS else 0
+    altitude = HIGH_ALTITUDE.get(venue, 0) / 5280  # normalize to Coors=1.0
+    return is_dome, altitude
+
+
+def _haversine_miles(lat1, lon1, lat2, lon2):
+    """Haversine distance in miles between two lat/lon points."""
+    from math import radians, sin, cos, asin, sqrt
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    return 2 * 3956 * asin(sqrt(a))  # 3956 = earth radius in miles
+
+
+def compute_travel_distance(games_df):
+    """Compute travel distance for away team (miles from last game venue).
+    Returns dict: game_id -> {'away_travel': miles}"""
+    games_sorted = games_df.sort_values('date').reset_index(drop=True)
+    all_teams = set(games_sorted['home_team'].unique()) | set(games_sorted['away_team'].unique())
+
+    travel_map = {}  # game_id -> {team: miles}
+    for team in all_teams:
+        mask = (games_sorted['home_team'] == team) | (games_sorted['away_team'] == team)
+        tg = games_sorted[mask].copy()
+
+        prev_venue = None
+        for _, row in tg.iterrows():
+            gid = row['game_id']
+            curr_venue = row.get('venue', '')
+            if gid not in travel_map:
+                travel_map[gid] = {}
+
+            if prev_venue and curr_venue and prev_venue != curr_venue:
+                c1 = STADIUM_COORDS.get(prev_venue)
+                c2 = STADIUM_COORDS.get(curr_venue)
+                if c1 and c2:
+                    dist = _haversine_miles(c1[0], c1[1], c2[0], c2[1])
+                else:
+                    dist = 0
+            else:
+                dist = 0
+            travel_map[gid][team] = dist
+            prev_venue = curr_venue
+
+    return travel_map
+
+
 def compute_all_team_metrics(games_df):
     """チーム成績を一括計算"""
     # Overall stats per team-year
@@ -352,10 +508,17 @@ def _get_sp(name, year, pitcher_lookup):
 
 
 def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict,
-                         pitcher_lookup=None, include_totals=True):
-    """全モデル共通の特徴量マトリックスを構築（先発投手特徴量含む）"""
+                         pitcher_lookup=None, park_factors=None, rest_map=None,
+                         travel_map=None, include_totals=True):
+    """全モデル共通の特徴量マトリックスを構築（先発投手+球場+休養日+移動距離）"""
     if pitcher_lookup is None:
         pitcher_lookup = {}
+    if park_factors is None:
+        park_factors = {}
+    if rest_map is None:
+        rest_map = {}
+    if travel_map is None:
+        travel_map = {}
 
     features_list = []
     skipped = 0
@@ -441,6 +604,19 @@ def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict
             'sp_dominance_diff': (hp['K_per_9'] / max(hp['ERA'], 0.5)) - (ap['K_per_9'] / max(ap['ERA'], 0.5)),
             'sp_combined_era': (hp['ERA'] + ap['ERA']) / 2,
             'sp_combined_whip': (hp['WHIP'] + ap['WHIP']) / 2,
+
+            # --- Park Factor & venue features ---
+            'park_factor': park_factors.get((game.get('venue', ''), year), 1.0),
+            'is_dome': get_venue_features(game.get('venue', ''))[0],
+            'altitude': get_venue_features(game.get('venue', ''))[1],
+
+            # --- Rest days & travel features ---
+            'home_rest_days': rest_map.get(gid, {}).get(home, 1),
+            'away_rest_days': rest_map.get(gid, {}).get(away, 1),
+            'rest_diff': rest_map.get(gid, {}).get(home, 1) - rest_map.get(gid, {}).get(away, 1),
+            'away_travel_miles': travel_map.get(gid, {}).get(away, 0) / 1000,  # normalize to 1000s
+            'home_travel_miles': travel_map.get(gid, {}).get(home, 0) / 1000,
+            'travel_diff': (travel_map.get(gid, {}).get(away, 0) - travel_map.get(gid, {}).get(home, 0)) / 1000,
         }
 
         if include_totals:
@@ -1736,9 +1912,19 @@ def main():
     pitcher_lookup = build_pitcher_lookup()
     print(f"  ✓ {len(pitcher_lookup)} pitcher-year records")
 
+    print("\n[3.6/6] Computing park factors, rest days, travel distances...")
+    park_factors = compute_park_factors(games_df)
+    rest_map = compute_rest_days(games_df)
+    travel_map = compute_travel_distance(games_df)
+    print(f"  ✓ {len(park_factors)} venue-year park factors")
+    print(f"  ✓ Rest days & travel distances computed")
+
     print("\n[4/6] Building feature matrix...")
     X, skipped = build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats,
-                                       pitcher_lookup=pitcher_lookup)
+                                       pitcher_lookup=pitcher_lookup,
+                                       park_factors=park_factors,
+                                       rest_map=rest_map,
+                                       travel_map=travel_map)
     print(f"  ✓ {len(X)} games with features (skipped {skipped})")
 
     meta_cols = ['game_id', 'date', 'year', 'home_team', 'away_team']

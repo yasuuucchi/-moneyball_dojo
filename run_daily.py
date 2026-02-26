@@ -40,6 +40,14 @@ import numpy as np
 
 from ensemble_wrapper import EnsembleWrapper  # noqa: F401 — needed for pickle deserialization
 
+# Venue classification constants (must match train_all_models.py)
+_DOME_STADIUMS = {
+    'Tropicana Field', 'Rogers Centre', 'loanDepot park', 'LoanDepot park',
+    'Marlins Park', 'Minute Maid Park', 'Globe Life Field',
+    'American Family Field', 'Chase Field', 'T-Mobile Park',
+}
+_HIGH_ALTITUDE = {'Coors Field': 5280}
+
 # MLB Stats API
 try:
     import statsapi
@@ -484,8 +492,8 @@ def _get_sp_stats(pitcher_name, year, pitcher_stats_dict):
 
 
 def build_game_features(home, away, overall_stats, rolling_stats, team_stats_dict, latest_year,
-                        home_pitcher=None, away_pitcher=None, pitcher_stats_dict=None):
-    """1試合分のゲームレベル特徴量を生成（先発投手特徴量含む）"""
+                        home_pitcher=None, away_pitcher=None, pitcher_stats_dict=None, **kwargs):
+    """1試合分のゲームレベル特徴量を生成（先発投手+球場+休養日+移動距離）"""
     home_season = overall_stats[home]
     away_season = overall_stats[away]
     home_api = get_api_team_stats(home, latest_year, team_stats_dict)
@@ -554,6 +562,17 @@ def build_game_features(home, away, overall_stats, rolling_stats, team_stats_dic
         'sp_dominance_diff': (hp['K_per_9'] / max(hp['ERA'], 0.5)) - (ap['K_per_9'] / max(ap['ERA'], 0.5)),
         'sp_combined_era': (hp['ERA'] + ap['ERA']) / 2,
         'sp_combined_whip': (hp['WHIP'] + ap['WHIP']) / 2,
+        # Park Factor & venue features
+        'park_factor': kwargs.get('park_factor', 1.0),
+        'is_dome': kwargs.get('is_dome', 0),
+        'altitude': kwargs.get('altitude', 0),
+        # Rest days & travel (defaults for prediction time)
+        'home_rest_days': kwargs.get('home_rest_days', 1),
+        'away_rest_days': kwargs.get('away_rest_days', 1),
+        'rest_diff': kwargs.get('home_rest_days', 1) - kwargs.get('away_rest_days', 1),
+        'away_travel_miles': kwargs.get('away_travel_miles', 0),
+        'home_travel_miles': kwargs.get('home_travel_miles', 0),
+        'travel_diff': kwargs.get('away_travel_miles', 0) - kwargs.get('home_travel_miles', 0),
     }
 
     return features, home_season, away_season, home_api, away_api, home_rolling, away_rolling
@@ -624,6 +643,22 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
     overall_stats = compute_team_overall_stats(games_df, latest_year)
     rolling_stats = compute_team_rolling_stats(games_df, window=15)
 
+    # Compute park factors from historical data
+    games_df_copy = games_df.copy()
+    games_df_copy['total_runs'] = games_df_copy['home_score'] + games_df_copy['away_score']
+    pf_cache = {}
+    for yr in games_df_copy['year'].unique():
+        yg = games_df_copy[games_df_copy['year'] == yr]
+        league_avg = yg['total_runs'].mean()
+        if league_avg == 0:
+            continue
+        for venue in yg['venue'].dropna().unique():
+            vg = yg[yg['venue'] == venue]
+            n = len(vg)
+            raw_pf = vg['total_runs'].mean() / league_avg
+            shrink = min(n, 80) / 80
+            pf_cache[(venue, yr)] = 1.0 + (raw_pf - 1.0) * shrink
+
     all_predictions = []
     skipped = 0
 
@@ -636,12 +671,19 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             skipped += 1
             continue
 
-        # ゲームレベル特徴量（先発投手特徴量含む）
+        # Park factor for this venue
+        venue = game.get('venue', '')
+        pf = pf_cache.get((venue, latest_year), 1.0)
+
+        # ゲームレベル特徴量（先発投手+球場+休養日+移動距離含む）
         features, home_season, away_season, home_api, away_api, home_rolling, away_rolling = \
             build_game_features(home, away, overall_stats, rolling_stats, team_stats_dict, latest_year,
                                 home_pitcher=game.get('home_pitcher'),
                                 away_pitcher=game.get('away_pitcher'),
-                                pitcher_stats_dict=pitcher_stats if pitcher_stats else {})
+                                pitcher_stats_dict=pitcher_stats if pitcher_stats else {},
+                                park_factor=pf,
+                                is_dome=1 if venue in _DOME_STADIUMS else 0,
+                                altitude=_HIGH_ALTITUDE.get(venue, 0) / 5280)
 
         pred = {**game}
 
