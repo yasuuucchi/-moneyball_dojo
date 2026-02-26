@@ -45,11 +45,150 @@ from sklearn.metrics import (accuracy_score, precision_score, recall_score,
                              mean_squared_error, r2_score, brier_score_loss,
                              log_loss)
 from sklearn.calibration import CalibratedClassifierCV
+from sklearn.linear_model import LogisticRegression
+import optuna
+import lightgbm as lgb
+
+optuna.logging.set_verbosity(optuna.logging.WARNING)
+
+from ensemble_wrapper import EnsembleWrapper  # shared class for pickle compatibility
 
 PROJECT_DIR = Path(__file__).parent
 DATA_DIR = PROJECT_DIR / "data"
 MODELS_DIR = PROJECT_DIR / "models"
 MODELS_DIR.mkdir(exist_ok=True)
+
+# ============================================================================
+# SHARED: Optuna Hyperparameter Optimization + Ensemble
+# ============================================================================
+
+def optimize_xgb_params(X_train, y_train, n_trials=50):
+    """Optuna で XGBoost のハイパーパラメータを最適化（5-fold CV log_loss 最小化）"""
+    def objective(trial):
+        params = {
+            'n_estimators': trial.suggest_int('n_estimators', 100, 500),
+            'max_depth': trial.suggest_int('max_depth', 2, 6),
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.15, log=True),
+            'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-3, 10.0, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-3, 10.0, log=True),
+            'gamma': trial.suggest_float('gamma', 0.0, 0.5),
+        }
+        model = XGBClassifier(**params, random_state=42, eval_metric='logloss', verbosity=0)
+        scores = cross_val_score(model, X_train, y_train, cv=5, scoring='neg_log_loss')
+        return -scores.mean()  # minimize log_loss
+
+    study = optuna.create_study(direction='minimize')
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    print(f"  Optuna XGB best log_loss: {study.best_value:.4f} ({n_trials} trials)")
+    return study.best_params
+
+
+def optimize_lgb_params(X_train, y_train, n_trials=50):
+    """Optuna で LightGBM のハイパーパラメータを最適化"""
+    def objective(trial):
+        params = {
+            'n_estimators': trial.suggest_int('n_estimators', 100, 500),
+            'max_depth': trial.suggest_int('max_depth', 2, 6),
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.15, log=True),
+            'subsample': trial.suggest_float('subsample', 0.6, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'min_child_weight': trial.suggest_int('min_child_weight', 1, 10),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-3, 10.0, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-3, 10.0, log=True),
+            'num_leaves': trial.suggest_int('num_leaves', 15, 63),
+        }
+        model = lgb.LGBMClassifier(**params, random_state=42, verbosity=-1)
+        scores = cross_val_score(model, X_train, y_train, cv=5, scoring='neg_log_loss')
+        return -scores.mean()
+
+    study = optuna.create_study(direction='minimize')
+    study.optimize(objective, n_trials=n_trials, show_progress_bar=False)
+    print(f"  Optuna LGB best log_loss: {study.best_value:.4f} ({n_trials} trials)")
+    return study.best_params
+
+
+def build_ensemble(X_train, y_train, X_test, y_test, feat_cols, xgb_params, lgb_params):
+    """XGBoost + LightGBM + LogisticRegression のソフトボーティングアンサンブル"""
+    print("  Building ensemble (XGB + LGB + LogReg)...")
+
+    # 1. XGBoost (calibrated)
+    xgb_base = XGBClassifier(**xgb_params, random_state=42, eval_metric='logloss', verbosity=0)
+    xgb_base.fit(X_train, y_train, verbose=False)
+    xgb_cal = CalibratedClassifierCV(xgb_base, method='isotonic', cv=5)
+    xgb_cal.fit(X_train, y_train)
+    xgb_prob = xgb_cal.predict_proba(X_test)[:, 1]
+    xgb_acc = accuracy_score(y_test, (xgb_prob > 0.5).astype(int))
+    print(f"    XGBoost:  {xgb_acc:.4f}")
+
+    # 2. LightGBM (calibrated)
+    lgb_base = lgb.LGBMClassifier(**lgb_params, random_state=42, verbosity=-1)
+    lgb_base.fit(X_train, y_train)
+    lgb_cal = CalibratedClassifierCV(lgb_base, method='isotonic', cv=5)
+    lgb_cal.fit(X_train, y_train)
+    lgb_prob = lgb_cal.predict_proba(X_test)[:, 1]
+    lgb_acc = accuracy_score(y_test, (lgb_prob > 0.5).astype(int))
+    print(f"    LightGBM: {lgb_acc:.4f}")
+
+    # 3. Logistic Regression (calibrated)
+    lr_base = LogisticRegression(C=1.0, max_iter=1000, random_state=42)
+    lr_base.fit(X_train, y_train)
+    lr_cal = CalibratedClassifierCV(lr_base, method='isotonic', cv=5)
+    lr_cal.fit(X_train, y_train)
+    lr_prob = lr_cal.predict_proba(X_test)[:, 1]
+    lr_acc = accuracy_score(y_test, (lr_prob > 0.5).astype(int))
+    print(f"    LogReg:   {lr_acc:.4f}")
+
+    # 4. Soft voting ensemble (equal weights)
+    ens_prob = (xgb_prob + lgb_prob + lr_prob) / 3
+    ens_pred = (ens_prob > 0.5).astype(int)
+    ens_acc = accuracy_score(y_test, ens_pred)
+    ens_auc = roc_auc_score(y_test, ens_prob)
+    ens_brier = brier_score_loss(y_test, ens_prob)
+    print(f"    Ensemble: {ens_acc:.4f} (AUC: {ens_auc:.4f}, Brier: {ens_brier:.4f})")
+
+    # Return ensemble as a wrapper dict
+    ensemble = {
+        'xgb': xgb_cal,
+        'lgb': lgb_cal,
+        'lr': lr_cal,
+        'weights': [1/3, 1/3, 1/3],
+    }
+    return ensemble, ens_acc, ens_auc, ens_brier
+
+
+def walk_forward_validate(X, feat_cols, target, build_model_fn):
+    """Walk-forward validation with multiple temporal windows."""
+    windows = [
+        {'train_years': [2022, 2023], 'test_year': 2024, 'label': '2022-23→2024'},
+        {'train_years': [2022, 2023, 2024], 'test_year': 2025, 'label': '2022-24→2025'},
+    ]
+    results = []
+    for w in windows:
+        train = X[X['year'].isin(w['train_years'])]
+        test = X[X['year'] == w['test_year']]
+        if len(test) == 0:
+            continue
+        X_tr = train[feat_cols].astype(float)
+        y_tr = train[target].astype(int)
+        X_te = test[feat_cols].astype(float)
+        y_te = test[target].astype(int)
+
+        scaler = StandardScaler()
+        X_tr_s = scaler.fit_transform(X_tr)
+        X_te_s = scaler.transform(X_te)
+
+        model = build_model_fn()
+        model.fit(X_tr_s, y_tr)
+        y_pred = model.predict(X_te_s)
+        acc = accuracy_score(y_te, y_pred)
+        results.append({'window': w['label'], 'accuracy': acc, 'n_test': len(test)})
+        print(f"    {w['label']}: {acc:.4f} ({len(test)} games)")
+
+    return results
+
 
 # ============================================================================
 # SHARED: データ読み込みと特徴量計算
@@ -77,6 +216,162 @@ def load_all_data():
             team_stats[year] = pd.read_csv(path)
 
     return games_df, team_stats
+
+
+def compute_park_factors(games_df):
+    """Compute park factor per venue-year: avg total runs at venue / league avg.
+    Park factor > 1.0 = hitter-friendly, < 1.0 = pitcher-friendly.
+    Uses Bayesian shrinkage (min 20 games, regress toward 1.0)."""
+    games_df = games_df.copy()
+    games_df['total_runs'] = games_df['home_score'] + games_df['away_score']
+
+    park_factors = {}
+    for year in games_df['year'].unique():
+        yg = games_df[games_df['year'] == year]
+        league_avg = yg['total_runs'].mean()
+        if league_avg == 0:
+            continue
+
+        for venue in yg['venue'].dropna().unique():
+            vg = yg[yg['venue'] == venue]
+            n = len(vg)
+            venue_avg = vg['total_runs'].mean()
+            raw_pf = venue_avg / league_avg
+            # Bayesian shrinkage: weight toward 1.0 for small samples
+            shrink = min(n, 80) / 80
+            pf = 1.0 + (raw_pf - 1.0) * shrink
+            park_factors[(venue, year)] = pf
+
+    return park_factors
+
+
+def compute_rest_days(games_df):
+    """Compute rest days for each team before each game.
+    Returns dict: game_id -> {'home': rest_days, 'away': rest_days}"""
+    games_sorted = games_df.sort_values('date').reset_index(drop=True)
+    games_sorted['date'] = pd.to_datetime(games_sorted['date'])
+    all_teams = set(games_sorted['home_team'].unique()) | set(games_sorted['away_team'].unique())
+
+    rest_map = {}  # game_id -> {team: rest_days}
+    for team in all_teams:
+        mask = (games_sorted['home_team'] == team) | (games_sorted['away_team'] == team)
+        tg = games_sorted[mask].copy()
+
+        prev_date = None
+        for _, row in tg.iterrows():
+            gid = row['game_id']
+            if gid not in rest_map:
+                rest_map[gid] = {}
+
+            curr_date = row['date']
+            if prev_date is not None:
+                days = (curr_date - prev_date).days
+                rest = min(max(days - 1, 0), 5)  # cap at 5 (All-Star break etc.)
+            else:
+                rest = 1  # default for first game of season
+            rest_map[gid][team] = rest
+            prev_date = curr_date
+
+    return rest_map
+
+
+# Stadium coordinates for travel distance calculation (lat, lon)
+STADIUM_COORDS = {
+    'Angel Stadium': (33.800, -117.883),
+    'Busch Stadium': (38.623, -90.193),
+    'Chase Field': (33.446, -112.067),
+    'Citi Field': (40.757, -73.846),
+    'Citizens Bank Park': (39.906, -75.167),
+    'Comerica Park': (42.339, -83.049),
+    'Coors Field': (39.756, -104.994),
+    'Dodger Stadium': (34.074, -118.240),
+    'Fenway Park': (42.346, -71.097),
+    'Globe Life Field': (32.747, -97.084),
+    'Great American Ball Park': (39.097, -84.507),
+    'Guaranteed Rate Field': (41.830, -87.634),
+    'Kauffman Stadium': (39.051, -94.480),
+    'LoanDepot park': (25.778, -80.220),
+    'loanDepot park': (25.778, -80.220),
+    'Marlins Park': (25.778, -80.220),
+    'Minute Maid Park': (29.757, -95.355),
+    'Nationals Park': (38.873, -77.007),
+    'Oakland Coliseum': (37.752, -122.201),
+    'Oracle Park': (37.778, -122.389),
+    'Oriole Park at Camden Yards': (39.284, -76.622),
+    'PNC Park': (40.447, -80.006),
+    'Petco Park': (32.707, -117.157),
+    'Progressive Field': (41.496, -81.685),
+    'RingCentral Coliseum': (37.752, -122.201),
+    'Rogers Centre': (43.641, -79.389),
+    'T-Mobile Park': (47.591, -122.332),
+    'Target Field': (44.982, -93.278),
+    'Tropicana Field': (27.768, -82.653),
+    'Truist Park': (33.891, -84.468),
+    'Wrigley Field': (41.948, -87.656),
+    'Yankee Stadium': (40.829, -73.927),
+    'American Family Field': (43.028, -87.971),
+}
+
+
+# Dome stadiums (retractable roof counted as dome — controlled environment)
+DOME_STADIUMS = {
+    'Tropicana Field', 'Rogers Centre', 'loanDepot park', 'LoanDepot park',
+    'Marlins Park', 'Minute Maid Park', 'Globe Life Field',
+    'American Family Field', 'Chase Field', 'T-Mobile Park',
+}
+
+# High altitude stadiums (Coors Field: 5,280 ft — ball carries further)
+HIGH_ALTITUDE = {'Coors Field': 5280}
+
+
+def get_venue_features(venue):
+    """Return dome/outdoor flag and altitude factor for a venue."""
+    is_dome = 1 if venue in DOME_STADIUMS else 0
+    altitude = HIGH_ALTITUDE.get(venue, 0) / 5280  # normalize to Coors=1.0
+    return is_dome, altitude
+
+
+def _haversine_miles(lat1, lon1, lat2, lon2):
+    """Haversine distance in miles between two lat/lon points."""
+    from math import radians, sin, cos, asin, sqrt
+    lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
+    return 2 * 3956 * asin(sqrt(a))  # 3956 = earth radius in miles
+
+
+def compute_travel_distance(games_df):
+    """Compute travel distance for away team (miles from last game venue).
+    Returns dict: game_id -> {'away_travel': miles}"""
+    games_sorted = games_df.sort_values('date').reset_index(drop=True)
+    all_teams = set(games_sorted['home_team'].unique()) | set(games_sorted['away_team'].unique())
+
+    travel_map = {}  # game_id -> {team: miles}
+    for team in all_teams:
+        mask = (games_sorted['home_team'] == team) | (games_sorted['away_team'] == team)
+        tg = games_sorted[mask].copy()
+
+        prev_venue = None
+        for _, row in tg.iterrows():
+            gid = row['game_id']
+            curr_venue = row.get('venue', '')
+            if gid not in travel_map:
+                travel_map[gid] = {}
+
+            if prev_venue and curr_venue and prev_venue != curr_venue:
+                c1 = STADIUM_COORDS.get(prev_venue)
+                c2 = STADIUM_COORDS.get(curr_venue)
+                if c1 and c2:
+                    dist = _haversine_miles(c1[0], c1[1], c2[0], c2[1])
+                else:
+                    dist = 0
+            else:
+                dist = 0
+            travel_map[gid][team] = dist
+            prev_venue = curr_venue
+
+    return travel_map
 
 
 def compute_all_team_metrics(games_df):
@@ -180,8 +475,51 @@ def get_api_stats(team, year, team_stats_dict):
     }
 
 
-def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict, include_totals=True):
-    """全モデル共通の特徴量マトリックスを構築"""
+def build_pitcher_lookup(data_dir=DATA_DIR):
+    """Build pitcher lookup dict from pitcher_stats CSVs: (name, year) -> stats"""
+    pitcher_lookup = {}
+    for year in [2022, 2023, 2024, 2025]:
+        path = data_dir / f"pitcher_stats_{year}.csv"
+        if path.exists():
+            for _, p in pd.read_csv(path).iterrows():
+                pitcher_lookup[(p['name'], int(p['year']))] = {
+                    'ERA': float(p.get('ERA', 4.12)),
+                    'WHIP': float(p.get('WHIP', 1.28)),
+                    'K_per_9': float(p.get('K_per_9', 8.0)),
+                    'BB_per_9': float(p.get('BB_per_9', 3.0)),
+                }
+    return pitcher_lookup
+
+
+def _get_sp(name, year, pitcher_lookup):
+    """Get starting pitcher stats with fallback defaults."""
+    defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.0, 'BB_per_9': 3.0}
+    if not isinstance(name, str) or not name or name == 'TBA':
+        return defaults
+    p = pitcher_lookup.get((name, year))
+    if p:
+        return p
+    # Fallback: last-name match
+    last = name.split()[-1] if ' ' in name else name
+    for (pn, py), ps in pitcher_lookup.items():
+        if py == year and pn.endswith(last):
+            return ps
+    return defaults
+
+
+def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict,
+                         pitcher_lookup=None, park_factors=None, rest_map=None,
+                         travel_map=None, include_totals=True):
+    """全モデル共通の特徴量マトリックスを構築（先発投手+球場+休養日+移動距離）"""
+    if pitcher_lookup is None:
+        pitcher_lookup = {}
+    if park_factors is None:
+        park_factors = {}
+    if rest_map is None:
+        rest_map = {}
+    if travel_map is None:
+        travel_map = {}
+
     features_list = []
     skipped = 0
 
@@ -206,6 +544,10 @@ def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict
 
         ha = get_api_stats(home, year, team_stats_dict)
         aa = get_api_stats(away, year, team_stats_dict)
+
+        # Starting pitcher individual stats
+        hp = _get_sp(game.get('home_pitcher', ''), year, pitcher_lookup)
+        ap = _get_sp(game.get('away_pitcher', ''), year, pitcher_lookup)
 
         f = {
             'game_id': gid, 'date': game['date'], 'year': year,
@@ -243,6 +585,38 @@ def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict
             'away_defensive_strength': 1/(1+aa['ERA']) * 1/(1+aa['WHIP']),
             'offensive_diff': ((ha['BA']+ha['OBP']+ha['SLG']) - (aa['BA']+aa['OBP']+aa['SLG'])) / 3,
             'defensive_diff': (1/(1+ha['ERA'])*1/(1+ha['WHIP'])) - (1/(1+aa['ERA'])*1/(1+aa['WHIP'])),
+
+            # --- Starting pitcher individual features (18 new) ---
+            'sp_home_era': hp['ERA'], 'sp_away_era': ap['ERA'],
+            'sp_era_diff': ap['ERA'] - hp['ERA'],  # positive = home pitcher better
+            'sp_home_whip': hp['WHIP'], 'sp_away_whip': ap['WHIP'],
+            'sp_whip_diff': ap['WHIP'] - hp['WHIP'],
+            'sp_home_k9': hp['K_per_9'], 'sp_away_k9': ap['K_per_9'],
+            'sp_k9_diff': hp['K_per_9'] - ap['K_per_9'],
+            'sp_home_bb9': hp['BB_per_9'], 'sp_away_bb9': ap['BB_per_9'],
+            'sp_bb9_diff': ap['BB_per_9'] - hp['BB_per_9'],
+            # Pitcher x Lineup cross-features
+            'sp_home_era_x_opp_obp': hp['ERA'] * aa['OBP'],
+            'sp_away_era_x_opp_obp': ap['ERA'] * ha['OBP'],
+            # Pitcher dominance: K/9 / max(ERA, 0.5) — high K + low ERA = dominant
+            'sp_home_dominance': hp['K_per_9'] / max(hp['ERA'], 0.5),
+            'sp_away_dominance': ap['K_per_9'] / max(ap['ERA'], 0.5),
+            'sp_dominance_diff': (hp['K_per_9'] / max(hp['ERA'], 0.5)) - (ap['K_per_9'] / max(ap['ERA'], 0.5)),
+            'sp_combined_era': (hp['ERA'] + ap['ERA']) / 2,
+            'sp_combined_whip': (hp['WHIP'] + ap['WHIP']) / 2,
+
+            # --- Park Factor & venue features ---
+            'park_factor': park_factors.get((game.get('venue', ''), year), 1.0),
+            'is_dome': get_venue_features(game.get('venue', ''))[0],
+            'altitude': get_venue_features(game.get('venue', ''))[1],
+
+            # --- Rest days & travel features ---
+            'home_rest_days': rest_map.get(gid, {}).get(home, 1),
+            'away_rest_days': rest_map.get(gid, {}).get(away, 1),
+            'rest_diff': rest_map.get(gid, {}).get(home, 1) - rest_map.get(gid, {}).get(away, 1),
+            'away_travel_miles': travel_map.get(gid, {}).get(away, 0) / 1000,  # normalize to 1000s
+            'home_travel_miles': travel_map.get(gid, {}).get(home, 0) / 1000,
+            'travel_diff': (travel_map.get(gid, {}).get(away, 0) - travel_map.get(gid, {}).get(home, 0)) / 1000,
         }
 
         if include_totals:
@@ -280,9 +654,9 @@ def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict
 # MODEL 1: MONEYLINE (既存v2と同等)
 # ============================================================================
 def train_moneyline(X, meta_cols):
-    """勝敗予測モデル"""
+    """勝敗予測モデル（Optuna最適化 + XGB/LGB/LR アンサンブル + Walk-forward検証）"""
     print("\n" + "="*70)
-    print("MODEL 1: MONEYLINE (勝敗予測)")
+    print("MODEL 1: MONEYLINE (勝敗予測) — Optuna + Ensemble")
     print("="*70)
 
     target = 'home_win'
@@ -293,6 +667,8 @@ def train_moneyline(X, meta_cols):
                            'combined_WHIP', 'combined_OPS', 'home_margin_avg', 'away_margin_avg',
                            'blowout_rate_home', 'blowout_rate_away']
     feat_cols = [c for c in X.columns if c not in exclude and c != target]
+
+    print(f"  Features: {len(feat_cols)}")
 
     # 時系列分離: 2022-2024で学習、2025で評価（リーク防止）
     train = X[X['year'].isin([2022, 2023, 2024])]
@@ -305,35 +681,53 @@ def train_moneyline(X, meta_cols):
     X_tr = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols, index=X_train.index)
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols, index=X_test.index)
 
-    base_model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
-                               subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
-                               reg_alpha=0.1, reg_lambda=1.0, random_state=42,
-                               eval_metric='logloss', verbosity=0)
+    # --- Optuna hyperparameter optimization ---
+    print("\n  [Optuna] Optimizing XGBoost hyperparameters (50 trials)...")
+    xgb_params = optimize_xgb_params(X_tr, y_train, n_trials=50)
+    print(f"  Best XGB params: max_depth={xgb_params['max_depth']}, "
+          f"lr={xgb_params['learning_rate']:.4f}, n_est={xgb_params['n_estimators']}")
 
-    cv = cross_val_score(base_model, X_tr, y_train, cv=5, scoring='accuracy')
-    base_model.fit(X_tr, y_train, verbose=False)
+    print("\n  [Optuna] Optimizing LightGBM hyperparameters (50 trials)...")
+    lgb_params = optimize_lgb_params(X_tr, y_train, n_trials=50)
+    print(f"  Best LGB params: max_depth={lgb_params['max_depth']}, "
+          f"lr={lgb_params['learning_rate']:.4f}, n_est={lgb_params['n_estimators']}")
 
-    # Raw (uncalibrated) probabilities
-    y_prob_raw = base_model.predict_proba(X_te)[:, 1]
-    brier_raw = brier_score_loss(y_test, y_prob_raw)
+    # --- Ensemble ---
+    print("\n  [Ensemble] Building 3-model ensemble...")
+    ensemble, ens_acc, ens_auc, ens_brier = build_ensemble(
+        X_tr, y_train, X_te, y_test, feat_cols, xgb_params, lgb_params)
 
-    # Calibrate probabilities with isotonic regression (5-fold CV on training set)
-    model = CalibratedClassifierCV(base_model, method='isotonic', cv=5)
-    model.fit(X_tr, y_train)
+    # --- Walk-forward validation ---
+    print("\n  [Walk-Forward] Temporal validation...")
+    def _build_xgb():
+        return XGBClassifier(**xgb_params, random_state=42, eval_metric='logloss', verbosity=0)
+    wf_results = walk_forward_validate(X, feat_cols, target, _build_xgb)
+    wf_avg = np.mean([r['accuracy'] for r in wf_results]) if wf_results else 0
 
-    y_pred = model.predict(X_te)
-    y_prob = model.predict_proba(X_te)[:, 1]
-    acc = accuracy_score(y_test, y_pred)
-    auc = roc_auc_score(y_test, y_prob)
-    brier_cal = brier_score_loss(y_test, y_prob)
+    # --- Summary ---
+    print(f"\n  === MONEYLINE FINAL RESULTS ===")
+    print(f"  Ensemble Test Accuracy: {ens_acc:.4f}")
+    print(f"  Ensemble AUC-ROC:       {ens_auc:.4f}")
+    print(f"  Ensemble Brier Score:   {ens_brier:.4f}")
+    print(f"  Walk-Forward Avg:       {wf_avg:.4f}")
 
-    print(f"  CV Accuracy: {cv.mean():.4f} (+/- {cv.std():.4f})")
-    print(f"  Test Accuracy: {acc:.4f}")
-    print(f"  AUC-ROC: {auc:.4f}")
-    print(f"  Brier Score: {brier_raw:.4f} (raw) → {brier_cal:.4f} (calibrated)")
+    # Save ensemble model (compatible with predict_with_model via wrapper)
+    wrapper = EnsembleWrapper(
+        [ensemble['xgb'], ensemble['lgb'], ensemble['lr']],
+        ensemble['weights']
+    )
 
-    save_model('model_moneyline.pkl', model, scaler, feat_cols, 'Moneyline', acc, auc, cv)
-    return model, scaler, feat_cols
+    save_model('model_moneyline.pkl', wrapper, scaler, feat_cols,
+               'Moneyline (Ensemble: XGB+LGB+LR)', ens_acc, ens_auc,
+               np.array([wf_avg]),  # cv placeholder
+               extra={
+                   'xgb_params': xgb_params,
+                   'lgb_params': lgb_params,
+                   'walk_forward': wf_results,
+                   'brier': ens_brier,
+                   'ensemble_type': 'soft_voting',
+               })
+    return wrapper, scaler, feat_cols
 
 
 # ============================================================================
@@ -434,9 +828,9 @@ def train_over_under(X, meta_cols):
 # MODEL 3: RUN LINE (-1.5 / +1.5)
 # ============================================================================
 def train_run_line(X, meta_cols):
-    """ランライン予測モデル"""
+    """ランライン予測モデル（Optuna最適化）"""
     print("\n" + "="*70)
-    print("MODEL 3: RUN LINE (-1.5 スプレッド予測)")
+    print("MODEL 3: RUN LINE (-1.5 スプレッド予測) — Optuna")
     print("="*70)
 
     target = 'home_covers_rl'  # Home wins by 2+
@@ -455,10 +849,10 @@ def train_run_line(X, meta_cols):
     X_tr = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols, index=X_train.index)
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols, index=X_test.index)
 
-    base_model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
-                               subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
-                               reg_alpha=0.1, reg_lambda=1.0, random_state=42,
-                               eval_metric='logloss', verbosity=0)
+    print("  [Optuna] Optimizing XGBoost hyperparameters (50 trials)...")
+    best_params = optimize_xgb_params(X_tr, y_train, n_trials=50)
+
+    base_model = XGBClassifier(**best_params, random_state=42, eval_metric='logloss', verbosity=0)
 
     cv = cross_val_score(base_model, X_tr, y_train, cv=5, scoring='accuracy')
     base_model.fit(X_tr, y_train, verbose=False)
@@ -489,7 +883,8 @@ def train_run_line(X, meta_cols):
     if moderate.sum() > 0:
         print(f"  MODERATE picks: {accuracy_score(y_test[moderate], y_pred[moderate]):.4f} ({moderate.sum()} games)")
 
-    save_model('model_run_line.pkl', model, scaler, feat_cols, 'Run Line', acc, auc, cv)
+    save_model('model_run_line.pkl', model, scaler, feat_cols, 'Run Line', acc, auc, cv,
+               extra={'xgb_params': best_params})
     return model, scaler, feat_cols
 
 
@@ -497,17 +892,15 @@ def train_run_line(X, meta_cols):
 # MODEL 4: FIRST 5 INNINGS MONEYLINE
 # ============================================================================
 def train_f5_moneyline(X, meta_cols):
-    """前半5イニングの勝敗予測（フルゲームの特徴量で近似）"""
+    """前半5イニングの勝敗予測（Optuna最適化、先発投手特徴量重視）"""
     print("\n" + "="*70)
-    print("MODEL 4: FIRST 5 INNINGS MONEYLINE (前半予測)")
+    print("MODEL 4: FIRST 5 INNINGS MONEYLINE (前半予測) — Optuna")
     print("="*70)
-    print("  NOTE: F5専用のイニング別データがないため、")
-    print("        先発投手の影響が大きい特徴量に重み付けして近似します。")
+    print("  NOTE: F5は先発投手の影響が支配的。sp_* 特徴量が特に重要。")
 
     target = 'home_win'
 
     # F5は先発投手とチームの初期パフォーマンスに依存
-    # ERA, WHIP, 打撃指標を重視し、ブルペン関連は除外
     exclude = meta_cols + ['total_runs', 'run_margin', 'home_covers_rl', 'over_8_5',
                            'blowout_rate_home', 'blowout_rate_away',
                            'home_margin_avg', 'away_margin_avg']
@@ -524,11 +917,10 @@ def train_f5_moneyline(X, meta_cols):
     X_tr = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols, index=X_train.index)
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols, index=X_test.index)
 
-    # F5用にERA/WHIPの重要度を上げるためサンプルウェイトを調整
-    base_model = XGBClassifier(n_estimators=150, max_depth=3, learning_rate=0.05,
-                               subsample=0.8, colsample_bytree=0.8, min_child_weight=5,
-                               reg_alpha=0.2, reg_lambda=1.5, random_state=42,
-                               eval_metric='logloss', verbosity=0)
+    print("  [Optuna] Optimizing XGBoost hyperparameters (50 trials)...")
+    best_params = optimize_xgb_params(X_tr, y_train, n_trials=50)
+
+    base_model = XGBClassifier(**best_params, random_state=42, eval_metric='logloss', verbosity=0)
 
     cv = cross_val_score(base_model, X_tr, y_train, cv=5, scoring='accuracy')
     base_model.fit(X_tr, y_train, verbose=False)
@@ -545,9 +937,9 @@ def train_f5_moneyline(X, meta_cols):
     print(f"  CV Accuracy: {cv.mean():.4f} (+/- {cv.std():.4f})")
     print(f"  Test Accuracy: {acc:.4f}")
     print(f"  AUC-ROC: {auc:.4f}")
-    print(f"  NOTE: F5の実際の精度はイニング別データで改善可能")
 
-    save_model('model_f5_moneyline.pkl', model, scaler, feat_cols, 'F5 Moneyline', acc, auc, cv)
+    save_model('model_f5_moneyline.pkl', model, scaler, feat_cols, 'F5 Moneyline', acc, auc, cv,
+               extra={'xgb_params': best_params})
     return model, scaler, feat_cols
 
 
@@ -1516,8 +1908,23 @@ def main():
     rolling_stats = compute_rolling_features(games_df)
     print(f"  ✓ Rolling stats computed")
 
+    print("\n[3.5/6] Building pitcher lookup...")
+    pitcher_lookup = build_pitcher_lookup()
+    print(f"  ✓ {len(pitcher_lookup)} pitcher-year records")
+
+    print("\n[3.6/6] Computing park factors, rest days, travel distances...")
+    park_factors = compute_park_factors(games_df)
+    rest_map = compute_rest_days(games_df)
+    travel_map = compute_travel_distance(games_df)
+    print(f"  ✓ {len(park_factors)} venue-year park factors")
+    print(f"  ✓ Rest days & travel distances computed")
+
     print("\n[4/6] Building feature matrix...")
-    X, skipped = build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats)
+    X, skipped = build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats,
+                                       pitcher_lookup=pitcher_lookup,
+                                       park_factors=park_factors,
+                                       rest_map=rest_map,
+                                       travel_map=travel_map)
     print(f"  ✓ {len(X)} games with features (skipped {skipped})")
 
     meta_cols = ['game_id', 'date', 'year', 'home_team', 'away_team']
