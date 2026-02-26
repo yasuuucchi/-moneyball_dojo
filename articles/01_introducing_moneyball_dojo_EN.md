@@ -26,19 +26,17 @@ I'm an engineer. That offends me on a fundamental level. So I built something di
 
 At its core, Moneyball Dojo is **9 specialized machine learning models** — each trained on 37 to 52 features using three full seasons of MLB data (2022–2024), then validated against the entire 2025 season using strict walk-forward methodology (no future information leaks into predictions).
 
-Here's what the system covers — with real numbers from our 2025 walk-forward backtest:
+Here's what the system covers — with real numbers from our 2025 walk-forward backtest across 2,425 games:
 
-| Model | What It Predicts | STRONG Picks | All Picks |
-|-------|-----------------|-------------|-----------|
-| **Moneyline** | Game winner | **58.7%** (550 games) | 52.9% |
-| **Run Line** | Cover -1.5 spread | **67.3%** (1,482 games) | 64.5% |
-| **First 5 Innings** | F5 winner | **59.9%** (1,096 games) | 54.5% |
-| **NRFI** | No Run First Inning | **60.1%** (667 games) | 56.5% |
-| **Over/Under** | Total runs | — | MAE 3.64 |
-| **Pitcher Strikeouts** | K prop lines | — | In validation |
-| **Batter Props** | Hits/HR/RBI lines | — | In validation |
-| **Stolen Bases** | SB prop lines | — | In validation |
-| **Pitcher Outs** | Recording outs | — | In validation |
+**Validated models (STRONG pick accuracy / sample size):**
+
+- **Moneyline** — Game winner → **58.7%** on 550 STRONG picks
+- **Run Line** — Cover -1.5 spread → **67.3%** on 1,482 STRONG picks
+- **First 5 Innings** — F5 winner → **59.9%** on 1,096 STRONG picks
+- **NRFI** — No Run First Inning → **60.1%** on 667 STRONG picks
+- **Over/Under** — Total runs → MAE 3.64 runs
+
+**In validation:** Pitcher Strikeouts, Batter Props, Stolen Bases, Pitcher Outs
 
 Walk-forward means the model only sees data available before each game — the same information you'd have when placing a bet. No hindsight, no leakage, no inflated numbers.
 
