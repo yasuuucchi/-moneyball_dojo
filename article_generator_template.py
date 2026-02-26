@@ -84,17 +84,25 @@ class ArticleGenerator:
 Your expertise:
 - Advanced MLB analytics (sabermetrics, WAR, FIP, xwOBA, BABIP)
 - Predictive modeling with XGBoost (9 models covering all major betting markets)
-- Edge calculation: model probability vs market implied probability
+- Edge calculation: model probability vs baseline probability
 - Japanese and American baseball (NPB & MLB)
 
 Writing style:
-- Data-first: every claim backed by a number
+- Data-first: every claim backed by a number FROM THE PROVIDED DATA
 - Concise but insightful — no filler
 - Confident on STRONG picks, transparent about uncertainty
 - Witty one-liners welcome, but substance over style
 - Markdown format with tables
 
-Track record: Backtested 2025 season — 64.7% moneyline accuracy, +72.9% ROI on STRONG picks."""
+STRICT RULES — VIOLATION DESTROYS CREDIBILITY:
+1. ONLY use facts explicitly present in the provided CSV data. Do NOT infer or guess pitcher career history, debut dates, biographical details, or narrative context.
+2. Do NOT claim a pitcher is "making their debut", "first start", or any career milestone — you do not have career data.
+3. Do NOT fabricate quotes, anecdotes, or historical comparisons that are not in the data.
+4. If you lack information about a player, simply describe them by their stats in the CSV (e.g., "Los Angeles Dodgers starter" rather than making claims about their background).
+5. Focus analysis on the NUMBERS: probability, edge, confidence tier, team matchup stats. That is what bettors care about.
+6. If a game is Spring Training (game_type='S'), explicitly note that predictions carry extra uncertainty due to non-standard lineups and pitching limits.
+
+Track record: Models retrained with leak-free rolling stats and probability calibration. Pending full backtest re-run for updated accuracy figures."""
 
     ENGLISH_DIGEST_PROMPT = """Write a Substack Daily Digest article in English based on this prediction data.
 
@@ -102,8 +110,8 @@ Track record: Backtested 2025 season — 64.7% moneyline accuracy, +72.9% ROI on
 - Title: "Moneyball Dojo Daily Digest — {date}"
 - Open with: "{game_count} games analyzed across {model_count} AI models. Here's what the numbers say."
 - Full prediction table (Matchup | Pick | Win Prob | Edge | Confidence)
-- "Featured Pick" section for the highest-edge game (3-4 paragraphs of analysis)
-- "Quick Takes" for other STRONG/MODERATE picks (1-2 sentences each)
+- "Featured Pick" section for the highest-edge game (2-3 paragraphs). ONLY discuss numbers from the CSV — probability, edge, confidence. Do NOT invent biographical narratives about pitchers or speculate about their career history.
+- "Quick Takes" for other STRONG/MODERATE picks (1-2 sentences each, numbers only)
 - Over/Under, Run Line, NRFI sections if data available
 - Pitcher K props and Batter props tables if data available
 - Footer: "Built by a Japanese AI engineer in Tokyo. {model_count} models × XGBoost. Data over gut feelings."
@@ -124,8 +132,8 @@ Output ONLY the Markdown article — no preamble or explanation."""
 - 冒頭: "こんにちは、Moneyball Dojoです。本日は{game_count}試合を{model_count}つのAIモデルで分析しました。"
 - 全試合の予測テーブル（対戦 | 予測 | 勝率 | エッジ | 信頼度）
 - 信頼度の日本語表記: STRONG→🔥 強気, MODERATE→👍 中程度, LEAN→→ 傾向, PASS→⏸ 見送り
-- 「注目の一戦」セクション（エッジ最大の試合を3-4段落で深掘り）
-- 「クイックテイク」でその他のSTRONG/MODERATEピックを紹介
+- 「注目の一戦」セクション（エッジ最大の試合を2-3段落で深掘り）。CSVの数値のみ使用。投手の経歴や伝記的推測は絶対に書かないこと。
+- 「クイックテイク」でその他のSTRONG/MODERATEピックを数値中心に紹介
 - Over/Under、ランライン、NRFIセクション（データがあれば）
 - 投手K予測、打者プロップス（データがあれば）
 - フッター: "東京のAIエンジニアが開発。{model_count}モデル × XGBoost。データで勝負する。"
@@ -204,10 +212,13 @@ Markdown記事のみ出力してください。前置きや説明は不要です
         import io
         import csv
 
-        # Select key columns
+        # Select key columns — include pitcher stats so Claude can write informed analysis
         key_cols = [
-            'game_id', 'date', 'home_team', 'away_team',
+            'game_id', 'date', 'game_type', 'home_team', 'away_team',
             'home_pitcher', 'away_pitcher',
+            'home_pitcher_era', 'away_pitcher_era',
+            'home_pitcher_whip', 'away_pitcher_whip',
+            'home_pitcher_k9', 'away_pitcher_k9',
             'ml_prob', 'ml_pick', 'ml_edge', 'ml_confidence',
             'ou_predicted_total', 'rl_pick', 'rl_confidence',
             'f5_pick', 'f5_confidence',
@@ -249,10 +260,26 @@ Markdown記事のみ出力してください。前置きや説明は不要です
             f"MODERATE picks: {moderate}",
         ]
 
-        # Best pick
+        # Best pick with pitcher context
         best = max(predictions, key=lambda p: abs(p.get('ml_edge', 0)))
-        lines.append(f"Highest edge game: {best.get('away_team')} @ {best.get('home_team')} "
-                      f"(edge: {best.get('ml_edge', 0)*100:+.1f}%, pick: {best.get('ml_pick')})")
+        best_line = (f"Highest edge game: {best.get('away_team')} @ {best.get('home_team')} "
+                     f"(edge: {best.get('ml_edge', 0)*100:+.1f}%, pick: {best.get('ml_pick')})")
+        hp_era = best.get('home_pitcher_era')
+        ap_era = best.get('away_pitcher_era')
+        if hp_era and ap_era:
+            best_line += (f"\n  Home SP: {best.get('home_pitcher', 'TBA')} "
+                          f"(ERA {hp_era:.2f}, WHIP {best.get('home_pitcher_whip', 0):.2f}, "
+                          f"K/9 {best.get('home_pitcher_k9', 0):.1f})")
+            best_line += (f"\n  Away SP: {best.get('away_pitcher', 'TBA')} "
+                          f"(ERA {ap_era:.2f}, WHIP {best.get('away_pitcher_whip', 0):.2f}, "
+                          f"K/9 {best.get('away_pitcher_k9', 0):.1f})")
+        lines.append(best_line)
+
+        # Game type note
+        game_types = set(p.get('game_type', 'R') for p in predictions)
+        if 'S' in game_types:
+            lines.append("NOTE: Some games are Spring Training (game_type=S). "
+                          "Predictions carry extra uncertainty — non-standard lineups, pitch counts.")
 
         return "\n".join(lines)
 

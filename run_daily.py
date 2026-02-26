@@ -11,7 +11,7 @@ Moneyball Dojo - Daily Orchestrator v3 (全市場対応)
    - First 5 Innings (前半5回勝敗)
    - Pitcher K Props (先発投手の奪三振数)
    - Batter Props (打者のヒット/HR数)
-4. エッジ（モデル確率 vs マーケットオッズ）を計算
+4. エッジ（モデル確率 vs Log5ベースライン）を計算
 5. Substack用の英語Daily Digestを生成（Markdown）
 6. note用の日本語Daily Digestを生成（Markdown）
 7. Google Sheets用のCSVを出力
@@ -59,6 +59,9 @@ try:
     ARTICLE_GEN_AVAILABLE = True
 except ImportError:
     ARTICLE_GEN_AVAILABLE = False
+
+# The Odds API（実オッズ取得、オプション）
+ODDS_API_KEY = os.environ.get('ODDS_API_KEY', '')
 
 # ========================================================
 # ロギング設定
@@ -171,6 +174,107 @@ def get_todays_schedule(target_date):
 
     print(f"  ✓ Found {len(games)} games for {target_date}")
     return games
+
+
+# ========================================================
+# 2b. The Odds API — 実オッズ取得（オプション）
+# ========================================================
+TEAM_NAME_MAP_ODDS = {
+    'New York Yankees': 'New York Yankees', 'Boston Red Sox': 'Boston Red Sox',
+    'Tampa Bay Rays': 'Tampa Bay Rays', 'Baltimore Orioles': 'Baltimore Orioles',
+    'Toronto Blue Jays': 'Toronto Blue Jays', 'New York Mets': 'New York Mets',
+    'Atlanta Braves': 'Atlanta Braves', 'Washington Nationals': 'Washington Nationals',
+    'Philadelphia Phillies': 'Philadelphia Phillies', 'Miami Marlins': 'Miami Marlins',
+    'Los Angeles Dodgers': 'Los Angeles Dodgers', 'San Diego Padres': 'San Diego Padres',
+    'San Francisco Giants': 'San Francisco Giants', 'Arizona Diamondbacks': 'Arizona Diamondbacks',
+    'Colorado Rockies': 'Colorado Rockies', 'Milwaukee Brewers': 'Milwaukee Brewers',
+    'Chicago Cubs': 'Chicago Cubs', 'St. Louis Cardinals': 'St. Louis Cardinals',
+    'Pittsburgh Pirates': 'Pittsburgh Pirates', 'Cincinnati Reds': 'Cincinnati Reds',
+    'Houston Astros': 'Houston Astros', 'Los Angeles Angels': 'Los Angeles Angels',
+    'Oakland Athletics': 'Oakland Athletics', 'Seattle Mariners': 'Seattle Mariners',
+    'Texas Rangers': 'Texas Rangers', 'Kansas City Royals': 'Kansas City Royals',
+    'Minnesota Twins': 'Minnesota Twins', 'Chicago White Sox': 'Chicago White Sox',
+    'Detroit Tigers': 'Detroit Tigers', 'Cleveland Guardians': 'Cleveland Guardians',
+}
+
+def _american_to_implied(odds: int) -> float:
+    """Convert American odds to implied probability (no-vig)."""
+    if odds < 0:
+        return abs(odds) / (abs(odds) + 100)
+    else:
+        return 100 / (odds + 100)
+
+def fetch_market_odds() -> dict:
+    """Fetch real moneyline odds from The Odds API.
+
+    Returns dict: { (home_team, away_team): {'home_implied': float, 'away_implied': float, 'source': str} }
+    Returns empty dict if API key not set or request fails.
+    """
+    if not ODDS_API_KEY:
+        return {}
+
+    try:
+        import requests
+    except ImportError:
+        return {}
+
+    url = "https://api.the-odds-api.com/v4/sports/baseball_mlb/odds"
+    params = {
+        'apiKey': ODDS_API_KEY,
+        'regions': 'us',
+        'markets': 'h2h',
+        'oddsFormat': 'american',
+    }
+
+    for attempt in range(3):
+        try:
+            resp = requests.get(url, params=params, timeout=15)
+            if resp.status_code == 200:
+                data = resp.json()
+                odds_map = {}
+                for game in data:
+                    home = game.get('home_team', '')
+                    away = game.get('away_team', '')
+                    # Use consensus (average across books) for stability
+                    home_odds_list = []
+                    away_odds_list = []
+                    for book in game.get('bookmakers', []):
+                        h2h = next((m for m in book['markets'] if m['key'] == 'h2h'), None)
+                        if h2h:
+                            for outcome in h2h['outcomes']:
+                                if outcome['name'] == home:
+                                    home_odds_list.append(outcome['price'])
+                                elif outcome['name'] == away:
+                                    away_odds_list.append(outcome['price'])
+                    if home_odds_list and away_odds_list:
+                        # Consensus implied probability (average of all books, then remove vig)
+                        home_imp = np.mean([_american_to_implied(o) for o in home_odds_list])
+                        away_imp = np.mean([_american_to_implied(o) for o in away_odds_list])
+                        total_imp = home_imp + away_imp
+                        # Remove vig (normalize to sum to 1.0)
+                        home_imp_nv = home_imp / total_imp
+                        away_imp_nv = away_imp / total_imp
+                        odds_map[(home, away)] = {
+                            'home_implied': round(home_imp_nv, 4),
+                            'away_implied': round(away_imp_nv, 4),
+                            'source': 'market',
+                            'n_books': len(home_odds_list),
+                        }
+                logger.info(f"Fetched market odds for {len(odds_map)} games ({len(data)} total from API)")
+                return odds_map
+            elif resp.status_code == 401:
+                logger.warning("Odds API: invalid API key")
+                return {}
+            elif resp.status_code == 429:
+                logger.warning("Odds API: rate limited")
+            else:
+                logger.warning(f"Odds API: HTTP {resp.status_code}")
+        except Exception as e:
+            logger.warning(f"Odds API attempt {attempt+1} failed: {e}")
+        if attempt < 2:
+            time.sleep(2 ** attempt)
+
+    return {}
 
 
 # ========================================================
@@ -456,9 +560,20 @@ def build_ou_extra_features(home_api, away_api, home_season, away_season, home_r
 
 def generate_all_predictions(games, models, games_df, team_stats_dict, latest_year,
                               pitcher_stats, latest_pitcher_year,
-                              batter_stats, latest_batter_year):
+                              batter_stats, latest_batter_year,
+                              market_odds=None):
     """全6モデルで全試合の予測を生成"""
     print("[5/9] Generating predictions with all models...")
+
+    # Spring Training shrinkage: regress probabilities toward 0.5
+    # ST games use non-standard lineups, short pitching, split squads — model signal is weaker
+    ST_SHRINK = 0.5  # multiply deviation from 0.5 by this factor for game_type='S'
+
+    def st_adjust(prob, game_type):
+        """Shrink probability toward 0.5 for Spring Training games."""
+        if game_type == 'S':
+            return 0.5 + (prob - 0.5) * ST_SHRINK
+        return prob
 
     overall_stats = compute_team_overall_stats(games_df, latest_year)
     rolling_stats = compute_team_rolling_stats(games_df, window=15)
@@ -486,18 +601,31 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             try:
                 ml_model, ml_feat = predict_with_model(models['moneyline'], features)
                 home_prob = ml_model.predict_proba(ml_feat)[0][1]
+                home_prob = st_adjust(home_prob, game.get('game_type', 'R'))
                 pred['ml_pick'] = 'HOME' if home_prob > 0.5 else 'AWAY'
 
                 # Store probability of the PICKED team winning
                 pick_prob = home_prob if pred['ml_pick'] == 'HOME' else 1 - home_prob
                 pred['ml_prob'] = round(float(pick_prob), 4)
 
-                # マーケットオッズ推定 (from HOME perspective, then convert)
-                home_implied = (home_season['win_pct'] * 0.54) / (home_season['win_pct'] * 0.54 + away_season['win_pct'] * 0.46)
-                home_implied = max(0.30, min(0.70, home_implied))
-                pick_implied = home_implied if pred['ml_pick'] == 'HOME' else 1 - home_implied
-                pred['ml_implied'] = round(float(pick_implied), 4)
-                pred['ml_edge'] = round(float(pick_prob - pick_implied), 4)
+                # Edge = model probability - market/baseline probability
+                # Use REAL market odds if available (The Odds API), else Log5 fallback
+                mkt = (market_odds or {}).get((home, away))
+                if mkt:
+                    home_baseline = mkt['home_implied']
+                    pred['ml_odds_source'] = 'market'
+                    pred['ml_n_books'] = mkt.get('n_books', 0)
+                else:
+                    # Log5 fallback (no market data)
+                    hw = home_season['win_pct']
+                    aw = away_season['win_pct']
+                    denom = hw + aw - 2 * hw * aw
+                    home_baseline = (hw - hw * aw) / denom if denom != 0 else 0.5
+                    home_baseline = max(0.25, min(0.75, home_baseline))
+                    pred['ml_odds_source'] = 'log5'
+                pick_baseline = home_baseline if pred['ml_pick'] == 'HOME' else 1 - home_baseline
+                pred['ml_implied'] = round(float(pick_baseline), 4)
+                pred['ml_edge'] = round(float(pick_prob - pick_baseline), 4)
 
                 abs_edge = abs(pred['ml_edge'])
                 if abs_edge >= 0.08:
@@ -562,6 +690,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             try:
                 rl_model, rl_feat = predict_with_model(models['run_line'], features)
                 prob = rl_model.predict_proba(rl_feat)[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
                 pred['rl_covers_prob'] = round(float(prob), 4)
                 pred['rl_pick'] = 'HOME -1.5' if prob > 0.5 else 'AWAY +1.5'
 
@@ -590,6 +719,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
             try:
                 f5_model, f5_feat = predict_with_model(models['f5_moneyline'], features)
                 prob = f5_model.predict_proba(f5_feat)[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
                 pred['f5_prob'] = round(float(prob), 4)
                 pred['f5_pick'] = 'HOME' if prob > 0.5 else 'AWAY'
 
@@ -766,6 +896,14 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 hp = _get_pitcher_stats(hp_name, latest_year, pitcher_stats if pitcher_stats else {})
                 ap = _get_pitcher_stats(ap_name, latest_year, pitcher_stats if pitcher_stats else {})
 
+                # Store pitcher stats in pred for article generation
+                pred['home_pitcher_era'] = hp['ERA']
+                pred['home_pitcher_whip'] = hp['WHIP']
+                pred['home_pitcher_k9'] = hp['K_per_9']
+                pred['away_pitcher_era'] = ap['ERA']
+                pred['away_pitcher_whip'] = ap['WHIP']
+                pred['away_pitcher_k9'] = ap['K_per_9']
+
                 nrfi_features = {
                     # 1回特化チーム統計（リアルタイムでは簡易推定）
                     'home_1st_rs': home_season['avg_rs'] * 0.11,
@@ -800,6 +938,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 nrfi_df = nrfi_df[nrfi_feat_cols].astype(float)
                 nrfi_scaled = nrfi_scaler.transform(nrfi_df)
                 prob = nrfi_model.predict_proba(pd.DataFrame(nrfi_scaled, columns=nrfi_feat_cols))[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
 
                 pred['nrfi_prob'] = round(float(prob), 4)
                 pred['nrfi_pick'] = 'NRFI' if prob > 0.5 else 'YRFI'
@@ -842,6 +981,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 sb_df = sb_df[sb_feat_cols].astype(float)
                 sb_scaled = sb_scaler.transform(sb_df)
                 prob = sb_model.predict_proba(pd.DataFrame(sb_scaled, columns=sb_feat_cols))[0][1]
+                prob = st_adjust(prob, game.get('game_type', 'R'))
 
                 pred['sb_prob'] = round(float(prob), 4)
                 pred['sb_pick'] = 'OVER' if prob > 0.5 else 'UNDER'
@@ -949,8 +1089,8 @@ def generate_english_digest(predictions, target_date, models_loaded):
     # Spring Training banner
     is_spring_training = any(p.get('game_type') == 'S' for p in predictions)
     if is_spring_training:
-        md.append("> **Spring Training Notice:** Models are trained on regular season data (2022-2025).")
-        md.append("> Spring Training games feature non-standard lineups, split squads, and pitchers on strict pitch counts.")
+        md.append("> **Spring Training Notice:** Probabilities are **shrunk 50% toward the mean** to reflect")
+        md.append("> non-standard lineups, split squads, and short pitching stints. Treat all picks with extra caution.")
         md.append("> Treat all picks as directional signals, not high-conviction bets.")
         md.append("")
 
@@ -962,7 +1102,9 @@ def generate_english_digest(predictions, target_date, models_loaded):
 
     md.append("## Moneyline Picks")
     md.append("")
-    md.append("| Matchup | Pick | Win Prob | Edge | Confidence |")
+    # Determine edge source label from first actionable prediction
+    _edge_src = 'Market' if any(p.get('ml_odds_source') == 'market' for p in predictions) else 'Log5'
+    md.append(f"| Matchup | Pick | Win Prob | Edge vs {_edge_src} | Confidence |")
     md.append("|---------|------|----------|------|------------|")
     for p in predictions:
         matchup = f"{p['away_team']} @ {p['home_team']}"
@@ -1080,11 +1222,16 @@ def generate_english_digest(predictions, target_date, models_loaded):
         md.append("")
         md.append("| Player | Team | Pred Hits/G | Pred HR/G |")
         md.append("|--------|------|-------------|-----------|")
+        seen_batters = set()
         for p in predictions:
             for side in ['home', 'away']:
                 batters = p.get(f'{side}_batter_preds', [])
                 team = p[f'{side}_team']
                 for b in batters:
+                    key = (b['name'], team)
+                    if key in seen_batters:
+                        continue
+                    seen_batters.add(key)
                     md.append(f"| {b['name']} | {team} | {b['hits_pred']:.2f} | {b['hr_pred']:.3f} |")
         md.append("")
 
@@ -1167,7 +1314,8 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
     # === MONEYLINE ===
     md.append("## マネーライン予測")
     md.append("")
-    md.append("| 対戦 | 予測 | 勝率 | エッジ | 信頼度 |")
+    _edge_src_ja = 'Market' if any(p.get('ml_odds_source') == 'market' for p in predictions) else 'Log5'
+    md.append(f"| 対戦 | 予測 | 勝率 | Edge vs {_edge_src_ja} | 信頼度 |")
     md.append("|------|------|------|--------|--------|")
     for p in predictions:
         matchup = f"{p['away_team']} @ {p['home_team']}"
@@ -1252,11 +1400,16 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
         md.append("")
         md.append("| 選手名 | チーム | 予測H/G | 予測HR/G |")
         md.append("|--------|--------|---------|----------|")
+        seen_batters_ja = set()
         for p in predictions:
             for side in ['home', 'away']:
                 batters = p.get(f'{side}_batter_preds', [])
                 team = p[f'{side}_team']
                 for b in batters:
+                    key = (b['name'], team)
+                    if key in seen_batters_ja:
+                        continue
+                    seen_batters_ja.add(key)
                     md.append(f"| {b['name']} | {team} | {b['hits_pred']:.2f} | {b['hr_pred']:.3f} |")
         md.append("")
 
@@ -1708,11 +1861,27 @@ def main():
     print(f"  ✓ Using {latest_year} as reference season")
     print()
 
+    # 4b. 実オッズ取得（The Odds API）
+    market_odds = {}
+    if ODDS_API_KEY:
+        print("[4b/9] Fetching market odds from The Odds API...")
+        try:
+            market_odds = fetch_market_odds()
+            if market_odds:
+                print(f"  ✓ Market odds: {len(market_odds)} games (edge = model vs market)")
+            else:
+                print("  ⚠ No market odds returned — using Log5 baseline")
+        except Exception as e:
+            print(f"  ⚠ Odds API error: {e} — using Log5 baseline")
+    else:
+        print("[4b/9] No ODDS_API_KEY — edge calculated vs Log5 baseline")
+
     # 5. 全モデル予測
     predictions = generate_all_predictions(
         games, models, games_df, team_stats, latest_year,
         pitcher_stats, latest_pitcher_year,
-        batter_stats, latest_batter_year
+        batter_stats, latest_batter_year,
+        market_odds=market_odds,
     )
     print()
 

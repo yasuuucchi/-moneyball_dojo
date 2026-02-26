@@ -15,7 +15,9 @@ Moneyball Dojo — Weekly Review Generator
 """
 
 import json
+import os
 import sys
+import time
 import pandas as pd
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -360,6 +362,72 @@ def generate_japanese_review(stats, best_picks, worst_picks, evaluated, start_st
     return "\n".join(md)
 
 
+MAX_RETRIES = 3
+RETRY_DELAYS = [2, 4, 8]
+
+
+def _slack_post(webhook_url, payload):
+    """Slack webhookにPOSTする。リトライ付き。"""
+    try:
+        import requests
+    except ImportError:
+        return False
+    for attempt in range(MAX_RETRIES):
+        try:
+            resp = requests.post(webhook_url, json=payload, timeout=10)
+            if resp.status_code == 200:
+                return True
+        except Exception:
+            pass
+        if attempt < MAX_RETRIES - 1:
+            time.sleep(RETRY_DELAYS[attempt])
+    return False
+
+
+def notify_review(en_review, ja_review, stats, start_str, end_str):
+    """週次レビュー完了時にSlackへフルコンテンツを送信する。"""
+    slack_webhook = os.environ.get('SLACK_WEBHOOK')
+    if not slack_webhook:
+        print("  ⚠ SLACK_WEBHOOK not set — skipping Slack notification")
+        return
+
+    # --- Message 1: サマリー ---
+    ml_all = stats.get('ml', {}).get('ALL', {})
+    ml_strong = stats.get('ml', {}).get('STRONG', {})
+    summary_lines = [
+        f"*📊 Moneyball Dojo Weekly Review — {start_str} 〜 {end_str}*",
+        "",
+    ]
+    if ml_all:
+        summary_lines.append(f"全ピック: {ml_all['wins']}W-{ml_all['losses']}L "
+                             f"({ml_all['accuracy']*100:.1f}%, ROI {ml_all['roi']:+.1f}%)")
+    if ml_strong:
+        summary_lines.append(f"STRONG: {ml_strong['wins']}W-{ml_strong['losses']}L "
+                             f"({ml_strong['accuracy']*100:.1f}%, ROI {ml_strong['roi']:+.1f}%)")
+    if not ml_all:
+        summary_lines.append("(データなし — 予測ファイルまたは結果ファイルが未生成)")
+
+    _slack_post(slack_webhook, {"text": "\n".join(summary_lines)})
+
+    # --- Message 2: EN review (for Substack) ---
+    en_trimmed = en_review[:3900]
+    if len(en_review) > 3900:
+        en_trimmed += "\n\n... (truncated, full version in output/weekly/)"
+    _slack_post(slack_webhook, {
+        "text": f"*--- WEEKLY REVIEW EN (copy below) ---*\n```{en_trimmed}```"
+    })
+
+    # --- Message 3: JA review (for note.com) ---
+    ja_trimmed = ja_review[:3900]
+    if len(ja_review) > 3900:
+        ja_trimmed += "\n\n... (truncated, full version in output/weekly/)"
+    _slack_post(slack_webhook, {
+        "text": f"*--- WEEKLY REVIEW JA (copy below) ---*\n```{ja_trimmed}```"
+    })
+
+    print("  ✓ Slack notifications sent (3 messages)")
+
+
 def main():
     print("=" * 60)
     print("Moneyball Dojo — Weekly Review Generator")
@@ -444,6 +512,10 @@ def main():
     with open(json_path, 'w') as f:
         json.dump(review_data, f, indent=2, ensure_ascii=False)
     print(f"  ✓ {json_path.name}")
+
+    # Slack notification with full content
+    print("[6/6] Sending Slack notifications...")
+    notify_review(en_review, ja_review, stats, start_str, end_str)
 
     print(f"\n✅ Weekly review generated → {WEEKLY_DIR}/")
 

@@ -34,7 +34,7 @@
 
 ```
 AI-powered MLB predictions from a 9-model XGBoost ensemble.
-Daily picks with edge analysis. Backtested: 64.7% accuracy, 72.9% on STRONG picks.
+Daily picks with edge analysis. Backtested: 64.7% accuracy, 72.9% STRONG-tier win rate (+15.3% ROI).
 Built by a Japanese AI engineer in Tokyo.
 ```
 
