@@ -353,7 +353,12 @@ def load_historical_data():
 # 4. チームスタッツ計算
 # ========================================================
 def compute_team_overall_stats(games_df, year):
-    """指定年のチーム全体成績を計算"""
+    """指定年のチーム全体成績を計算.
+
+    NOTE: In live daily usage, games_df contains only completed games (up to yesterday),
+    so this computes stats from past data only — no future data leakage.
+    Do NOT use this for backtesting where games_df contains the full season.
+    """
     year_games = games_df[games_df['year'] == year]
     all_teams = set(year_games['home_team'].unique()) | set(year_games['away_team'].unique())
 

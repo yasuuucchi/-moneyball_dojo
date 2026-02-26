@@ -31,6 +31,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 from xgboost import XGBClassifier, XGBRegressor
 from sklearn.metrics import accuracy_score, roc_auc_score, mean_absolute_error
+from sklearn.calibration import calibration_curve
+from sklearn.isotonic import IsotonicRegression
 
 PROJECT_DIR = Path(__file__).parent
 DATA_DIR = PROJECT_DIR / "data"
@@ -93,50 +95,87 @@ def load_all_data():
 # ============================================================================
 # STEP 2: Feature engineering (reuse from train_all_models.py)
 # ============================================================================
-def compute_overall_stats(games_df, years=None):
-    """チーム成績を年別に計算"""
-    overall = {}
+def compute_overall_stats(games_df, years=None, min_games=10):
+    """Compute per-game cumulative team stats (no future data leakage).
+
+    For each game, stats use only games played BEFORE that game within the same season.
+    Returns {game_id: {team: stats_dict}}.
+    """
+    defaults = {
+        'win_pct': 0.5, 'avg_rs': 4.5, 'avg_ra': 4.5, 'run_diff': 0.0,
+        'pythag': 0.5, 'home_win_pct': 0.54, 'away_win_pct': 0.46,
+        'avg_total_runs_home': 9.0, 'avg_total_runs_away': 9.0,
+        'home_margin_avg': 0.3, 'away_margin_avg': -0.3, 'blowout_rate': 0.25,
+    }
     df = games_df if years is None else games_df[games_df['year'].isin(years)]
+    games_sorted = df.sort_values('date').reset_index(drop=True)
+    teams = set(games_sorted['home_team'].unique()) | set(games_sorted['away_team'].unique())
+    overall = {}  # game_id -> {team: stats}
 
-    for year in df['year'].unique():
-        yg = df[df['year'] == year]
-        teams = set(yg['home_team'].unique()) | set(yg['away_team'].unique())
+    for team in teams:
+        mask = (games_sorted['home_team'] == team) | (games_sorted['away_team'] == team)
+        tg = games_sorted[mask]
+        cum = {}
 
-        for team in teams:
-            hg = yg[yg['home_team'] == team]
-            ag = yg[yg['away_team'] == team]
+        for _, game in tg.iterrows():
+            gid = game['game_id']
+            year = game['year']
+            is_home = game['home_team'] == team
 
-            hw = int(hg['home_win'].sum())
-            aw = len(ag) - int(ag['home_win'].sum())
-            tw = hw + aw
-            tg = len(hg) + len(ag)
-            if tg == 0:
-                continue
+            if cum.get('year') != year:
+                cum = {'year': year, 'wins': 0, 'games': 0, 'rs': 0, 'ra': 0,
+                       'hw': 0, 'hg': 0, 'aw': 0, 'ag': 0,
+                       'h_total': 0, 'a_total': 0,
+                       'h_margin_sum': 0, 'a_margin_sum': 0, 'blowouts': 0}
 
-            hrs = hg['home_score'].sum()
-            ars = ag['away_score'].sum()
-            hra = hg['away_score'].sum()
-            ara = ag['home_score'].sum()
-            trs = hrs + ars
-            tra = hra + ara
+            if gid not in overall:
+                overall[gid] = {}
 
-            overall[(team, year)] = {
-                'win_pct': tw / tg,
-                'avg_rs': trs / tg,
-                'avg_ra': tra / tg,
-                'run_diff': (trs - tra) / tg,
-                'pythag': trs**1.83 / (trs**1.83 + tra**1.83) if (trs + tra) > 0 else 0.5,
-                'home_win_pct': hg['home_win'].mean() if len(hg) > 0 else 0.54,
-                'away_win_pct': (1 - ag['home_win']).mean() if len(ag) > 0 else 0.46,
-                'avg_total_runs_home': (hg['home_score'] + hg['away_score']).mean() if len(hg) > 0 else 9.0,
-                'avg_total_runs_away': (ag['home_score'] + ag['away_score']).mean() if len(ag) > 0 else 9.0,
-                'home_margin_avg': (hg['home_score'] - hg['away_score']).mean() if len(hg) > 0 else 0.3,
-                'away_margin_avg': (ag['away_score'] - ag['home_score']).mean() if len(ag) > 0 else -0.3,
-                'blowout_rate': (
-                    (hg['run_margin'].abs() >= 4).sum() +
-                    ((ag['home_score'] - ag['away_score']).abs() >= 4).sum()
-                ) / tg if tg > 0 else 0.25,
-            }
+            if cum['games'] >= min_games:
+                g = cum['games']
+                trs = cum['rs']
+                tra = cum['ra']
+                overall[gid][team] = {
+                    'win_pct': cum['wins'] / g,
+                    'avg_rs': trs / g,
+                    'avg_ra': tra / g,
+                    'run_diff': (trs - tra) / g,
+                    'pythag': trs**1.83 / (trs**1.83 + tra**1.83) if (trs + tra) > 0 else 0.5,
+                    'home_win_pct': cum['hw'] / cum['hg'] if cum['hg'] > 0 else 0.54,
+                    'away_win_pct': cum['aw'] / cum['ag'] if cum['ag'] > 0 else 0.46,
+                    'avg_total_runs_home': cum['h_total'] / cum['hg'] if cum['hg'] > 0 else 9.0,
+                    'avg_total_runs_away': cum['a_total'] / cum['ag'] if cum['ag'] > 0 else 9.0,
+                    'home_margin_avg': cum['h_margin_sum'] / cum['hg'] if cum['hg'] > 0 else 0.3,
+                    'away_margin_avg': cum['a_margin_sum'] / cum['ag'] if cum['ag'] > 0 else -0.3,
+                    'blowout_rate': cum['blowouts'] / g,
+                }
+            else:
+                overall[gid][team] = dict(defaults)
+
+            # Update accumulators AFTER storing
+            if is_home:
+                win = int(game['home_win'])
+                rs = game['home_score']
+                ra = game['away_score']
+                cum['hw'] += win
+                cum['hg'] += 1
+                cum['h_total'] += rs + ra
+                cum['h_margin_sum'] += rs - ra
+            else:
+                win = 1 - int(game['home_win'])
+                rs = game['away_score']
+                ra = game['home_score']
+                cum['aw'] += win
+                cum['ag'] += 1
+                cum['a_total'] += rs + ra
+                cum['a_margin_sum'] += rs - ra
+
+            cum['wins'] += win
+            cum['games'] += 1
+            cum['rs'] += rs
+            cum['ra'] += ra
+            if abs(rs - ra) >= 4:
+                cum['blowouts'] += 1
 
     return overall
 
@@ -157,11 +196,12 @@ def compute_rolling_per_game(games_df, window=15):
         tg['opp_runs'] = np.where(tg['home_team'] == team, tg['away_score'], tg['home_score'])
         tg['game_total'] = tg['home_score'] + tg['away_score']
 
-        tg['r_wpct'] = tg['team_win'].rolling(window, min_periods=5).mean()
-        tg['r_rs'] = tg['team_runs'].rolling(window, min_periods=5).mean()
-        tg['r_ra'] = tg['opp_runs'].rolling(window, min_periods=5).mean()
-        tg['r_rd'] = (tg['team_runs'] - tg['opp_runs']).rolling(window, min_periods=5).mean()
-        tg['r_total'] = tg['game_total'].rolling(window, min_periods=5).mean()
+        # shift(1): exclude current game from its own rolling features (prevent data leakage)
+        tg['r_wpct'] = tg['team_win'].shift(1).rolling(window, min_periods=5).mean()
+        tg['r_rs'] = tg['team_runs'].shift(1).rolling(window, min_periods=5).mean()
+        tg['r_ra'] = tg['opp_runs'].shift(1).rolling(window, min_periods=5).mean()
+        tg['r_rd'] = (tg['team_runs'] - tg['opp_runs']).shift(1).rolling(window, min_periods=5).mean()
+        tg['r_total'] = tg['game_total'].shift(1).rolling(window, min_periods=5).mean()
 
         for _, row in tg.iterrows():
             gid = row['game_id']
@@ -209,8 +249,9 @@ def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict
         away = game['away_team']
         gid = game['game_id']
 
-        hs = overall_stats.get((home, year))
-        aws = overall_stats.get((away, year))
+        gid_stats = overall_stats.get(gid, {})
+        hs = gid_stats.get(home)
+        aws = gid_stats.get(away)
         if not hs or not aws:
             skipped += 1
             continue
@@ -538,11 +579,41 @@ def evaluate_classifier(name, y_prob, y_true, test_df, confidence_func):
                 'total': d['total'],
             }
 
+    # --- Calibration analysis ---
+    print(f"\n  Calibration ({name}):")
+    try:
+        prob_true, prob_pred = calibration_curve(y_true, y_prob, n_bins=10, strategy='uniform')
+        print(f"  {'Bin':>10s}  {'Predicted':>10s}  {'Actual':>10s}  {'Gap':>8s}")
+        for pt, pp in zip(prob_true, prob_pred):
+            gap = pt - pp
+            print(f"  {pp:10.3f}  {pp:10.3f}  {pt:10.3f}  {gap:+8.3f}")
+
+        # Calibration error (ECE)
+        bin_counts = np.histogram(y_prob, bins=10, range=(0, 1))[0]
+        total = bin_counts.sum()
+        ece = sum(bc / total * abs(pt - pp) for bc, pt, pp in zip(bin_counts[bin_counts > 0], prob_true, prob_pred))
+        print(f"\n  Expected Calibration Error (ECE): {ece:.4f}")
+
+        # Isotonic regression calibration (train on first half, evaluate on second half)
+        n = len(y_prob)
+        half = n // 2
+        iso = IsotonicRegression(y_min=0.01, y_max=0.99, out_of_bounds='clip')
+        iso.fit(y_prob[:half], np.array(y_true[:half], dtype=float))
+        calibrated_probs = iso.predict(y_prob[half:])
+        cal_pred = (calibrated_probs > 0.5).astype(int)
+        cal_acc = accuracy_score(y_true[half:], cal_pred)
+        print(f"  Isotonic-calibrated accuracy (2nd half): {cal_acc:.4f}")
+    except Exception as e:
+        print(f"  Calibration analysis skipped: {e}")
+        ece = None
+        calibrated_probs = None
+
     return {
         'overall_accuracy': round(overall_acc, 4),
         'auc': round(auc, 4),
         'total_games': len(y_true),
         'tiers': tier_summary,
+        'ece': round(ece, 4) if ece is not None else None,
     }, game_results
 
 
@@ -835,8 +906,7 @@ def main():
     # team_statsは2024を使用（2025シーズン開始時点で利用可能なデータ）
     print("[2] Computing features (walk-forward)...")
 
-    # Overall stats: 2022-2024の各年を個別に計算（ローリング用）
-    # + 2025年も計算するが、これはバックテスト中に各試合の時点での統計を使うため
+    # Overall stats: per-game incremental (no future data leakage)
     overall_stats = compute_overall_stats(games_df)
 
     # Rolling stats: 全期間で計算（各game_idの時点での直近15試合）

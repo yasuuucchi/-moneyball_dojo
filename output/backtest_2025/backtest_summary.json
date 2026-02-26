@@ -1,5 +1,5 @@
 {
-  "generated": "2026-02-15T15:20:19.562189",
+  "generated": "2026-02-26T15:56:57.942725",
   "season": 2025,
   "train_years": [
     2022,
@@ -9,118 +9,122 @@
   "method": "walk-forward (rolling stats), season-level team stats from 2024",
   "models": {
     "Moneyline": {
-      "overall_accuracy": 0.6472,
-      "auc": 0.704,
-      "total_games": 2426,
+      "overall_accuracy": 0.5291,
+      "auc": 0.5533,
+      "total_games": 2425,
       "tiers": {
         "STRONG": {
-          "accuracy": 0.7289,
-          "correct": 960,
-          "total": 1317
+          "accuracy": 0.5873,
+          "correct": 323,
+          "total": 550
         },
         "MODERATE": {
-          "accuracy": 0.5605,
-          "correct": 301,
-          "total": 537
+          "accuracy": 0.5303,
+          "correct": 376,
+          "total": 709
         },
         "LEAN": {
-          "accuracy": 0.5333,
-          "correct": 192,
-          "total": 360
+          "accuracy": 0.5053,
+          "correct": 379,
+          "total": 750
         },
         "PASS": {
-          "accuracy": 0.5519,
-          "correct": 117,
-          "total": 212
+          "accuracy": 0.4928,
+          "correct": 205,
+          "total": 416
         }
-      }
+      },
+      "ece": 0.074
     },
     "Over/Under": {
-      "mae": 3.381,
+      "mae": 3.64,
       "line_accuracy": {
-        "7.5": 0.6216,
-        "8.0": 0.6047,
-        "8.5": 0.6129,
-        "9.0": 0.6307,
-        "9.5": 0.641
+        "7.5": 0.546,
+        "8.0": 0.4928,
+        "8.5": 0.5085,
+        "9.0": 0.5608,
+        "9.5": 0.5938
       },
-      "total_games": 2426
+      "total_games": 2425
     },
     "Run Line": {
-      "overall_accuracy": 0.6628,
-      "auc": 0.6602,
-      "total_games": 2426,
+      "overall_accuracy": 0.6454,
+      "auc": 0.5606,
+      "total_games": 2425,
       "tiers": {
         "STRONG": {
-          "accuracy": 0.7337,
-          "correct": 956,
-          "total": 1303
+          "accuracy": 0.6734,
+          "correct": 998,
+          "total": 1482
         },
         "MODERATE": {
-          "accuracy": 0.6211,
-          "correct": 300,
-          "total": 483
+          "accuracy": 0.6263,
+          "correct": 305,
+          "total": 487
         },
         "LEAN": {
-          "accuracy": 0.5704,
-          "correct": 227,
-          "total": 398
+          "accuracy": 0.6026,
+          "correct": 185,
+          "total": 307
         },
         "PASS": {
-          "accuracy": 0.5165,
-          "correct": 125,
-          "total": 242
+          "accuracy": 0.5168,
+          "correct": 77,
+          "total": 149
         }
-      }
+      },
+      "ece": 0.0463
     },
     "F5 Moneyline": {
-      "overall_accuracy": 0.6459,
-      "auc": 0.7092,
-      "total_games": 2426,
+      "overall_accuracy": 0.5447,
+      "auc": 0.5765,
+      "total_games": 2425,
       "tiers": {
         "STRONG": {
-          "accuracy": 0.695,
-          "correct": 1242,
-          "total": 1787
+          "accuracy": 0.5985,
+          "correct": 656,
+          "total": 1096
         },
         "MODERATE": {
-          "accuracy": 0.5503,
-          "correct": 175,
-          "total": 318
+          "accuracy": 0.5142,
+          "correct": 343,
+          "total": 667
         },
         "LEAN": {
-          "accuracy": 0.3816,
-          "correct": 29,
-          "total": 76
+          "accuracy": 0.5057,
+          "correct": 89,
+          "total": 176
         },
         "PASS": {
-          "accuracy": 0.4939,
-          "correct": 121,
-          "total": 245
+          "accuracy": 0.4794,
+          "correct": 233,
+          "total": 486
         }
-      }
+      },
+      "ece": 0.0501
     },
     "NRFI": {
-      "overall_accuracy": 0.6208,
-      "auc": 0.673,
+      "overall_accuracy": 0.5653,
+      "auc": 0.5842,
       "total_games": 2429,
       "tiers": {
         "STRONG": {
-          "accuracy": 0.6891,
-          "correct": 911,
-          "total": 1322
+          "accuracy": 0.6012,
+          "correct": 401,
+          "total": 667
         },
         "MODERATE": {
-          "accuracy": 0.5566,
-          "correct": 290,
-          "total": 521
+          "accuracy": 0.5782,
+          "correct": 451,
+          "total": 780
         },
         "LEAN": {
-          "accuracy": 0.5239,
-          "correct": 307,
-          "total": 586
+          "accuracy": 0.5305,
+          "correct": 521,
+          "total": 982
         }
-      }
+      },
+      "ece": 0.0163
     }
   }
 }
