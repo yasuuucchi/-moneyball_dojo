@@ -374,46 +374,97 @@ def compute_travel_distance(games_df):
     return travel_map
 
 
-def compute_all_team_metrics(games_df):
-    """チーム成績を一括計算"""
-    # Overall stats per team-year
-    overall_stats = {}
-    for year in games_df['year'].unique():
-        year_games = games_df[games_df['year'] == year]
-        all_teams = set(year_games['home_team'].unique()) | set(year_games['away_team'].unique())
+def compute_all_team_metrics(games_df, min_games=10):
+    """Compute per-game cumulative team stats (no future data leakage).
 
-        for team in all_teams:
-            home_g = year_games[year_games['home_team'] == team]
-            away_g = year_games[year_games['away_team'] == team]
+    For each game, stats are computed from all of that team's games
+    played BEFORE the current game within the same season.
+    Returns {game_id: {team: stats_dict}}.
+    """
+    defaults = {
+        'win_pct': 0.5, 'avg_rs': 4.5, 'avg_ra': 4.5, 'run_diff': 0.0,
+        'pythag': 0.5, 'home_win_pct': 0.54, 'away_win_pct': 0.46,
+        'avg_total_runs_home': 9.0, 'avg_total_runs_away': 9.0,
+        'home_margin_avg': 0.3, 'away_margin_avg': -0.3, 'blowout_rate': 0.25,
+    }
+    games_sorted = games_df.sort_values('date').reset_index(drop=True)
+    teams = set(games_sorted['home_team'].unique()) | set(games_sorted['away_team'].unique())
+    overall_stats = {}  # game_id -> {team: stats}
 
-            home_wins = int(home_g['home_win'].sum())
-            away_wins = len(away_g) - int(away_g['home_win'].sum())
-            total_wins = home_wins + away_wins
-            total_games = len(home_g) + len(away_g)
-            if total_games == 0:
-                continue
+    for team in teams:
+        mask = (games_sorted['home_team'] == team) | (games_sorted['away_team'] == team)
+        tg = games_sorted[mask]
 
-            home_rs = home_g['home_score'].sum()
-            away_rs = away_g['away_score'].sum()
-            home_ra = home_g['away_score'].sum()
-            away_ra = away_g['home_score'].sum()
-            total_rs = home_rs + away_rs
-            total_ra = home_ra + away_ra
+        # Cumulative accumulators (reset per year)
+        cum = {}
 
-            overall_stats[(team, year)] = {
-                'win_pct': total_wins / total_games,
-                'avg_rs': total_rs / total_games,
-                'avg_ra': total_ra / total_games,
-                'run_diff': (total_rs - total_ra) / total_games,
-                'pythag': total_rs**1.83 / (total_rs**1.83 + total_ra**1.83) if (total_rs + total_ra) > 0 else 0.5,
-                'home_win_pct': home_g['home_win'].mean() if len(home_g) > 0 else 0.54,
-                'away_win_pct': (1 - away_g['home_win']).mean() if len(away_g) > 0 else 0.46,
-                'avg_total_runs_home': (home_g['home_score'] + home_g['away_score']).mean() if len(home_g) > 0 else 9.0,
-                'avg_total_runs_away': (away_g['home_score'] + away_g['away_score']).mean() if len(away_g) > 0 else 9.0,
-                'home_margin_avg': (home_g['home_score'] - home_g['away_score']).mean() if len(home_g) > 0 else 0.3,
-                'away_margin_avg': (away_g['away_score'] - away_g['home_score']).mean() if len(away_g) > 0 else -0.3,
-                'blowout_rate': ((home_g['run_margin'].abs() >= 4).sum() + ((away_g['home_score'] - away_g['away_score']).abs() >= 4).sum()) / total_games if total_games > 0 else 0.25,
-            }
+        for _, game in tg.iterrows():
+            gid = game['game_id']
+            year = game['year']
+            is_home = game['home_team'] == team
+
+            # Reset accumulators at year boundary
+            if cum.get('year') != year:
+                cum = {'year': year, 'wins': 0, 'games': 0, 'rs': 0, 'ra': 0,
+                       'hw': 0, 'hg': 0, 'aw': 0, 'ag': 0,
+                       'h_rs': 0, 'h_ra': 0, 'a_rs': 0, 'a_ra': 0,
+                       'h_total': 0, 'a_total': 0,
+                       'h_margin_sum': 0, 'a_margin_sum': 0, 'blowouts': 0}
+
+            # Store stats from games BEFORE this one
+            if gid not in overall_stats:
+                overall_stats[gid] = {}
+
+            if cum['games'] >= min_games:
+                g = cum['games']
+                trs = cum['rs']
+                tra = cum['ra']
+                overall_stats[gid][team] = {
+                    'win_pct': cum['wins'] / g,
+                    'avg_rs': trs / g,
+                    'avg_ra': tra / g,
+                    'run_diff': (trs - tra) / g,
+                    'pythag': trs**1.83 / (trs**1.83 + tra**1.83) if (trs + tra) > 0 else 0.5,
+                    'home_win_pct': cum['hw'] / cum['hg'] if cum['hg'] > 0 else 0.54,
+                    'away_win_pct': cum['aw'] / cum['ag'] if cum['ag'] > 0 else 0.46,
+                    'avg_total_runs_home': cum['h_total'] / cum['hg'] if cum['hg'] > 0 else 9.0,
+                    'avg_total_runs_away': cum['a_total'] / cum['ag'] if cum['ag'] > 0 else 9.0,
+                    'home_margin_avg': cum['h_margin_sum'] / cum['hg'] if cum['hg'] > 0 else 0.3,
+                    'away_margin_avg': cum['a_margin_sum'] / cum['ag'] if cum['ag'] > 0 else -0.3,
+                    'blowout_rate': cum['blowouts'] / g,
+                }
+            else:
+                overall_stats[gid][team] = dict(defaults)
+
+            # Update accumulators AFTER storing (current game result)
+            if is_home:
+                win = int(game['home_win'])
+                rs = game['home_score']
+                ra = game['away_score']
+                cum['hw'] += win
+                cum['hg'] += 1
+                cum['h_rs'] += rs
+                cum['h_ra'] += ra
+                cum['h_total'] += rs + ra
+                cum['h_margin_sum'] += rs - ra
+            else:
+                win = 1 - int(game['home_win'])
+                rs = game['away_score']
+                ra = game['home_score']
+                cum['aw'] += win
+                cum['ag'] += 1
+                cum['a_rs'] += rs
+                cum['a_ra'] += ra
+                cum['a_total'] += rs + ra
+                cum['a_margin_sum'] += rs - ra
+
+            cum['wins'] += win
+            cum['games'] += 1
+            cum['rs'] += rs
+            cum['ra'] += ra
+            margin = abs(rs - ra)
+            if margin >= 4:
+                cum['blowouts'] += 1
 
     return overall_stats
 
@@ -529,8 +580,9 @@ def build_feature_matrix(games_df, overall_stats, rolling_stats, team_stats_dict
         away = game['away_team']
         gid = game['game_id']
 
-        hs = overall_stats.get((home, year))
-        aws = overall_stats.get((away, year))
+        gid_stats = overall_stats.get(gid, {})
+        hs = gid_stats.get(home)
+        aws = gid_stats.get(away)
         if not hs or not aws:
             skipped += 1
             continue
@@ -1611,8 +1663,9 @@ def train_stolen_bases(games_df, overall_stats):
         away = g_info['away_team']
         year = g_info['year']
 
-        home_stats = overall_stats.get((home, year), {})
-        away_stats = overall_stats.get((away, year), {})
+        gid_overall = overall_stats.get(g_id, {})
+        home_stats = gid_overall.get(home, {})
+        away_stats = gid_overall.get(away, {})
         
         # Team SB tendencies from historical season data
         h_sb_tendency = team_sb[(team_sb['team_name'] == home) & (team_sb['year'] == year)]
@@ -1902,7 +1955,7 @@ def main():
 
     print("\n[2/6] Computing team metrics...")
     overall_stats = compute_all_team_metrics(games_df)
-    print(f"  ✓ {len(overall_stats)} team-year records")
+    print(f"  ✓ {len(overall_stats)} game-level incremental team stats (no future leakage)")
 
     print("\n[3/6] Computing rolling stats...")
     rolling_stats = compute_rolling_features(games_df)
