@@ -151,6 +151,8 @@ jobs:
         run: pip install -r requirements.txt
 
       - name: Generate weekly review
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
         run: python weekly_review_generator.py
 
       - name: Commit and push weekly review
@@ -169,13 +171,15 @@ jobs:
           path: output/weekly/
           retention-days: 90
 
-      - name: Slack notification (weekly review)
-        if: env.SLACK_WEBHOOK_URL != ''
+      # NOTE: Full review content (EN+JA) is sent to Slack from weekly_review_generator.py.
+      # This step is a fallback status notification for failures.
+      - name: Slack notification (weekly review status)
+        if: failure()
         uses: slackapi/slack-github-action@v1.24.0
         with:
           payload: |
             {
-              "text": "📊 Weekly Review generated — check output/weekly/ for EN+JA reports"
+              "text": "🚨 Weekly Review FAILED — status: ${{ job.status }}\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|ログ>"
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
