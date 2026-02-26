@@ -24,17 +24,17 @@ I'm an engineer. That offends me on a fundamental level. So I built something di
 
 ## What Moneyball Dojo Actually Is
 
-At its core, Moneyball Dojo is **9 specialized machine learning models** — each trained on 37 to 52 features using three full seasons of MLB data (2022–2024), then validated against held-out data using strict walk-forward methodology (no future information leaks into predictions).
+At its core, Moneyball Dojo is **9 specialized machine learning models** — each trained on 37 to 52 features using three full seasons of MLB data (2022–2024), then validated against the entire 2025 season using strict walk-forward methodology (no future information leaks into predictions).
 
-Here's what the system covers:
+Here's what the system covers — with real numbers from our 2025 walk-forward backtest:
 
-| Model | What It Predicts | Features | 2025 Walk-Forward |
-|-------|-----------------|----------|-------------------|
-| **Moneyline** | Game winner | 37 | 59.4% overall · 63.2% STRONG |
-| **Run Line** | Cover -1.5 spread | 52 | Tracked |
-| **First 5 Innings** | F5 winner | 48 | Tracked |
-| **NRFI** | No Run First Inning | 45 | Tracked |
-| **Over/Under** | Total runs | 52 | Tracked |
+| Model | What It Predicts | STRONG Picks | All Picks |
+|-------|-----------------|-------------|-----------|
+| **Moneyline** | Game winner | **58.7%** (550 games) | 52.9% |
+| **Run Line** | Cover -1.5 spread | **67.3%** (1,482 games) | 64.5% |
+| **First 5 Innings** | F5 winner | **59.9%** (1,096 games) | 54.5% |
+| **NRFI** | No Run First Inning | **60.1%** (667 games) | 56.5% |
+| **Over/Under** | Total runs | — | MAE 3.64 |
 | **Pitcher Strikeouts** | K prop lines | — | In validation |
 | **Batter Props** | Hits/HR/RBI lines | — | In validation |
 | **Stolen Bases** | SB prop lines | — | In validation |
@@ -42,7 +42,7 @@ Here's what the system covers:
 
 Walk-forward means the model only sees data available before each game — the same information you'd have when placing a bet. No hindsight, no leakage, no inflated numbers.
 
-Most prediction services give you one type of pick. We give you nine angles on every game. Find your edge in moneyline, run line, first five, NRFI, totals, or player props — all from the same system, all tracked transparently.
+The key insight: **don't bet on everything.** The edge lives in selectivity. STRONG picks across all four models hit well above the -110 breakeven rate of 52.4%.
 
 ## Edge-First, Not Pick-First
 
@@ -50,14 +50,14 @@ We don't just predict who wins. We calculate the **edge** — the gap between wh
 
 A team can be a likely winner and still be a terrible bet if the odds already reflect that. Value exists in the gap, not in the outcome.
 
-Every pick is tiered by edge size, and each tier has been validated against 2025 walk-forward results:
+Every pick is tiered by edge size. Here's how each tier performed on 2,425 moneyline predictions in the 2025 backtest:
 
-- **STRONG** (8%+ edge): High conviction. Model and market sharply disagree. **63.2% hit rate** in 2025 backtest.
-- **MODERATE** (4–8%): Real value. Our bread-and-butter picks. **58.1% hit rate.**
-- **LEAN** (<4%): Signal exists but thin. Published for transparency. **54.7% hit rate.**
-- **PASS**: No edge found. The most disciplined call is sometimes no call.
+- **STRONG** (8%+ edge): **58.7% hit rate.** 550 picks. Well above breakeven.
+- **MODERATE** (4–8%): **53.0% hit rate.** 709 picks. Marginal edge.
+- **LEAN** (<4%): **50.5% hit rate.** 750 picks. Essentially noise — published for transparency only.
+- **PASS**: No edge. Not published.
 
-The pattern is clear: bigger edge = higher accuracy. STRONG picks clear the -110 breakeven (52.4%) by over 10 points. These numbers come from walk-forward validation — no cherry-picking, no overfitting.
+The pattern is consistent across all models: bigger edge = higher accuracy. This isn't cherry-picking — it's the tier system doing exactly what it's designed to do. The disciplined play: **STRONG picks only.**
 
 ## What the Features Actually Look At
 
@@ -72,22 +72,22 @@ The models analyze 37 to 52 features per game, including:
 
 Every feature is computed using only data available before the prediction date. The ensemble combines XGBoost, LightGBM, and Logistic Regression via soft voting, with Optuna-optimized hyperparameters.
 
-## What 59% Actually Means for Your Wallet
+## What 58.7% Actually Means for Your Wallet
 
 Let's be straight about the math, because most prediction services won't be.
 
 At standard -110 odds:
 - **Breakeven**: 52.4% accuracy
-- **59% accuracy**: ~3.6% ROI per bet
-- **STRONG picks at 63%**: ~6.9% ROI per bet
+- **58.7% (STRONG moneyline)**: ~6.0% ROI per bet
+- Over 550 STRONG picks in a season, that's **+33 units** on flat $100 bets
 
-Over a full MLB season with ~150 STRONG picks, that's meaningful. But it also means:
+That's real money. But it also means:
 
-- **Bad weeks happen.** Even a 63% model will have losing weeks.
+- **Bad weeks happen.** A 59% model will have losing weeks regularly.
 - **Drawdowns are real.** You can go -10 units on a cold streak and still be on track.
-- **Bankroll management matters.** Flat 1-unit bets on STRONG picks only is the conservative starting point.
+- **Discipline is the edge.** Betting LEAN and MODERATE picks erases most of the profit. STRONG only.
 
-We're not promising you'll get rich. We're saying the model has a measurable, validated edge — and we'll prove it with live tracked results starting Opening Day.
+We're not promising you'll get rich. We're showing you validated numbers and letting you decide.
 
 ## Why "Dojo"?
 

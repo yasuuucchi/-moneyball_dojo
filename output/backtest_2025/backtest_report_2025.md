@@ -1,6 +1,6 @@
 # Moneyball Dojo — 2025 Season Backtest Results
 
-Generated: 2026-02-15
+Generated: 2026-02-26
 
 ## Methodology
 
@@ -17,81 +17,81 @@ Generated: 2026-02-15
 
 ## Moneyline
 
-- **Overall Accuracy**: 64.7% (2426 games)
-- **AUC-ROC**: 0.7040
+- **Overall Accuracy**: 52.9% (2425 games)
+- **AUC-ROC**: 0.5533
 
 ### Accuracy by Confidence Tier
 
 | Tier | Accuracy | Record |
 |------|----------|--------|
-| STRONG | 72.9% | 960/1317 |
-| MODERATE | 56.0% | 301/537 |
-| LEAN | 53.3% | 192/360 |
-| PASS | 55.2% | 117/212 |
+| STRONG | 58.7% | 323/550 |
+| MODERATE | 53.0% | 376/709 |
+| LEAN | 50.5% | 379/750 |
+| PASS | 49.3% | 205/416 |
 
 ---
 
 ## Over/Under
 
-- **MAE**: 3.381 runs
-- **Total games**: 2426
+- **MAE**: 3.640 runs
+- **Total games**: 2425
 
 ### Line Accuracy
 
 | Line | Accuracy |
 |------|----------|
-| 7.5 | 62.2% |
-| 8.0 | 60.5% |
-| 8.5 | 61.3% |
-| 9.0 | 63.1% |
-| 9.5 | 64.1% |
+| 7.5 | 54.6% |
+| 8.0 | 49.3% |
+| 8.5 | 50.8% |
+| 9.0 | 56.1% |
+| 9.5 | 59.4% |
 
 ---
 
 ## Run Line
 
-- **Overall Accuracy**: 66.3% (2426 games)
-- **AUC-ROC**: 0.6602
+- **Overall Accuracy**: 64.5% (2425 games)
+- **AUC-ROC**: 0.5606
 
 ### Accuracy by Confidence Tier
 
 | Tier | Accuracy | Record |
 |------|----------|--------|
-| STRONG | 73.4% | 956/1303 |
-| MODERATE | 62.1% | 300/483 |
-| LEAN | 57.0% | 227/398 |
-| PASS | 51.6% | 125/242 |
+| STRONG | 67.3% | 998/1482 |
+| MODERATE | 62.6% | 305/487 |
+| LEAN | 60.3% | 185/307 |
+| PASS | 51.7% | 77/149 |
 
 ---
 
 ## F5 Moneyline
 
-- **Overall Accuracy**: 64.6% (2426 games)
-- **AUC-ROC**: 0.7092
+- **Overall Accuracy**: 54.5% (2425 games)
+- **AUC-ROC**: 0.5765
 
 ### Accuracy by Confidence Tier
 
 | Tier | Accuracy | Record |
 |------|----------|--------|
-| STRONG | 69.5% | 1242/1787 |
-| MODERATE | 55.0% | 175/318 |
-| LEAN | 38.2% | 29/76 |
-| PASS | 49.4% | 121/245 |
+| STRONG | 59.9% | 656/1096 |
+| MODERATE | 51.4% | 343/667 |
+| LEAN | 50.6% | 89/176 |
+| PASS | 47.9% | 233/486 |
 
 ---
 
 ## NRFI
 
-- **Overall Accuracy**: 62.1% (2429 games)
-- **AUC-ROC**: 0.6730
+- **Overall Accuracy**: 56.5% (2429 games)
+- **AUC-ROC**: 0.5842
 
 ### Accuracy by Confidence Tier
 
 | Tier | Accuracy | Record |
 |------|----------|--------|
-| STRONG | 68.9% | 911/1322 |
-| MODERATE | 55.7% | 290/521 |
-| LEAN | 52.4% | 307/586 |
+| STRONG | 60.1% | 401/667 |
+| MODERATE | 57.8% | 451/780 |
+| LEAN | 53.0% | 521/982 |
 
 ---
 
@@ -99,13 +99,13 @@ Generated: 2026-02-15
 
 | Month | Games | Accuracy | STRONG Acc | STRONG Games |
 |-------|-------|----------|------------|-------------|
-| 2025-03 | 63 | 71.4% | 81.0% | 42 |
-| 2025-04 | 389 | 67.6% | 76.0% | 208 |
-| 2025-05 | 411 | 65.9% | 73.8% | 221 |
-| 2025-06 | 397 | 63.2% | 73.2% | 224 |
-| 2025-07 | 370 | 61.6% | 72.4% | 192 |
-| 2025-08 | 422 | 60.0% | 68.8% | 224 |
-| 2025-09 | 374 | 69.3% | 71.8% | 206 |
+| 2025-03 | 62 | 45.2% | 54.5% | 11 |
+| 2025-04 | 389 | 55.3% | 64.5% | 110 |
+| 2025-05 | 411 | 52.1% | 50.6% | 81 |
+| 2025-06 | 397 | 51.9% | 56.7% | 90 |
+| 2025-07 | 370 | 49.7% | 48.8% | 84 |
+| 2025-08 | 422 | 54.5% | 65.0% | 100 |
+| 2025-09 | 374 | 55.1% | 64.9% | 74 |
 
 ---
 
