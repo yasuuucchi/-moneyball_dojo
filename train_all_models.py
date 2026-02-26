@@ -42,7 +42,9 @@ from sklearn.model_selection import cross_val_score
 from xgboost import XGBClassifier, XGBRegressor
 from sklearn.metrics import (accuracy_score, precision_score, recall_score,
                              f1_score, roc_auc_score, mean_absolute_error,
-                             mean_squared_error, r2_score)
+                             mean_squared_error, r2_score, brier_score_loss,
+                             log_loss)
+from sklearn.calibration import CalibratedClassifierCV
 
 PROJECT_DIR = Path(__file__).parent
 DATA_DIR = PROJECT_DIR / "data"
@@ -137,11 +139,12 @@ def compute_rolling_features(games_df, window=15):
         tg['opp_runs'] = np.where(tg['home_team'] == team, tg['away_score'], tg['home_score'])
         tg['game_total'] = tg['home_score'] + tg['away_score']
 
-        tg['r_wpct'] = tg['team_win'].rolling(window, min_periods=5).mean()
-        tg['r_rs'] = tg['team_runs'].rolling(window, min_periods=5).mean()
-        tg['r_ra'] = tg['opp_runs'].rolling(window, min_periods=5).mean()
-        tg['r_rd'] = (tg['team_runs'] - tg['opp_runs']).rolling(window, min_periods=5).mean()
-        tg['r_total'] = tg['game_total'].rolling(window, min_periods=5).mean()
+        # shift(1): exclude current game from its own rolling features (prevent data leakage)
+        tg['r_wpct'] = tg['team_win'].shift(1).rolling(window, min_periods=5).mean()
+        tg['r_rs'] = tg['team_runs'].shift(1).rolling(window, min_periods=5).mean()
+        tg['r_ra'] = tg['opp_runs'].shift(1).rolling(window, min_periods=5).mean()
+        tg['r_rd'] = (tg['team_runs'] - tg['opp_runs']).shift(1).rolling(window, min_periods=5).mean()
+        tg['r_total'] = tg['game_total'].shift(1).rolling(window, min_periods=5).mean()
 
         for _, row in tg.iterrows():
             gid = row['game_id']
@@ -302,22 +305,32 @@ def train_moneyline(X, meta_cols):
     X_tr = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols, index=X_train.index)
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols, index=X_test.index)
 
-    model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
-                          subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
-                          reg_alpha=0.1, reg_lambda=1.0, random_state=42,
-                          eval_metric='logloss', verbosity=0)
+    base_model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
+                               subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
+                               reg_alpha=0.1, reg_lambda=1.0, random_state=42,
+                               eval_metric='logloss', verbosity=0)
 
-    cv = cross_val_score(model, X_tr, y_train, cv=5, scoring='accuracy')
-    model.fit(X_tr, y_train, verbose=False)
+    cv = cross_val_score(base_model, X_tr, y_train, cv=5, scoring='accuracy')
+    base_model.fit(X_tr, y_train, verbose=False)
+
+    # Raw (uncalibrated) probabilities
+    y_prob_raw = base_model.predict_proba(X_te)[:, 1]
+    brier_raw = brier_score_loss(y_test, y_prob_raw)
+
+    # Calibrate probabilities with isotonic regression (5-fold CV on training set)
+    model = CalibratedClassifierCV(base_model, method='isotonic', cv=5)
+    model.fit(X_tr, y_train)
 
     y_pred = model.predict(X_te)
     y_prob = model.predict_proba(X_te)[:, 1]
     acc = accuracy_score(y_test, y_pred)
     auc = roc_auc_score(y_test, y_prob)
+    brier_cal = brier_score_loss(y_test, y_prob)
 
     print(f"  CV Accuracy: {cv.mean():.4f} (+/- {cv.std():.4f})")
     print(f"  Test Accuracy: {acc:.4f}")
     print(f"  AUC-ROC: {auc:.4f}")
+    print(f"  Brier Score: {brier_raw:.4f} (raw) → {brier_cal:.4f} (calibrated)")
 
     save_model('model_moneyline.pkl', model, scaler, feat_cols, 'Moneyline', acc, auc, cv)
     return model, scaler, feat_cols
@@ -373,13 +386,18 @@ def train_over_under(X, meta_cols):
 
     # 分類モデル（Over 8.5予測）
     print("\n  [Classification] Over/Under 8.5...")
-    cls_model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
-                              subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
-                              reg_alpha=0.1, reg_lambda=1.0, random_state=42,
-                              eval_metric='logloss', verbosity=0)
+    base_cls = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
+                             subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
+                             reg_alpha=0.1, reg_lambda=1.0, random_state=42,
+                             eval_metric='logloss', verbosity=0)
 
-    cv_cls = cross_val_score(cls_model, X_tr, y_train_cls, cv=5, scoring='accuracy')
-    cls_model.fit(X_tr, y_train_cls, verbose=False)
+    cv_cls = cross_val_score(base_cls, X_tr, y_train_cls, cv=5, scoring='accuracy')
+    base_cls.fit(X_tr, y_train_cls, verbose=False)
+
+    # Calibrate probabilities
+    cls_model = CalibratedClassifierCV(base_cls, method='isotonic', cv=5)
+    cls_model.fit(X_tr, y_train_cls)
+
     y_pred_cls = cls_model.predict(X_te)
     y_prob_cls = cls_model.predict_proba(X_te)[:, 1]
 
@@ -437,13 +455,17 @@ def train_run_line(X, meta_cols):
     X_tr = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols, index=X_train.index)
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols, index=X_test.index)
 
-    model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
-                          subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
-                          reg_alpha=0.1, reg_lambda=1.0, random_state=42,
-                          eval_metric='logloss', verbosity=0)
+    base_model = XGBClassifier(n_estimators=200, max_depth=4, learning_rate=0.05,
+                               subsample=0.8, colsample_bytree=0.7, min_child_weight=3,
+                               reg_alpha=0.1, reg_lambda=1.0, random_state=42,
+                               eval_metric='logloss', verbosity=0)
 
-    cv = cross_val_score(model, X_tr, y_train, cv=5, scoring='accuracy')
-    model.fit(X_tr, y_train, verbose=False)
+    cv = cross_val_score(base_model, X_tr, y_train, cv=5, scoring='accuracy')
+    base_model.fit(X_tr, y_train, verbose=False)
+
+    # Calibrate probabilities
+    model = CalibratedClassifierCV(base_model, method='isotonic', cv=5)
+    model.fit(X_tr, y_train)
 
     y_pred = model.predict(X_te)
     y_prob = model.predict_proba(X_te)[:, 1]
@@ -503,13 +525,17 @@ def train_f5_moneyline(X, meta_cols):
     X_te = pd.DataFrame(scaler.transform(X_test), columns=feat_cols, index=X_test.index)
 
     # F5用にERA/WHIPの重要度を上げるためサンプルウェイトを調整
-    model = XGBClassifier(n_estimators=150, max_depth=3, learning_rate=0.05,
-                          subsample=0.8, colsample_bytree=0.8, min_child_weight=5,
-                          reg_alpha=0.2, reg_lambda=1.5, random_state=42,
-                          eval_metric='logloss', verbosity=0)
+    base_model = XGBClassifier(n_estimators=150, max_depth=3, learning_rate=0.05,
+                               subsample=0.8, colsample_bytree=0.8, min_child_weight=5,
+                               reg_alpha=0.2, reg_lambda=1.5, random_state=42,
+                               eval_metric='logloss', verbosity=0)
 
-    cv = cross_val_score(model, X_tr, y_train, cv=5, scoring='accuracy')
-    model.fit(X_tr, y_train, verbose=False)
+    cv = cross_val_score(base_model, X_tr, y_train, cv=5, scoring='accuracy')
+    base_model.fit(X_tr, y_train, verbose=False)
+
+    # Calibrate probabilities
+    model = CalibratedClassifierCV(base_model, method='isotonic', cv=5)
+    model.fit(X_tr, y_train)
 
     y_pred = model.predict(X_te)
     y_prob = model.predict_proba(X_te)[:, 1]
@@ -961,8 +987,9 @@ def _build_nrfi_features(games_df, nrfi_df, team_stats_dict):
     for team in teams:
         tg = nrfi_sorted[(nrfi_sorted['home_team'] == team) | (nrfi_sorted['away_team'] == team)].copy()
         tg['t_1st'] = np.where(tg['home_team'] == team, tg['home_1st_runs'], tg['away_1st_runs'])
-        r_nrfi = tg['nrfi_result'].rolling(ROLL, min_periods=5).mean()
-        r_rs = tg['t_1st'].rolling(ROLL, min_periods=5).mean()
+        # shift(1): exclude current game from rolling (prevent data leakage)
+        r_nrfi = tg['nrfi_result'].shift(1).rolling(ROLL, min_periods=5).mean()
+        r_rs = tg['t_1st'].shift(1).rolling(ROLL, min_periods=5).mean()
         for i, (_, row) in enumerate(tg.iterrows()):
             gid = row['game_id']
             if gid not in roll_nrfi:
@@ -1083,7 +1110,7 @@ def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
     X_train_s = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols)
     X_test_s = pd.DataFrame(scaler.transform(X_test), columns=feat_cols)
 
-    model = XGBClassifier(
+    base_model = XGBClassifier(
         n_estimators=300,
         max_depth=4,
         learning_rate=0.02,
@@ -1097,7 +1124,11 @@ def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
         random_state=42,
         verbosity=0,
     )
-    model.fit(X_train_s, y_train, verbose=False)
+    base_model.fit(X_train_s, y_train, verbose=False)
+
+    # Calibrate probabilities
+    model = CalibratedClassifierCV(base_model, method='isotonic', cv=5)
+    model.fit(X_train_s, y_train)
 
     y_pred = model.predict(X_test_s)
     y_prob = model.predict_proba(X_test_s)[:, 1]
@@ -1118,8 +1149,8 @@ def train_nrfi(games_df, overall_stats, rolling_stats, team_stats):
             t_acc = accuracy_score(y_test[mask], y_pred[mask])
             print(f"    {tier:10s}: {t_acc:.4f} ({mask.sum()} games)")
 
-    # Feature importance top 10
-    imp = sorted(zip(feat_cols, model.feature_importances_), key=lambda x: -x[1])
+    # Feature importance top 10 (use base model since CalibratedClassifierCV doesn't expose this)
+    imp = sorted(zip(feat_cols, base_model.feature_importances_), key=lambda x: -x[1])
     print(f"\n  Top features:")
     for name, val in imp[:10]:
         bar = '█' * int(val * 50)
@@ -1240,15 +1271,20 @@ def train_stolen_bases(games_df, overall_stats):
     X_train_s = pd.DataFrame(scaler.fit_transform(X_train), columns=feat_cols)
     X_test_s = pd.DataFrame(scaler.transform(X_test), columns=feat_cols)
 
-    model = XGBClassifier(
+    base_model = XGBClassifier(
         n_estimators=150,
         max_depth=4,
         learning_rate=0.05,
         subsample=0.8,
         colsample_bytree=0.8,
         eval_metric='logloss',
-        random_state=42
+        random_state=42,
+        verbosity=0,
     )
+    base_model.fit(X_train_s, y_train)
+
+    # Calibrate probabilities
+    model = CalibratedClassifierCV(base_model, method='isotonic', cv=5)
     model.fit(X_train_s, y_train)
 
     y_pred = model.predict(X_test_s)

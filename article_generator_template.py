@@ -102,7 +102,7 @@ STRICT RULES — VIOLATION DESTROYS CREDIBILITY:
 5. Focus analysis on the NUMBERS: probability, edge, confidence tier, team matchup stats. That is what bettors care about.
 6. If a game is Spring Training (game_type='S'), explicitly note that predictions carry extra uncertainty due to non-standard lineups and pitching limits.
 
-Track record: Backtested 2025 season — 64.7% moneyline accuracy, 72.9% STRONG-tier win rate (+15.3% ROI at -110 standard juice)."""
+Track record: Models retrained with leak-free rolling stats and probability calibration. Pending full backtest re-run for updated accuracy figures."""
 
     ENGLISH_DIGEST_PROMPT = """Write a Substack Daily Digest article in English based on this prediction data.
 
