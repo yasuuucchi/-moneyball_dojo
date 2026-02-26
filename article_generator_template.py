@@ -212,10 +212,13 @@ Markdown記事のみ出力してください。前置きや説明は不要です
         import io
         import csv
 
-        # Select key columns
+        # Select key columns — include pitcher stats so Claude can write informed analysis
         key_cols = [
-            'game_id', 'date', 'home_team', 'away_team',
+            'game_id', 'date', 'game_type', 'home_team', 'away_team',
             'home_pitcher', 'away_pitcher',
+            'home_pitcher_era', 'away_pitcher_era',
+            'home_pitcher_whip', 'away_pitcher_whip',
+            'home_pitcher_k9', 'away_pitcher_k9',
             'ml_prob', 'ml_pick', 'ml_edge', 'ml_confidence',
             'ou_predicted_total', 'rl_pick', 'rl_confidence',
             'f5_pick', 'f5_confidence',
@@ -257,10 +260,26 @@ Markdown記事のみ出力してください。前置きや説明は不要です
             f"MODERATE picks: {moderate}",
         ]
 
-        # Best pick
+        # Best pick with pitcher context
         best = max(predictions, key=lambda p: abs(p.get('ml_edge', 0)))
-        lines.append(f"Highest edge game: {best.get('away_team')} @ {best.get('home_team')} "
-                      f"(edge: {best.get('ml_edge', 0)*100:+.1f}%, pick: {best.get('ml_pick')})")
+        best_line = (f"Highest edge game: {best.get('away_team')} @ {best.get('home_team')} "
+                     f"(edge: {best.get('ml_edge', 0)*100:+.1f}%, pick: {best.get('ml_pick')})")
+        hp_era = best.get('home_pitcher_era')
+        ap_era = best.get('away_pitcher_era')
+        if hp_era and ap_era:
+            best_line += (f"\n  Home SP: {best.get('home_pitcher', 'TBA')} "
+                          f"(ERA {hp_era:.2f}, WHIP {best.get('home_pitcher_whip', 0):.2f}, "
+                          f"K/9 {best.get('home_pitcher_k9', 0):.1f})")
+            best_line += (f"\n  Away SP: {best.get('away_pitcher', 'TBA')} "
+                          f"(ERA {ap_era:.2f}, WHIP {best.get('away_pitcher_whip', 0):.2f}, "
+                          f"K/9 {best.get('away_pitcher_k9', 0):.1f})")
+        lines.append(best_line)
+
+        # Game type note
+        game_types = set(p.get('game_type', 'R') for p in predictions)
+        if 'S' in game_types:
+            lines.append("NOTE: Some games are Spring Training (game_type=S). "
+                          "Predictions carry extra uncertainty — non-standard lineups, pitch counts.")
 
         return "\n".join(lines)
 

@@ -75,6 +75,18 @@ jobs:
           git commit -m "auto: Update historical data [skip ci]" || echo "No changes"
           git push
 
+      - name: Slack notification (results updated)
+        if: always()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "📥 結果取得完了 — status: ${{ job.status }}\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|ログ>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true
+
   # ========================================================================
   # JOB 0.5: RETRAIN MODELS (Every Monday)
   # ========================================================================
@@ -102,9 +114,21 @@ jobs:
         run: |
           git config --global user.name "Moneyball Dojo Bot"
           git config --global user.email "bot@moneyball-dojo.ai"
-          git add models/*.pkl
+          git add models/*.pkl model.pkl
           git commit -m "auto: Retrain models with latest data [skip ci]" || echo "No changes"
           git push
+
+      - name: Slack notification (retrain complete)
+        if: always()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "text": "🔄 モデル再学習完了 — status: ${{ job.status }}\n9モデル更新済み（leak-free rolling + isotonic calibration）\n<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|ログ>"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+        continue-on-error: true
 
   # ========================================================================
   # JOB 0.7: WEEKLY REVIEW (Every Monday at 01:00 UTC)
@@ -190,6 +214,7 @@ jobs:
           GOOGLE_SHEETS_ID: ${{ secrets.GOOGLE_SHEETS_ID }}
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           MLB_API_KEY: ${{ secrets.MLB_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           TEST_MODE: ${{ github.event.inputs.test_mode }}
           LOG_LEVEL: ${{ env.LOG_LEVEL }}
         run: |
@@ -365,3 +390,4 @@ jobs:
 # 4. SLACK_WEBHOOK          — (Optional) Slack notifications
 # 5. MLB_API_KEY            — (Optional) MLB Stats API
 # 6. PUBLIC_REPO_TOKEN      — (Optional) For sync_public_repo.yml
+# 7. ODDS_API_KEY           — (Optional) The Odds API for real market odds
