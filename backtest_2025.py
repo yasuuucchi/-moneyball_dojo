@@ -31,6 +31,8 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import cross_val_score
 from xgboost import XGBClassifier, XGBRegressor
 from sklearn.metrics import accuracy_score, roc_auc_score, mean_absolute_error
+from sklearn.calibration import calibration_curve
+from sklearn.isotonic import IsotonicRegression
 
 PROJECT_DIR = Path(__file__).parent
 DATA_DIR = PROJECT_DIR / "data"
@@ -577,11 +579,41 @@ def evaluate_classifier(name, y_prob, y_true, test_df, confidence_func):
                 'total': d['total'],
             }
 
+    # --- Calibration analysis ---
+    print(f"\n  Calibration ({name}):")
+    try:
+        prob_true, prob_pred = calibration_curve(y_true, y_prob, n_bins=10, strategy='uniform')
+        print(f"  {'Bin':>10s}  {'Predicted':>10s}  {'Actual':>10s}  {'Gap':>8s}")
+        for pt, pp in zip(prob_true, prob_pred):
+            gap = pt - pp
+            print(f"  {pp:10.3f}  {pp:10.3f}  {pt:10.3f}  {gap:+8.3f}")
+
+        # Calibration error (ECE)
+        bin_counts = np.histogram(y_prob, bins=10, range=(0, 1))[0]
+        total = bin_counts.sum()
+        ece = sum(bc / total * abs(pt - pp) for bc, pt, pp in zip(bin_counts[bin_counts > 0], prob_true, prob_pred))
+        print(f"\n  Expected Calibration Error (ECE): {ece:.4f}")
+
+        # Isotonic regression calibration (train on first half, evaluate on second half)
+        n = len(y_prob)
+        half = n // 2
+        iso = IsotonicRegression(y_min=0.01, y_max=0.99, out_of_bounds='clip')
+        iso.fit(y_prob[:half], np.array(y_true[:half], dtype=float))
+        calibrated_probs = iso.predict(y_prob[half:])
+        cal_pred = (calibrated_probs > 0.5).astype(int)
+        cal_acc = accuracy_score(y_true[half:], cal_pred)
+        print(f"  Isotonic-calibrated accuracy (2nd half): {cal_acc:.4f}")
+    except Exception as e:
+        print(f"  Calibration analysis skipped: {e}")
+        ece = None
+        calibrated_probs = None
+
     return {
         'overall_accuracy': round(overall_acc, 4),
         'auc': round(auc, 4),
         'total_games': len(y_true),
         'tiers': tier_summary,
+        'ece': round(ece, 4) if ece is not None else None,
     }, game_results
 
 
