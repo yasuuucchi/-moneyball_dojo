@@ -723,10 +723,14 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 pred['ml_implied'] = round(float(pick_baseline), 4)
                 pred['ml_edge'] = round(float(pick_prob - pick_baseline), 4)
 
-                abs_edge = abs(pred['ml_edge'])
-                if abs_edge >= 0.08:
+                # Confidence requires POSITIVE edge (model > market/baseline).
+                # Negative edge means the market already prices this in — no value to bet.
+                edge = pred['ml_edge']
+                if edge < 0:
+                    pred['ml_confidence'] = 'PASS'
+                elif edge >= 0.08:
                     pred['ml_confidence'] = 'STRONG'
-                elif abs_edge >= 0.04:
+                elif edge >= 0.04:
                     pred['ml_confidence'] = 'MODERATE'
                 elif abs(home_prob - 0.5) < 0.03:
                     pred['ml_confidence'] = 'PASS'
@@ -1135,8 +1139,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
 
         all_predictions.append(pred)
 
-    # Moneylineエッジでソート
-    all_predictions.sort(key=lambda x: abs(x.get('ml_edge', 0)), reverse=True)
+    # Sort by edge descending: positive edge first, negative edge last
+    all_predictions.sort(key=lambda x: x.get('ml_edge', 0), reverse=True)
 
     print(f"  ✓ Generated {len(all_predictions)} full predictions (skipped {skipped})")
 

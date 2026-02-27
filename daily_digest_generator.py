@@ -153,21 +153,17 @@ def generate_english_digest(
     md.append("## Today's AI Model Picks")
     md.append("")
     
-    # Games Table
-    md.append("| League | Matchup | Pick | Win Prob | Edge | Confidence |")
-    md.append("|--------|---------|------|----------|------|------------|")
-    
+    # Games list (bullet format for Substack/note compatibility)
     for pred in sorted_preds:
         matchup = f"{pred.away_team} @ {pred.home_team}"
         pick_display = f"**{pred.pick}**" if pred.pick != "PASS" else "PASS"
         edge_display = f"{format_edge(pred.edge)}" if pred.edge >= 0 else f"{pred.edge*100:.1f}%"
         emoji = get_emoji_for_tier(pred.confidence_tier)
-        
-        md.append(
-            f"| {pred.league} | {matchup} | {pick_display} | "
-            f"{format_percentage(pred.win_prob)} | {edge_display} | "
-            f"{emoji} {pred.confidence_tier} |"
-        )
+
+        md.append(f"**{matchup}** ({pred.league})")
+        md.append(f"- Pick: {pick_display} — Win Prob: {format_percentage(pred.win_prob)}")
+        md.append(f"- Edge: {edge_display} — {emoji} {pred.confidence_tier}")
+        md.append("")
     
     md.append("")
     
@@ -270,10 +266,7 @@ def generate_japanese_digest(
     md.append("## 本日のAIモデル予測")
     md.append("")
     
-    # Games Table
-    md.append("| リーグ | 対戦 | 予測 | 勝率 | エッジ | 信頼度 |")
-    md.append("|--------|------|------|------|--------|--------|")
-    
+    # Games list (bullet format for Substack/note compatibility)
     for pred in sorted_preds:
         matchup = f"{pred.away_team} @ {pred.home_team}"
         pick_display = f"**{pred.pick}**" if pred.pick != "PASS" else "見送り"
@@ -284,12 +277,11 @@ def generate_japanese_digest(
             "MODERATE": "中程度",
             "WEAK": "弱気",
         }.get(pred.confidence_tier, "通常")
-        
-        md.append(
-            f"| {pred.league} | {matchup} | {pick_display} | "
-            f"{format_percentage(pred.win_prob)} | {edge_display} | "
-            f"{emoji} {confidence_ja} |"
-        )
+
+        md.append(f"**{matchup}** ({pred.league})")
+        md.append(f"- 予測: {pick_display} — 勝率: {format_percentage(pred.win_prob)}")
+        md.append(f"- エッジ: {edge_display} — {emoji} {confidence_ja}")
+        md.append("")
     
     md.append("")
     
