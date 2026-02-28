@@ -73,11 +73,11 @@ The most significant roster upgrade in this WBC. The DR finally fixed their bigg
 
 The team with the highest talent-to-odds gap in the tournament.
 
-**Why 9%:** Ronald Acuña Jr., Jackson Chourio, Wilyer Abreu form an elite outfield. Yordan Álvarez is arguably the best DH in the field. Randy Arozarena (9-for-20, 6 doubles, 1 HR in 2023 WBC) brings his international game. The catching corps — Salvador Pérez, William Contreras, Francisco Álvarez, Gabriel Moreno — is the deepest in the tournament. And the rotation is genuinely solid: Pablo López, Ranger Suárez, Eduardo Rodríguez.
+**Why 9%:** Ronald Acuña Jr., Jackson Chourio, Wilyer Abreu form an elite outfield. The catching corps — Salvador Pérez, William Contreras, Francisco Álvarez, Gabriel Moreno — is the deepest in the tournament. And the rotation is genuinely solid: Pablo López, Ranger Suárez, Eduardo Rodríguez.
 
 **The catch:** Pool D against DR is effectively a quarterfinal. In 2023, Venezuela went 4-0 in group play and carried a lead into the 8th inning of their quarterfinal against the USA — until Trea Turner hit a grand slam. They're built to lose heartbreak games, not to avoid them.
 
-**What to watch:** How manager Omar Vizquel deploys his bullpen in Pool D against DR. Conserving López for the knockout round could be the difference.
+**What to watch:** How manager Omar López deploys his bullpen in Pool D against DR. Conserving Pablo López for the knockout round could be the difference.
 
 ---
 
@@ -95,7 +95,7 @@ The insurance crisis hit Puerto Rico hardest of any team.
 
 The most underrated roster in the tournament based on pure pitching quality.
 
-**Why 3%:** Andrés Muñoz (mid-to-high 90s, elite slider) closes games. The rotation includes Taj Bradley and Javier Assad. Captain Alejandro Kirk, Jarren Duran, and Randy Arozarena (born in Cuba, plays for Mexico) anchor the lineup. Joey Ortiz at short, Alek Thomas in center. The problem: Pool B means they face Team USA and Italy for the two advancement spots.
+**Why 3%:** Andrés Muñoz (mid-to-high 90s, elite slider) closes games. The rotation includes Taj Bradley (named to the roster, though reports suggest he may prioritize MLB spring camp) and Javier Assad. Captain Alejandro Kirk, Jarren Duran, and Randy Arozarena (born in Cuba, plays for Mexico) anchor the lineup. Joey Ortiz at short, Alek Thomas in center. The problem: Pool B means they face Team USA and Italy for the two advancement spots.
 
 **Why higher than you'd expect:** If Mexico advances — and they have the pitching to do it — their quarterfinal matchup could be favorable, since they'd likely face a Pool A team rather than Japan or the DR.
 

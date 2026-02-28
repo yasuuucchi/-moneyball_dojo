@@ -447,7 +447,7 @@ def compute_team_rolling_stats(games_df, window=15):
 
 def get_api_team_stats(team_name, year, team_stats_dict):
     """API取得済みのチーム打撃・投手指標"""
-    defaults = {'BA': 0.248, 'OBP': 0.315, 'SLG': 0.395, 'ERA': 4.12, 'WHIP': 1.28, 'HR': 0, 'SB': 0, 'OPS': 0.710}
+    defaults = {'BA': 0.248, 'OBP': 0.315, 'SLG': 0.395, 'ERA': 4.12, 'WHIP': 1.28, 'HR': 0, 'SB': 0, 'OPS': 0.710, 'SO_hit': 1380, 'games': 162}
 
     if year not in team_stats_dict:
         return defaults
@@ -467,6 +467,8 @@ def get_api_team_stats(team_name, year, team_stats_dict):
         'HR': int(r.get('HR', 0)),
         'SB': int(r.get('SB', 0)),
         'OPS': float(r.get('OPS', 0.710)),
+        'SO_hit': int(r.get('SO_hit', 1380)),
+        'games': 162,
     }
 
 
@@ -625,6 +627,15 @@ def build_ou_extra_features(home_api, away_api, home_season, away_season, home_r
         'combined_rolling_rs': (home_rolling['rolling_rs'] + away_rolling['rolling_rs']) / 2,
         'combined_rolling_ra': (home_rolling['rolling_ra'] + away_rolling['rolling_ra']) / 2,
         'rolling_total_runs': home_rolling['rolling_rs'] + away_rolling['rolling_rs'],
+        # Missing O/U features that the model expects
+        'home_avg_total': home_season['avg_rs'] + home_season['avg_ra'],
+        'away_avg_total': away_season['avg_rs'] + away_season['avg_ra'],
+        'rolling_game_total_home': home_rolling['rolling_rs'] + home_rolling['rolling_ra'],
+        'rolling_game_total_away': away_rolling['rolling_rs'] + away_rolling['rolling_ra'],
+        'home_margin_avg': home_season['avg_rs'] - home_season['avg_ra'],
+        'away_margin_avg': away_season['avg_rs'] - away_season['avg_ra'],
+        'blowout_rate_home': 0.15,  # league avg ~15% blowout rate
+        'blowout_rate_away': 0.15,
     }
 
 
@@ -753,7 +764,12 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 ou_features = {**features, **ou_extra}
 
                 # Regression model for total runs
-                reg_model = ou_data['regressor']  # regressor
+                # Model is nested: ou_data['model'] = {'regressor': ..., 'classifier': ...}
+                inner = ou_data['model']
+                if isinstance(inner, dict) and 'regressor' in inner:
+                    reg_model = inner['regressor']
+                else:
+                    reg_model = inner  # fallback if model structure is flat
                 reg_scaler = ou_data['scaler']
                 reg_feat_cols = ou_data['feature_cols']
 
@@ -783,6 +799,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                     pred[f'ou_{line}_margin'] = round(float(margin), 2)
 
             except Exception as e:
+                logger.warning(f"O/U prediction failed: {e}")
                 pred['ou_predicted_total'] = None
 
         # --- RUN LINE ---
@@ -863,10 +880,28 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                         continue
 
                     p = p_row.iloc[0]
+
+                    # Get opponent team stats for matchup features
+                    opp_team = away if side == 'home' else home
+                    opp_api = away_api if side == 'home' else home_api
+                    opp_so_per_game = opp_api.get('SO_hit', 0)
+                    if opp_so_per_game == 0:
+                        # Estimate from team stats CSV
+                        opp_ts = get_api_team_stats(opp_team, latest_year, team_stats_dict)
+                        opp_so_per_game = 8.5  # league avg
+                    else:
+                        opp_so_per_game = opp_so_per_game / 162  # per game
+
                     pk_features = {}
                     for col in pk_feat_cols:
-                        if col in p.index:
-                            pk_features[col] = float(p[col])
+                        if col == 'avg_K_per_start':
+                            # CSV has 'K_per_game', model expects 'avg_K_per_start'
+                            pk_features[col] = float(p.get('K_per_game', p.get('avg_K_per_start', 5.5)))
+                        elif col == 'opp_SO_per_game':
+                            pk_features[col] = opp_so_per_game
+                        elif col == 'K_matchup_factor':
+                            k9 = float(p.get('K_per_9', 8.0))
+                            pk_features[col] = k9 * (opp_so_per_game / 8.5) if opp_so_per_game > 0 else k9
                         elif col == 'K_BB_ratio':
                             k9 = float(p.get('K_per_9', 8.0))
                             bb9 = float(p.get('BB_per_9', 3.0))
@@ -875,6 +910,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                             ip = float(p.get('innings', 100))
                             ha = float(p.get('hits_allowed', 150))
                             pk_features[col] = ha * 9 / ip if ip > 0 else 9.0
+                        elif col in p.index:
+                            pk_features[col] = float(p[col])
                         else:
                             pk_features[col] = 0.0
 
@@ -969,9 +1006,9 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 nrfi_scaler = nrfi_data['scaler']
                 nrfi_feat_cols = nrfi_data['feature_cols']
 
-                # 先発投手データの取得
+                # 先発投手データの取得 (NRFI needs BB_per_9 too)
                 def _get_pitcher_stats(pitcher_name, year, pitcher_stats_dict):
-                    defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.5}
+                    defaults = {'ERA': 4.12, 'WHIP': 1.28, 'K_per_9': 8.5, 'BB_per_9': 3.0}
                     if not isinstance(pitcher_name, str) or not pitcher_name or pitcher_name == 'TBA':
                         return defaults
                     if year not in pitcher_stats_dict:
@@ -988,6 +1025,7 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                         'ERA': float(p.get('ERA', 4.12)),
                         'WHIP': float(p.get('WHIP', 1.28)),
                         'K_per_9': float(p.get('K_per_9', 8.5)),
+                        'BB_per_9': float(p.get('BB_per_9', 3.0)),
                     }
 
                 # 投手データ取得
@@ -1004,32 +1042,65 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 pred['away_pitcher_whip'] = ap['WHIP']
                 pred['away_pitcher_k9'] = ap['K_per_9']
 
+                # Build all 44 features matching model's expected names exactly
+                hp_bb9 = hp.get('BB_per_9', 3.0)
+                ap_bb9 = ap.get('BB_per_9', 3.0)
+                hp_dominance = hp['K_per_9'] / max(hp['ERA'], 0.5)
+                ap_dominance = ap['K_per_9'] / max(ap['ERA'], 0.5)
+
                 nrfi_features = {
-                    # 1回特化チーム統計（リアルタイムでは簡易推定）
+                    # 1st inning stats (estimated from season rates)
                     'home_1st_rs': home_season['avg_rs'] * 0.11,
                     'home_1st_ra': home_season['avg_ra'] * 0.11,
                     'away_1st_rs': away_season['avg_rs'] * 0.11,
                     'away_1st_ra': away_season['avg_ra'] * 0.11,
-                    'combined_1st_ra': (home_season['avg_ra'] + away_season['avg_ra']) * 0.055,
                     'combined_1st_rs': (home_season['avg_rs'] + away_season['avg_rs']) * 0.055,
-                    # 先発投手
-                    'home_starter_era': hp['ERA'],
-                    'away_starter_era': ap['ERA'],
-                    'home_starter_whip': hp['WHIP'],
-                    'away_starter_whip': ap['WHIP'],
-                    'home_starter_k9': hp['K_per_9'],
-                    'away_starter_k9': ap['K_per_9'],
-                    'starter_era_diff': hp['ERA'] - ap['ERA'],
-                    'starter_whip_diff': hp['WHIP'] - ap['WHIP'],
-                    'combined_starter_era': (hp['ERA'] + ap['ERA']) / 2,
-                    # 球場（リアルタイムではリーグ平均を使用）
-                    'venue_nrfi_rate': 0.511,
-                    # チーム統計
-                    'home_era': home_api['ERA'],
-                    'away_era': away_api['ERA'],
+                    'home_season_nrfi': 0.511,  # league avg NRFI rate
+                    # Starting pitcher (use model's expected names: hp_/ap_)
+                    'hp_era': hp['ERA'],
+                    'hp_whip': hp['WHIP'],
+                    'hp_k9': hp['K_per_9'],
+                    'hp_bb9': hp_bb9,
+                    'ap_era': ap['ERA'],
+                    'ap_whip': ap['WHIP'],
+                    'ap_k9': ap['K_per_9'],
+                    'ap_bb9': ap_bb9,
+                    'combined_sp_era': (hp['ERA'] + ap['ERA']) / 2,
+                    'combined_sp_whip': (hp['WHIP'] + ap['WHIP']) / 2,
+                    'sp_era_diff': hp['ERA'] - ap['ERA'],
+                    # SP cross-features
+                    'hp_dominance': hp_dominance,
+                    'ap_dominance': ap_dominance,
+                    'combined_dominance': (hp_dominance + ap_dominance) / 2,
+                    'hp_era_x_away_obp': hp['ERA'] * away_api['OBP'],
+                    'ap_era_x_home_obp': ap['ERA'] * home_api['OBP'],
+                    'hp_whip_x_away_slg': hp['WHIP'] * away_api['SLG'],
+                    'ap_whip_x_home_slg': ap['WHIP'] * home_api['SLG'],
+                    'hp_bb9_x_away_obp': hp_bb9 * away_api['OBP'],
+                    'ap_bb9_x_home_obp': ap_bb9 * home_api['OBP'],
+                    # Team batting (use model's expected names)
+                    'home_ba': home_api['BA'],
+                    'away_ba': away_api['BA'],
                     'home_obp': home_api['OBP'],
                     'away_obp': away_api['OBP'],
-                    'total_runs_per_game': home_season['avg_rs'] + away_season['avg_rs'],
+                    'home_slg': home_api['SLG'],
+                    'away_slg': away_api['SLG'],
+                    'combined_obp': (home_api['OBP'] + away_api['OBP']) / 2,
+                    # Team pitching
+                    'home_team_era': home_api['ERA'],
+                    'away_team_era': away_api['ERA'],
+                    'home_team_whip': home_api['WHIP'],
+                    'away_team_whip': away_api['WHIP'],
+                    'combined_team_era': (home_api['ERA'] + away_api['ERA']) / 2,
+                    # Venue
+                    'venue_nrfi_rate': 0.511,
+                    # Rolling NRFI stats (estimated from team scoring rates)
+                    'roll_nrfi_home': max(0.3, 1.0 - home_season['avg_rs'] * 0.06),
+                    'roll_nrfi_away': max(0.3, 1.0 - away_season['avg_rs'] * 0.06),
+                    'roll_nrfi_combined': max(0.3, 1.0 - (home_season['avg_rs'] + away_season['avg_rs']) * 0.03),
+                    'roll_1st_rs_home': home_rolling['rolling_rs'] * 0.11,
+                    'roll_1st_rs_away': away_rolling['rolling_rs'] * 0.11,
+                    'roll_1st_rs_combined': (home_rolling['rolling_rs'] + away_rolling['rolling_rs']) * 0.055,
                 }
 
                 nrfi_df = pd.DataFrame([nrfi_features])
@@ -1061,12 +1132,18 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 sb_scaler = sb_data['scaler']
                 sb_feat_cols = sb_data['feature_cols']
 
+                # Compute SB per game from team stats (SB key, not stolen_bases)
+                home_sb = home_api.get('SB', 80)  # season total SB
+                away_sb = away_api.get('SB', 80)
+                home_sb_pg = home_sb / 162
+                away_sb_pg = away_sb / 162
+
                 sb_features = {
-                    'home_sb_per_game': home_season.get('sb_per_game', 0.7),
-                    'away_sb_per_game': away_season.get('sb_per_game', 0.7),
-                    'combined_sb_per_game': home_season.get('sb_per_game', 0.7) + away_season.get('sb_per_game', 0.7),
-                    'home_speed_proxy': home_api.get('stolen_bases', 10) / 162,
-                    'away_speed_proxy': away_api.get('stolen_bases', 10) / 162,
+                    'home_sb_per_game': home_sb_pg,
+                    'away_sb_per_game': away_sb_pg,
+                    'combined_sb_per_game': home_sb_pg + away_sb_pg,
+                    'home_speed_proxy': home_sb_pg,
+                    'away_speed_proxy': away_sb_pg,
                     'home_win_pct': home_season['win_pct'],
                     'away_win_pct': away_season['win_pct'],
                     'home_runs_per_game': home_season['avg_rs'],
