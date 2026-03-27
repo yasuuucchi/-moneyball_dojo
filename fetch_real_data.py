@@ -23,6 +23,7 @@ import time
 import sys
 from pathlib import Path
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 DATA_DIR = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
@@ -36,7 +37,7 @@ def fetch_all_games(year):
     end_date = f"{year}-10-05"
 
     # 今年の場合は今日までに制限
-    today = datetime.now()
+    today = datetime.now(ZoneInfo("America/New_York"))
     if year == today.year:
         end_date = today.strftime("%Y-%m-%d")
 
@@ -206,7 +207,7 @@ def fetch_initial_data():
 def fetch_season_update(year=None):
     """シーズン途中のデータ更新（指定シーズンのみ）"""
     if year is None:
-        year = datetime.now().year
+        year = datetime.now(ZoneInfo("America/New_York")).year
 
     print(f"[UPDATE] Fetching {year} season data...")
     print()
@@ -281,7 +282,7 @@ def main():
 
     if '--update' in args:
         # シーズン更新モード
-        year = datetime.now().year
+        year = datetime.now(ZoneInfo("America/New_York")).year
         # --season YYYY が指定されていればそれを使用
         if '--season' in args:
             idx = args.index('--season')

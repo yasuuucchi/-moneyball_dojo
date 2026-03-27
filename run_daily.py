@@ -33,6 +33,7 @@ import time
 import logging
 import traceback
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 
 import pandas as pd
@@ -2090,7 +2091,7 @@ def _run_step_with_retry(step_name, func, *args, max_retries=MAX_RETRIES, **kwar
 # メイン実行
 # ========================================================
 def main():
-    target_date = sys.argv[1] if len(sys.argv) > 1 else datetime.now().strftime("%Y-%m-%d")
+    target_date = sys.argv[1] if len(sys.argv) > 1 else datetime.now(ZoneInfo("America/New_York")).strftime("%Y-%m-%d")
     pipeline_errors = []
 
     print("=" * 70)

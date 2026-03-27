@@ -22,6 +22,7 @@ import time
 import sys
 from pathlib import Path
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 DATA_DIR = Path(__file__).parent / "data"
 DATA_DIR.mkdir(exist_ok=True)
@@ -248,7 +249,7 @@ def main():
     args = sys.argv[1:]
 
     if '--update' in args:
-        year = datetime.now().year
+        year = datetime.now(ZoneInfo("America/New_York")).year
         if '--season' in args:
             idx = args.index('--season')
             if idx + 1 < len(args):

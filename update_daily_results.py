@@ -3,6 +3,7 @@ import os
 import sys
 import pandas as pd
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 from pathlib import Path
 import statsapi
 
@@ -156,7 +157,7 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         target = sys.argv[1]
     else:
-        target = (datetime.now() - timedelta(days=1)).strftime('%Y-%m-%d')
+        target = (datetime.now(ZoneInfo("America/New_York")) - timedelta(days=1)).strftime('%Y-%m-%d')
     
     new_data = update_game_results(target)
     sync_with_sheets(new_data, target)
