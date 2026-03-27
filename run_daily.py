@@ -595,6 +595,8 @@ def predict_with_model(model_data, features, feature_cols_override=None):
 
     # 不足/余分列の調整
     missing = set(feature_cols) - set(feat_df.columns)
+    if missing:
+        print(f"    ⚠ Model missing {len(missing)} features (zero-filled): {sorted(missing)[:5]}{'...' if len(missing) > 5 else ''}")
     for col in missing:
         feat_df[col] = 0.0
     extra = set(feat_df.columns) - set(feature_cols)
@@ -937,7 +939,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                         pred[f'{side}_k_{line}_pick'] = side_pick if conf != 'PASS' else 'PASS'
                         pred[f'{side}_k_{line}_conf'] = conf
 
-                except Exception:
+                except Exception as e:
+                    print(f"    ⚠ Pitcher K props failed for {side}: {e}")
                     pred[f'{side}_pitcher_k_pred'] = None
 
         # --- BATTER PROPS ---
@@ -995,8 +998,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
 
                     pred[f'{side}_batter_preds'] = batter_preds
 
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"    ⚠ Batter props failed for {side}: {e}")
 
         # --- NRFI/YRFI (v2: with pitcher + park factors) ---
         if 'nrfi' in models:
@@ -1121,7 +1124,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                     pred['nrfi_confidence'] = 'MODERATE'
                 else:
                     pred['nrfi_confidence'] = 'LEAN'
-            except Exception:
+            except Exception as e:
+                print(f"    ⚠ NRFI prediction failed: {e}")
                 pred['nrfi_pick'] = 'N/A'
 
         # --- STOLEN BASES ---
@@ -1163,7 +1167,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                 pred['sb_prob'] = round(float(prob), 4)
                 pred['sb_pick'] = 'OVER' if prob > 0.5 else 'UNDER'
                 pred['sb_confidence'] = 'STRONG' if abs(prob-0.5) > 0.1 else 'MODERATE' if abs(prob-0.5) > 0.05 else 'LEAN'
-            except Exception:
+            except Exception as e:
+                print(f"    ⚠ Stolen bases prediction failed: {e}")
                 pred['sb_pick'] = 'N/A'
 
         # --- PITCHER OUTS ---
@@ -1205,8 +1210,8 @@ def generate_all_predictions(games, models, games_df, team_stats_dict, latest_ye
                     elif frac < 0.45: outs_label = f"{full_inns}.1"
                     else: outs_label = f"{full_inns}.2"
                     pred[f'{side}_outs_label'] = outs_label
-                except Exception:
-                    pass
+                except Exception as e:
+                    print(f"    ⚠ Pitcher outs failed for {side} ({p_name}): {e}")
 
         # 追加メタデータ
         pred['home_win_pct'] = round(float(home_season['win_pct']), 3)
@@ -1446,8 +1451,8 @@ def generate_english_digest(predictions, target_date, models_loaded):
             if c:
                 md.append(f"\n> Combined: **{c['accuracy']:.1%}** win rate, **{c['roi']:+.1f}%** ROI across {c['total']} picks")
             md.append("")
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"  ⚠ Track record section (EN) skipped: {e}")
 
     # フッター
     md.append("---")
@@ -1610,8 +1615,8 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
             if c:
                 md.append(f"\n> 全体: **{c['accuracy']:.1%}** 勝率、**{c['roi']:+.1f}%** ROI（{c['total']}ピック）")
             md.append("")
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"  ⚠ Track record section (JA) skipped: {e}")
 
     # フッター
     md.append("---")
@@ -1654,14 +1659,75 @@ def generate_twitter_post(predictions, target_date, models_loaded):
     lines.append("#MLB #SportsBetting #AIpicks #MoneyballDojo")
 
     content = "\n".join(lines)
-    print(f"  ✓ Twitter post: {len(content)} characters")
+    print(f"  ✓ Twitter post (morning): {len(content)} characters")
+    return content
+
+
+def generate_x_midday_post(predictions, target_date):
+    """X midday post: Top Pick of the Day with deeper analysis."""
+    strong = [p for p in predictions if p.get('ml_confidence') == 'STRONG']
+    if not strong:
+        strong = [p for p in predictions if p.get('ml_confidence') == 'MODERATE']
+    if not strong:
+        return f"🎯 Moneyball Dojo — {target_date}\n\nNo standout picks today. Full analysis on Substack.\n#MLB #MoneyballDojo"
+
+    top = max(strong, key=lambda p: abs(p.get('ml_prob', 0.5) - 0.5))
+    prob = top.get('ml_prob', 0.5) * 100
+    pick = top.get('ml_pick', '?')
+    edge = top.get('ml_edge', 0) * 100
+
+    lines = [
+        f"🏆 TOP PICK OF THE DAY — {target_date}",
+        "",
+        f"🔥 {top['away_team']} @ {top['home_team']}",
+        f"   Pick: {pick} ({prob:.0f}%)",
+    ]
+    if edge > 0:
+        lines.append(f"   Edge: +{edge:.1f}%")
+
+    # Add RL pick if available
+    if top.get('rl_pick') and top.get('rl_prob'):
+        rl_prob = top['rl_prob'] * 100
+        lines.append(f"   Run Line: {top['rl_pick']} ({rl_prob:.0f}%)")
+
+    lines.extend([
+        "",
+        f"Full breakdown for all {len(predictions)} games on Substack 👇",
+        "#MLB #SportsBetting #AIpicks #MoneyballDojo",
+    ])
+
+    content = "\n".join(lines)
+    print(f"  ✓ Twitter post (midday): {len(content)} characters")
+    return content
+
+
+def generate_x_evening_post(predictions, target_date):
+    """X evening post: Results placeholder (actual results filled by update job)."""
+    strong = [p for p in predictions if p.get('ml_confidence') == 'STRONG']
+    total_games = len(predictions)
+
+    lines = [
+        f"📊 RESULTS UPDATE — {target_date}",
+        "",
+        f"Today's picks: {total_games} games analyzed",
+        f"STRONG picks: {len(strong)}",
+        "",
+        "⏳ Results will be updated after games complete.",
+        "",
+        "Follow for daily AI-powered MLB predictions!",
+        "#MLB #SportsBetting #AIpicks #MoneyballDojo",
+    ]
+
+    content = "\n".join(lines)
+    print(f"  ✓ Twitter post (evening): {len(content)} characters")
     return content
 
 
 # ========================================================
 # 7. 保存
 # ========================================================
-def save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date):
+def save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date,
+                 x_midday_post="", x_evening_post=""):
     """全出力をファイルに保存"""
     print("[9/9] Saving outputs...")
 
@@ -1697,10 +1763,20 @@ def save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date):
     ja_path.write_text(ja_digest, encoding='utf-8')
     print(f"  ✓ Japanese Digest → {ja_path}")
 
-    # Twitter投稿
+    # X/Twitter投稿（朝・昼・夕）
     tw_path = OUTPUT_DIR / f"twitter_{target_date}.txt"
     tw_path.write_text(twitter_post, encoding='utf-8')
-    print(f"  ✓ Twitter → {tw_path}")
+    print(f"  ✓ X morning → {tw_path}")
+
+    if x_midday_post:
+        mid_path = OUTPUT_DIR / f"x_midday_{target_date}.txt"
+        mid_path.write_text(x_midday_post, encoding='utf-8')
+        print(f"  ✓ X midday  → {mid_path}")
+
+    if x_evening_post:
+        eve_path = OUTPUT_DIR / f"x_evening_{target_date}.txt"
+        eve_path.write_text(x_evening_post, encoding='utf-8')
+        print(f"  ✓ X evening → {eve_path}")
 
     # JSON（全データ）
     def convert_numpy(obj):
@@ -1730,6 +1806,10 @@ def save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date):
     (LATEST_DIR / "POST_TO_SUBSTACK.md").write_text(en_digest, encoding='utf-8')
     (LATEST_DIR / "POST_TO_NOTE.md").write_text(ja_digest, encoding='utf-8')
     (LATEST_DIR / "POST_TO_X.txt").write_text(twitter_post, encoding='utf-8')
+    if x_midday_post:
+        (LATEST_DIR / "POST_TO_X_MIDDAY.txt").write_text(x_midday_post, encoding='utf-8')
+    if x_evening_post:
+        (LATEST_DIR / "POST_TO_X_EVENING.txt").write_text(x_evening_post, encoding='utf-8')
     pd.DataFrame(csv_data).to_csv(LATEST_DIR / "predictions.csv", index=False)
     (LATEST_DIR / "predictions.json").write_text(
         json.dumps(clean_predictions, indent=2, ensure_ascii=False), encoding='utf-8')
@@ -1738,7 +1818,9 @@ def save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date):
         f"=================================================\n\n"
         f"POST_TO_SUBSTACK.md  -> Substack (English)\n"
         f"POST_TO_NOTE.md      -> note.com (Japanese)\n"
-        f"POST_TO_X.txt        -> Twitter/X\n\n"
+        f"POST_TO_X.txt        -> X morning post\n"
+        f"POST_TO_X_MIDDAY.txt -> X midday top pick\n"
+        f"POST_TO_X_EVENING.txt-> X evening results\n\n"
         f"predictions.csv      -> Google Sheets\n"
         f"predictions.json     -> Full data (API/archive)\n\n"
         f"Generated by: python3 run_daily.py\n",
@@ -1892,8 +1974,8 @@ def _slack_post(webhook_url, payload):
             resp = requests.post(webhook_url, json=payload, timeout=10)
             if resp.status_code == 200:
                 return True
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"    ⚠ Slack post attempt {attempt+1} failed: {e}")
         if attempt < MAX_RETRIES - 1:
             time.sleep(RETRY_DELAYS[attempt])
     return False
@@ -2026,7 +2108,8 @@ def main():
     print()
 
     if not games:
-        print("❌ No games found. Exiting.")
+        print("❌ No games found for this date. Exiting.")
+        print("  (This is normal for off-days / All-Star break)")
         return
 
     # 3. 過去データ読み込み
@@ -2063,8 +2146,9 @@ def main():
     print()
 
     if not predictions:
-        print("❌ No predictions generated. Exiting.")
-        return
+        print("❌ No predictions generated. All games were skipped.")
+        print("  → Check team stats data and model loading above for errors.")
+        sys.exit(1)
 
     # 6. 英語Digest（テンプレート版 — フォールバック用）
     en_digest = generate_english_digest(predictions, target_date, models)
@@ -2074,8 +2158,10 @@ def main():
     ja_digest = generate_japanese_digest(predictions, target_date, models)
     print()
 
-    # 8. Twitter投稿
+    # 8. Twitter/X投稿（朝・昼・夕の3本）
     twitter_post = generate_twitter_post(predictions, target_date, models)
+    x_midday_post = generate_x_midday_post(predictions, target_date)
+    x_evening_post = generate_x_evening_post(predictions, target_date)
     print()
 
     # ========================================================
@@ -2108,7 +2194,8 @@ def main():
     print()
 
     # 9. 保存
-    output_dir = save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date)
+    output_dir = save_outputs(predictions, en_digest, ja_digest, twitter_post, target_date,
+                              x_midday_post=x_midday_post, x_evening_post=x_evening_post)
     print()
 
     # ========================================================
@@ -2160,14 +2247,18 @@ def main():
     if not pipeline_errors:
         print("🤖 FULLY AUTOMATED — No manual steps needed!")
         print("   Slack → コピペして投稿するだけ")
-        print("   output/latest/POST_TO_SUBSTACK.md → Substack")
-        print("   output/latest/POST_TO_NOTE.md     → note.com")
-        print("   output/latest/POST_TO_X.txt       → X")
+        print("   output/latest/POST_TO_SUBSTACK.md  → Substack")
+        print("   output/latest/POST_TO_NOTE.md      → note.com")
+        print("   output/latest/POST_TO_X.txt        → X (morning)")
+        print("   output/latest/POST_TO_X_MIDDAY.txt → X (midday top pick)")
+        print("   output/latest/POST_TO_X_EVENING.txt→ X (evening results)")
     else:
         print("📋 FALLBACK STEPS:")
-        print(f"   1. output/latest/POST_TO_SUBSTACK.md → Substack")
-        print(f"   2. output/latest/POST_TO_NOTE.md     → note.com")
-        print(f"   3. output/latest/POST_TO_X.txt       → X")
+        print(f"   1. output/latest/POST_TO_SUBSTACK.md  → Substack")
+        print(f"   2. output/latest/POST_TO_NOTE.md      → note.com")
+        print(f"   3. output/latest/POST_TO_X.txt        → X (morning)")
+        print(f"   4. output/latest/POST_TO_X_MIDDAY.txt → X (midday)")
+        print(f"   5. output/latest/POST_TO_X_EVENING.txt→ X (evening)")
     print("=" * 70)
 
 
