@@ -121,10 +121,9 @@ Dojo Labs (親ブランド)
 - [ ] Spring Training 予測配信の開始
 
 ### 未完了（次のコード作業）
-- [ ] Beehiiv API連携（DELIVERY_GUIDE.md参照。Substackの代替として推奨）
-- [ ] Buffer API連携（X自動投稿）
 - [ ] Claude Code /schedule 設定（日次予測パイプラインのクラウド定期実行）
 - [ ] Dispatch 運用開始（スマホからのタスク指示体制）
+- [ ] Computer Use によるX投稿自動化（Buffer不要。ブラウザ操作でX直接投稿）
 - [ ] Computer Use によるnote.com投稿自動化（APIがないためブラウザ操作）
 - [ ] 記事07: WBC結果振り返り（3/17以降に作成）
 - [ ] 記事08: Opening Day全カード予測（3/20頃に作成）
@@ -142,7 +141,7 @@ Claude Code クラウド
   ├── Computer Use（ブラウザ操作: note.com投稿、Substack投稿）
   └── Remote Control（リアルタイム操作が必要な場合）
   ↕ 直接実行
-GitHub リポ + Claude API + Beehiiv API + Google Sheets
+GitHub リポ + Claude API + Substack + Google Sheets
 ```
 
 **旧計画（n8n on VPS）からの移行理由:**
@@ -156,15 +155,15 @@ GitHub リポ + Claude API + Beehiiv API + Google Sheets
 - **ML**: XGBoost, scikit-learn, pandas
 - **データ**: MLB Stats API (statsapi.mlb.com)
 - **記事生成**: Claude API (Haiku)
-- **配信**: Substack（暫定） → Beehiiv（推奨移行先）
-- **X投稿**: Buffer ($6/月)
+- **配信**: Substack（メイン。移行予定なし）
+- **X投稿**: Computer Use（Buffer API不要。ブラウザ操作でX直接投稿）
 - **DB**: Google Sheets (sheets_schema_v2.py)
 - **CI/CD**: GitHub Actions
 - **自動化**: Claude Code（/schedule, Dispatch, Computer Use）
 
 ## 重要な設計判断の記録
 
-1. **Substack vs Beehiiv**: Beehiivを推奨（手数料0%、API柔軟）。ただしSubstackは既に作成済み。移行は購読者が増えてからでもOK。
+1. **Substack優先（2026年3月決定）**: Substackで配信を確立することを最優先。Beehiiv移行は購読者基盤ができてから検討。まずSubstackで実績を作る。
 2. **n8n → Claude Code自動化に移行（2026年3月決定）**: Claude Codeの /schedule（クラウドcron）、Dispatch（スマホ→デスクトップ）、Computer Use（ブラウザ操作）により、n8n + VPSは不要に。コスト削減＆セットアップ簡素化。
 3. **事業間の関係**: 「競争」ではなく「比較」。各事業が独立P&Lを持ち、週次で横比較レポートを生成。
 4. **最速マネタイズ**: Polymarket（通年、今日から可能） > MLB（3/27開幕） > WNBA（5月） > eSports（後回し）
