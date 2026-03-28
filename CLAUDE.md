@@ -120,11 +120,17 @@ Dojo Labs (親ブランド)
 - [ ] GitHub Secrets 設定（CLAUDE_API_KEY, GOOGLE_SHEETS_*）
 - [ ] Spring Training 予測配信の開始
 
-### 未完了（次のコード作業）
-- [ ] Claude Code /schedule 設定（日次予測パイプラインのクラウド定期実行）
+### 完了済み（コード作業）
+- [x] post_to_platforms.py: Computer Use自動投稿スクリプト（Substack/note/X）
+- [x] SCHEDULE_CONFIG.md: /schedule + Desktop タスク設定ガイド
+
+### 未完了（CEO手動セットアップが必要）
+- [ ] /schedule 設定: `Moneyball Daily Predictions`（SCHEDULE_CONFIG.md参照）
+- [ ] Desktop スケジュールタスク: `Moneyball Auto-Post`（SCHEDULE_CONFIG.md参照）
+- [ ] 環境変数設定: SUBSTACK_EMAIL/PASSWORD, NOTE_EMAIL/PASSWORD, X_EMAIL/PASSWORD
 - [ ] Dispatch 運用開始（スマホからのタスク指示体制）
-- [ ] Computer Use によるX投稿自動化（Buffer不要。ブラウザ操作でX直接投稿）
-- [ ] Computer Use によるnote.com投稿自動化（APIがないためブラウザ操作）
+
+### 未完了（次のコード作業）
 - [ ] 記事07: WBC結果振り返り（3/17以降に作成）
 - [ ] 記事08: Opening Day全カード予測（3/20頃に作成）
 
@@ -136,12 +142,17 @@ PCを開かなくても全事業が回る状態を目指す。
 ```
 スマホ (Claude Code iOS/Android アプリ)
   ↕ Dispatch（タスク指示 & 結果通知）
-Claude Code クラウド
-  ├── /schedule（定期実行: 日次予測、結果更新、記事生成）
-  ├── Computer Use（ブラウザ操作: note.com投稿、Substack投稿）
-  └── Remote Control（リアルタイム操作が必要な場合）
-  ↕ 直接実行
-GitHub リポ + Claude API + Substack + Google Sheets
+
+[クラウド] /schedule 毎朝 ET 10:00
+  └── run_daily.py → 予測生成 → git push
+  ↕
+GitHub リポ + Claude API + Google Sheets
+
+[ローカル] Desktop スケジュールタスク 毎朝 ET 10:30
+  └── post_to_platforms.py（Computer Use）
+      ├── Substack → POST_TO_SUBSTACK.md を投稿
+      ├── note.com → POST_TO_NOTE.md を投稿
+      └── X → POST_TO_X.txt / MIDDAY / EVENING を投稿
 ```
 
 **旧計画（n8n on VPS）からの移行理由:**
@@ -173,6 +184,7 @@ GitHub リポ + Claude API + Substack + Google Sheets
 ```
 重要ファイル:
   run_daily.py              ← メインパイプライン。これが全てを動かす
+  post_to_platforms.py      ← Computer Use自動投稿（Substack/note/X）
   train_all_models.py       ← 9モデル一括学習
   season_simulator.py       ← モンテカルロ・シミュレーション
   daily_digest_generator.py ← Digest生成（EN + JA）
@@ -180,7 +192,8 @@ GitHub リポ + Claude API + Substack + Google Sheets
 ドキュメント:
   ROADMAP.md                ← マスターロードマップ（フェーズ別計画）
   CONTENT_CALENDAR.md       ← 投稿スケジュール
-  DELIVERY_GUIDE.md         ← Beehiiv + Buffer セットアップ手順
+  SCHEDULE_CONFIG.md         ← /schedule + Desktop タスク設定ガイド
+  DELIVERY_GUIDE.md         ← 配信セットアップ手順（レガシー参考用）
   MULTI_VERTICAL_STRATEGY.md ← 4事業の展開計画（WNBA, Poly, eSports, DFS）
   WELCOME_EMAIL.md          ← 新規購読者向けメール（EN + JA）
   ARCHITECTURE.md           ← システム全体像（mermaid図）
