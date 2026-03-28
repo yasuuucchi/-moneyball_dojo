@@ -6,12 +6,12 @@ Moneyball Dojo — 実MLBデータ取得スクリプト
 
 使い方:
   pip3 install MLB-StatsAPI pandas
-  python3 fetch_real_data.py              # 過去データ (2022-2024) を取得
+  python3 fetch_real_data.py              # 過去データ (2022-前年) を取得
   python3 fetch_real_data.py --update     # 今シーズンのデータを追加/更新
-  python3 fetch_real_data.py --season 2025  # 指定シーズンのみ取得
+  python3 fetch_real_data.py --season 2026  # 指定シーズンのみ取得
 
 出力:
-  data/games_2022_2024.csv    — 過去の全試合結果
+  data/games_2022_2025.csv    — 過去の全試合結果
   data/games_YYYY.csv         — 指定シーズンの試合結果
   data/team_stats_YYYY.csv    — チーム成績
   data/standings_YYYY.csv     — スタンディング
@@ -170,22 +170,25 @@ def fetch_team_batting_pitching(year):
 
 
 def fetch_initial_data():
-    """初回セットアップ: 2022-2025の過去データ取得"""
-    print("[1/3] Fetching game results (2022-2025)...")
+    """初回セットアップ: 2022〜前年の過去データ取得"""
+    current_year = datetime.now().year
+    end_year = current_year  # include current year (partial season data if mid-season)
+    year_range = list(range(2022, end_year))
+    print(f"[1/3] Fetching game results (2022-{end_year - 1})...")
     all_games = []
-    for year in [2022, 2023, 2024, 2025]:
+    for year in year_range:
         games = fetch_all_games(year)
         all_games.extend(games)
         time.sleep(1)
 
     games_df = pd.DataFrame(all_games)
-    games_path = DATA_DIR / "games_2022_2025.csv"
+    games_path = DATA_DIR / f"games_2022_{end_year - 1}.csv"
     games_df.to_csv(games_path, index=False)
     print(f"  ✓ Saved {len(games_df)} games → {games_path}")
     print()
 
     print("[2/3] Fetching team standings...")
-    for year in [2022, 2023, 2024, 2025]:
+    for year in year_range:
         teams = fetch_team_stats(year)
         teams_df = pd.DataFrame(teams)
         path = DATA_DIR / f"standings_{year}.csv"
@@ -195,7 +198,7 @@ def fetch_initial_data():
     print()
 
     print("[3/3] Fetching team batting & pitching stats...")
-    for year in [2022, 2023, 2024, 2025]:
+    for year in year_range:
         stats = fetch_team_batting_pitching(year)
         stats_df = pd.DataFrame(stats)
         path = DATA_DIR / f"team_stats_{year}.csv"

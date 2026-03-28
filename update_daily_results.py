@@ -39,7 +39,7 @@ def update_game_results(target_date):
     # 2. 既存のデータを読み込み
     if GAMES_PATH.exists():
         games_df = pd.read_csv(GAMES_PATH)
-        existing_ids = set(games_df['game_id'].astype(int).tolist())
+        existing_ids = set(games_df['game_id'].astype(str).tolist())
     else:
         print(f"⚠ {GAMES_PATH} not found. Creating new.")
         games_df = pd.DataFrame()
@@ -49,11 +49,12 @@ def update_game_results(target_date):
     nrfi_rows = []
 
     for game in sched:
-        g_id = int(game['game_id'])
+        g_id_raw = game['game_id']
+        g_id = str(g_id_raw)
         if game['status'] != 'Final':
             print(f"  Skipping Game {g_id}: Status is {game['status']}")
             continue
-        
+
         if g_id in existing_ids:
             print(f"  Skipping Game {g_id}: Already exists in CSV")
             continue
@@ -102,8 +103,8 @@ def update_game_results(target_date):
                     'total_1st_runs': h_1st + a_1st,
                     'nrfi_result': 1 if (h_1st + a_1st) == 0 else 0
                 })
-        except:
-            pass
+        except Exception as e:
+            print(f"  ⚠ NRFI data fetch failed for Game {g_id}: {e}")
 
     # 3. CSVに保存
     if new_rows:
@@ -111,8 +112,9 @@ def update_game_results(target_date):
         new_df.to_csv(GAMES_PATH, mode='a', header=not GAMES_PATH.exists(), index=False)
         print(f"✅ Added {len(new_rows)} games to {GAMES_PATH.name}")
         
-        if nrfi_rows and NRFI_PATH.exists():
-            pd.DataFrame(nrfi_rows).to_csv(NRFI_PATH, mode='a', header=False, index=False)
+        if nrfi_rows:
+            nrfi_df = pd.DataFrame(nrfi_rows)
+            nrfi_df.to_csv(NRFI_PATH, mode='a', header=not NRFI_PATH.exists(), index=False)
             print(f"✅ Added {len(nrfi_rows)} NRFI records to {NRFI_PATH.name}")
     else:
         print("No new results to add to CSV.")

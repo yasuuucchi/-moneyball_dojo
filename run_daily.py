@@ -262,6 +262,8 @@ def fetch_market_odds() -> dict:
                         home_imp = np.mean([_american_to_implied(o) for o in home_odds_list])
                         away_imp = np.mean([_american_to_implied(o) for o in away_odds_list])
                         total_imp = home_imp + away_imp
+                        if total_imp == 0:
+                            continue  # skip malformed odds data
                         # Remove vig (normalize to sum to 1.0)
                         home_imp_nv = home_imp / total_imp
                         away_imp_nv = away_imp / total_imp
@@ -311,17 +313,18 @@ def load_historical_data():
 
     # チームスタッツ
     team_stats = {}
-    for year in [2022, 2023, 2024, 2025, 2026]:
+    current_year = datetime.now().year
+    for year in range(2022, current_year + 1):
         path = DATA_DIR / f"team_stats_{year}.csv"
         if path.exists():
             team_stats[year] = pd.read_csv(path)
 
-    latest_year = max(team_stats.keys()) if team_stats else 2024
+    latest_year = max(team_stats.keys()) if team_stats else current_year - 1
     print(f"  ✓ Team stats: {sorted(team_stats.keys())}")
 
     # 投手データ（K props用）
     pitcher_stats = {}
-    for year in [2022, 2023, 2024, 2025, 2026]:
+    for year in range(2022, current_year + 1):
         path = DATA_DIR / f"pitcher_stats_{year}.csv"
         if path.exists():
             pitcher_stats[year] = pd.read_csv(path)
@@ -335,7 +338,7 @@ def load_historical_data():
 
     # 打者データ（batter props用）
     batter_stats = {}
-    for year in [2022, 2023, 2024, 2025, 2026]:
+    for year in range(2022, current_year + 1):
         path = DATA_DIR / f"batter_stats_{year}.csv"
         if path.exists():
             batter_stats[year] = pd.read_csv(path)
@@ -1255,7 +1258,7 @@ def edge_display(edge):
         return f"{edge*100:.1f}% ⚠️"
 
 
-def generate_english_digest(predictions, target_date, models_loaded):
+def generate_english_digest(predictions, target_date, models_loaded, latest_year=2025):
     """Substack用英語ダイジェスト — 全市場対応"""
     print("[6/9] Generating English digest (Substack)...")
 
@@ -1440,7 +1443,8 @@ def generate_english_digest(predictions, target_date, models_loaded):
             with open(track_record_path, 'r') as f:
                 tr = json.load(f)
             sp = tr.get('strong_picks', {})
-            md.append("## 2025 Backtested Track Record (STRONG Picks)")
+            backtest_year = tr.get('year', latest_year)
+            md.append(f"## {backtest_year} Backtested Track Record (STRONG Picks)")
             md.append("")
             md.append("| Market | Win Rate | ROI | Games |")
             md.append("|--------|----------|-----|-------|")
@@ -1468,7 +1472,7 @@ def generate_english_digest(predictions, target_date, models_loaded):
     return content
 
 
-def generate_japanese_digest(predictions, target_date, models_loaded):
+def generate_japanese_digest(predictions, target_date, models_loaded, latest_year=2025):
     """note.com用日本語ダイジェスト — 全市場対応"""
     print("[7/9] Generating Japanese digest (note.com)...")
 
@@ -1487,7 +1491,7 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
     # Spring Training banner
     is_spring_training = any(p.get('game_type') == 'S' for p in predictions)
     if is_spring_training:
-        md.append("> **【春季キャンプ期間中】** 本モデルはレギュラーシーズンデータ（2022-2025年）で学習しています。")
+        md.append(f"> **【春季キャンプ期間中】** 本モデルはレギュラーシーズンデータ（2022-{latest_year}年）で学習しています。")
         md.append("> 春季トレーニングは通常と異なるオーダー・投手起用のため、予測は参考値としてご利用ください。")
         md.append("")
 
@@ -1604,7 +1608,8 @@ def generate_japanese_digest(predictions, target_date, models_loaded):
                 tr = json.load(f)
             sp = tr.get('strong_picks', {})
             name_ja = {'Moneyline': 'ML', 'Run Line': 'RL', 'Over/Under': 'O/U', 'F5 Moneyline': 'F5'}
-            md.append("## 2025バックテスト実績（STRONGピック限定）")
+            backtest_year = tr.get('year', latest_year)
+            md.append(f"## {backtest_year}バックテスト実績（STRONGピック限定）")
             md.append("")
             md.append("| マーケット | 勝率 | ROI | 試合数 |")
             md.append("|-----------|------|-----|--------|")
@@ -2152,11 +2157,11 @@ def main():
         sys.exit(1)
 
     # 6. 英語Digest（テンプレート版 — フォールバック用）
-    en_digest = generate_english_digest(predictions, target_date, models)
+    en_digest = generate_english_digest(predictions, target_date, models, latest_year)
     print()
 
     # 7. 日本語Digest（テンプレート版 — フォールバック用）
-    ja_digest = generate_japanese_digest(predictions, target_date, models)
+    ja_digest = generate_japanese_digest(predictions, target_date, models, latest_year)
     print()
 
     # 8. Twitter/X投稿（朝・昼・夕の3本）

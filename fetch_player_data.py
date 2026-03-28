@@ -6,7 +6,7 @@ Moneyball Dojo — 選手レベルデータ取得
 
 使い方:
   pip3 install MLB-StatsAPI pandas
-  python3 fetch_player_data.py              # 2022-2024の選手データ
+  python3 fetch_player_data.py              # 2022〜前年の選手データ
   python3 fetch_player_data.py --update     # 今シーズン更新
 
 出力:
@@ -261,8 +261,9 @@ def main():
             year = int(args[idx + 1])
             fetch_data_for_year(year)
     else:
-        # 初回: 2022-2025
-        for year in [2022, 2023, 2024, 2025]:
+        # 初回: 2022〜前年
+        current_year = datetime.now().year
+        for year in range(2022, current_year):
             fetch_data_for_year(year)
             time.sleep(2)
 
